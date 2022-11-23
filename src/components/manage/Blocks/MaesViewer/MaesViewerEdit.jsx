@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import cx from 'classnames';
