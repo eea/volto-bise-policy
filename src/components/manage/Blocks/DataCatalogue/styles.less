@@ -1,0 +1,132 @@
+.sk-layout__filters {
+  margin: 15px 15px 15px 0px !important;
+}
+
+.sk-results-list {
+  padding: 15px !important;
+}
+
+.sk-panel {
+  margin-bottom: 15px !important;
+}
+
+.rc-slider {
+  width: 80% !important;
+  margin-left: 15px !important;
+}
+
+input.sk-search-box__text ::placeholder {
+  color: gray;
+}
+
+body {
+}
+
+// By Biogeographical Region > (No Region) to appear as italic text
+.sk-item-list-option.sk-item-list__item[data-key=''] {
+  font-style: italic;
+}
+
+/*
+Styles for the search results as copied from
+https://github.com/eea/bise.theme/blob/master/bise/theme/skins/bise_theme_styles/catalogue/catalogue.css
+on 24th of september 2020 and then converted to LESS:
+*/
+
+.catalogue-cell {
+  // margin: 2rem 0;
+  .category {
+    color: #999;
+    font-size: 0.9em;
+  }
+
+  small {
+    display: block;
+  }
+
+  .cell-source {
+    color: #41b664;
+  }
+
+  .cell-footer {
+    margin-top: 0.5rem;
+    color: #748284;
+  }
+
+  .hits {
+    border-top: 1px solid #8ea04c;
+    border-left: 3px solid #8ea04c;
+    -webkit-box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.3);
+    font-size: 10px;
+    line-height: 10px;
+  }
+
+  p.hit {
+    margin-bottom: 0;
+    background: #fff;
+    color: #6b6b6b;
+  }
+
+  em {
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  .att-preview {
+    ol {
+      margin-top: 12px;
+      margin-bottom: -5px;
+      margin-left: -25px;
+      list-style-type: none;
+
+      li {
+        color: #606060;
+
+        em {
+          padding: 1px 3px;
+          color: #3b5705;
+        }
+      }
+    }
+  }
+}
+
+.cell-title {
+  margin-bottom: 0.25em;
+  font-family: inherit;
+  font-size: larger !important;
+  font-weight: 400;
+}
+
+.cell-alternative-title {
+  display: block;
+  padding-left: 1em;
+  border-left: solid #41b764;
+  margin: 0.5em 0;
+  color: #748284;
+  cursor: help;
+  font-size: small;
+  font-style: italic;
+  line-height: 1.2;
+
+  &:hover {
+    color: inherit;
+  }
+}
+
+.cell-document-type {
+  font-size: x-small;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &::before {
+    content: '[';
+    font: inherit;
+  }
+
+  &::after {
+    content: ']';
+    font: inherit;
+  }
+}

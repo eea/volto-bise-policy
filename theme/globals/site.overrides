@@ -1,0 +1,65 @@
+/*******************************
+        Global Overrides
+*******************************/
+
+@import '../extras/keyfacts.less';
+@import '../extras/factsheets.less';
+@import '../extras/pluggables.less';
+@import '../extras/stylemenu.less';
+@import '../extras/tocnav.less';
+
+a {
+  color: @linkColor;
+
+  &:visited {
+    color:  @linkColor;
+  }
+
+  &:active {
+    color: @linkActiveColor;
+  }
+
+  &:hover {
+    color: @linkHoverColor;
+  }
+}
+
+p.has--clear--both:empty {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.contenttype-bise_factsheet {
+  #main {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 1.5em;
+    }
+
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      text-decoration: underline;
+      // border-bottom: 2px solid @darkSecondaryColor;
+    }
+
+    h2 {
+      // border-bottom: 2px solid @secondaryColor;
+    }
+
+    .column-blocks-wrapper {
+      display: flex;
+      align-items: center;
+
+      > div {
+        width: 100%;
+      }
+    }
+  }
+}
