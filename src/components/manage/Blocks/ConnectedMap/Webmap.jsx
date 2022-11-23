@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { loadModules } from 'esri-loader';
 import './styles.css';

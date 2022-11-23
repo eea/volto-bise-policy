@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-        GIT_NAME = "volto-bise-theme"
+        GIT_NAME = "volto-bise-policy"
         NAMESPACE = "@eeacms"
         SONARQUBE_TAGS = "volto.eea.europa.eu,biodiversity.europa.eu,demo-biodiversity.eea.europa.eu"
         DEPENDENCIES = ""

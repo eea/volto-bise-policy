@@ -3,8 +3,8 @@ import installLink from '@plone/volto-slate/editor/plugins/AdvancedLink';
 import installBlocks from './components/manage/Blocks';
 import installStyles from './components/manage/Styles';
 
-import biseLogo from '@eeacms/volto-bise-theme/../theme//assets/images/Header/bise-logo.svg';
-import biseWhiteLogo from '@eeacms/volto-bise-theme/../theme//assets/images/Header/bise-logo-white.svg';
+import biseLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo.svg';
+import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo-white.svg';
 
 const applyConfig = (config) => {
   // Volto specific settings
@@ -36,8 +36,6 @@ const applyConfig = (config) => {
       },
     ],
   };
-
-  console.log('HERE', config.blocks.blocksConfig);
 
   config.blocks.requiredBlocks = [];
 
