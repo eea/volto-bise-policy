@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import withProps from 'decorate-component-with-props';
 

@@ -13,6 +13,8 @@
     "react"
   ],
   "addons": [
+    "@eeacms/volto-embed",
+    "@eeacms/volto-datablocks",
     "@eeacms/volto-eea-design-system"
   ],
   "repository": {
@@ -20,7 +22,10 @@
     "url": "git@github.com:eea/volto-bise-policy.git"
   },
   "dependencies": {
-    "@eeacms/volto-eea-design-system": "*"
+    "@eeacms/volto-datablocks": "*",
+    "@eeacms/volto-eea-design-system": "*",
+    "@eeacms/volto-embed": "*",
+    "esri-loader": "3.7.0"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.0",
