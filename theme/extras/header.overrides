@@ -1,0 +1,30 @@
+// .search-action {
+//   background-color: @primaryColor;
+// }
+
+#search-box {
+  min-height: 100%;
+}
+
+.has-toolbar.homepage .eea.header {
+  width: 100%;
+}
+
+/*----------------------------------------------------------------------------
+      HEADER MAIN BAR DESKTOP
+  ----------------------------------------------------------------------------*/
+
+#main {
+  .main.bar {
+    .ui.container {
+      .ui.text.menu {
+        flex-wrap: wrap;
+        justify-content: end;
+  
+        .item:first-child {
+          display: flex;
+        }
+      }
+    }
+  }
+}
