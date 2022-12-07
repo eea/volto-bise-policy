@@ -60,10 +60,6 @@ const EEAHeader = ({ pathname, token, history, subsite, ...props }) => {
     return removeTrailingSlash(state.router?.location?.pathname) || '';
   });
 
-  const contentType = useSelector((state) => {
-    return state.content.data?.['@type'];
-  });
-
   const isSubsite = subsite?.['@type'] === 'Subsite';
 
   const items = props.items;
