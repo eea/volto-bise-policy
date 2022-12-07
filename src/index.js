@@ -58,12 +58,11 @@ const applyConfig = (config) => {
 
   config.blocks.requiredBlocks = [];
 
-  config = installLink(config);
-
   config.blocks.blocksConfig.html.restricted = false;
 
+  // Install advanced link
+  config = installLink(config);
   const toolbarButtons = config.settings.slate.toolbarButtons || [];
-
   const linkIndex = toolbarButtons.indexOf('link');
   const advancedLinkIndex = toolbarButtons.indexOf('a');
   toolbarButtons.splice(linkIndex, 1, 'a');

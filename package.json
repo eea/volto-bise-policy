@@ -14,7 +14,8 @@
   ],
   "addons": [
     "@eeacms/volto-datablocks",
-    "@eeacms/volto-eea-design-system"
+    "@eeacms/volto-eea-design-system",
+    "@eeacms/volto-eea-website-theme"
   ],
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "dependencies": {
     "@eeacms/volto-datablocks": "*",
     "@eeacms/volto-eea-design-system": "*",
+    "@eeacms/volto-eea-website-theme": "*",
     "esri-loader": "3.7.0"
   },
   "devDependencies": {
