@@ -30,7 +30,8 @@
     "@plone/scripts": "*",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cypress-fail-fast": "^5.0.1",
-    "md5": "^2.3.0"
+    "md5": "^2.3.0",
+    "react-plotly.js": "2.5.1"
   },
   "scripts": {
     "release": "release-it",

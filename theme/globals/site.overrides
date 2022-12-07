@@ -63,3 +63,16 @@ p.has--clear--both:empty {
     }
   }
 }
+
+.subsite.subsite-natura2000 {
+  &.contenttype-lrf {
+    .ui.basic.segment.content-area {
+      padding-top: 0;
+      margin-top: 0;
+    }
+  }
+
+  .subsite-logo {
+    background-color: red;
+  }
+}

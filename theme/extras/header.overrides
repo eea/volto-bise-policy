@@ -14,11 +14,17 @@
       HEADER MAIN BAR DESKTOP
   ----------------------------------------------------------------------------*/
 
-.main.bar {
-  .ui.container {
-    .ui.text.menu {
-      flex-wrap: wrap;
-      justify-content: end;
+#main {
+  .main.bar {
+    .ui.container {
+      .ui.text.menu {
+        flex-wrap: wrap;
+        justify-content: end;
+  
+        .item:first-child {
+          display: flex;
+        }
+      }
     }
   }
 }

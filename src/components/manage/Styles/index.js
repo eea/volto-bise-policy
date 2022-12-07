@@ -79,6 +79,7 @@ export default (config) => {
     ...(config.settings.slate.styleMenu?.inlineStyles || []),
     { cssClass: 'primary-big-text', label: 'Big text' },
     { cssClass: 'medium-text', label: 'Medium text' },
+    { cssClass: 'small-text', label: 'Small text' },
     { cssClass: 'white-text', label: 'White text' },
     { cssClass: 'primary-text', label: 'Primary text' },
     { cssClass: 'secondary-text', label: 'Secondary text' },

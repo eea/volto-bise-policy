@@ -10,8 +10,16 @@ const applyConfig = (config) => {
   // Volto specific settings
   config.settings = {
     ...config.settings,
-    navDepth: 2,
+    navDepth: 3,
   };
+
+  // Multi-lingual
+  config.settings.isMultilingual = false;
+  config.settings.defaultLanguage =
+    config.settings.eea?.defaultLanguage || 'en';
+  config.settings.supportedLanguages = config.settings.eea?.languages?.map(
+    (item) => item.code,
+  ) || ['en'];
 
   // EEA customizations
   config.settings.eea = {
@@ -35,11 +43,24 @@ const applyConfig = (config) => {
         buttonTitle: 'Go to full site search',
       },
     ],
+    logoTargetUrl: '/en',
   };
+
+  // BISE config
+  config.settings.bise = {
+    multilingualSubsites: ['/en/natura2000', '/ro/natura2000'],
+  };
+
+  config.settings.apiExpanders.push({
+    match: '/',
+    GET_CONTENT: ['translations'],
+  });
 
   config.blocks.requiredBlocks = [];
 
   config = installLink(config);
+
+  config.blocks.blocksConfig.html.restricted = false;
 
   const toolbarButtons = config.settings.slate.toolbarButtons || [];
 
