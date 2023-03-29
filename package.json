@@ -23,8 +23,8 @@
     "url": "git@github.com:eea/volto-bise-policy.git"
   },
   "dependencies": {
-    "@eeacms/volto-datablocks": "*",
     "@eeacms/volto-block-toc": "*",
+    "@eeacms/volto-datablocks": "*",
     "@eeacms/volto-eea-design-system": "*",
     "@eeacms/volto-eea-website-theme": "*",
     "esri-loader": "3.7.0"
