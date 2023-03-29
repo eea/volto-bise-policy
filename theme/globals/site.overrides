@@ -7,6 +7,68 @@
 @import '../extras/pluggables.less';
 @import '../extras/stylemenu.less';
 @import '../extras/tocnav.less';
+@import './helpers.less';
+@import './natura2000.less';
+
+// :root {
+//   .define-color(primary, #005248);
+//   .define-color(secondary, #00a390);
+//   .define-color(tertiary, #3d5265);
+//   .define-color(light-primary, #007b6c);
+//   .define-color(light-secondary, #00a390);
+//   .define-color(light-tertiary, #54728c);
+//   .define-color(dark-primary, #005248);
+//   .define-color(dark-secondary, #005248);
+//   .define-color(dark-tertiary, #2e3e4c);
+// }
+
+// body::-webkit-scrollbar {
+//   width: @scrollbarWidth;
+// }
+
+// body::-webkit-scrollbar-track {
+//   background: #F9F9F9;
+// }
+
+// body::-webkit-scrollbar-thumb {
+//   background-color: #B4B4B4;
+//   border-radius: 20px;
+//   border: 3px solid #FAF9F9;
+// }
+
+// body::-webkit-scrollbar-thumb:hover {
+//   background-color: #6A6A6A;
+// }
+
+@font-face {
+  font-family: 'OpenSans';
+  font-weight: normal;
+  src: url('../fonts/OpenSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  font-weight: 600;
+  src: url('../fonts/OpenSans-Semibold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  font-weight: 800;
+  src: url('../fonts/OpenSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'RajdhaniR';
+  font-weight: 400;
+  src: url('../fonts/Rajdhani-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'RajdhaniB';
+  font-weight: 600;
+  src: url('../fonts/Rajdhani-Bold.ttf') format('truetype');
+}
 
 a {
   color: @linkColor;
@@ -64,15 +126,153 @@ p.has--clear--both:empty {
   }
 }
 
+.smart-table .search-description {
+  margin-bottom: 2rem;
+  color: #6b6b6b;
+}
+
+.subsite.subsite-natura2000.subsite-root {
+  footer {
+    display: none;
+  }
+
+  .ui.content-area {
+    padding-bottom: 0;
+  }
+}
+
 .subsite.subsite-natura2000 {
-  &.contenttype-lrf {
+  &.grey-bg {
+    .content-area {
+      margin-bottom: 0 !important;
+      padding-bottom: 0;
+    }
+
+    #view {
+      padding-bottom: 4rem !important;
+      background-color: #f8f8f8 !important;
+    }
+  }
+
+  .eea.banner,
+  .breadcrumbs,
+  .block-editor-title {
+    display: none;
+  }
+
+  &:not(.section-edit) {
     .ui.basic.segment.content-area {
       padding-top: 0;
       margin-top: 0;
     }
   }
 
-  .subsite-logo {
-    background-color: red;
+  .styled-with-bg {
+    padding: 0 !important;
+  }
+
+  /* TEXT */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  span,
+  button {
+    font-family: OpenSans, 'Raleway', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: @primaryColor !important;
+  }
+
+  h2 {
+    font-weight: 600;
+  }
+
+  a {
+    color: @secondaryColor;
+    font-weight: 600;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: @secondaryColor !important;
+    }
+
+    &:hover {
+      color: @secondaryColor;
+      text-decoration: underline;
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: @secondaryColor !important;
+      }
+    }
+  }
+
+  .light-links {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: @secondaryColor !important;
+    }
+
+    a {
+      color: @secondaryColor;
+
+      &:hover {
+        color: @secondaryColor;
+        text-decoration: underline;
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: @secondaryColor !important;
+        }
+      }
+    }
+  }
+
+  .dark-links {
+    a {
+      color: @primaryColor;
+
+      &:hover {
+        color: @primaryColor;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .ui.overlay.sidebar {
+    z-index: 800;
   }
 }
+
+.subsite.subsite-natura2000:not(.subsite-root) {
+  .ui.content-area {
+    margin-bottom: 2rem;
+  }
+} 

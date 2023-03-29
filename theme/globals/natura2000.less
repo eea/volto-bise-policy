@@ -1,0 +1,53 @@
+.styled.protected-habitats
+  > .tabs-block.default
+  > .styled
+  > .tabs.default
+  > .ui.menu {
+  border-bottom: 2px solid #dadada;
+  margin-bottom: 1rem;
+  border-radius: 0;
+}
+
+.protected-habitats {
+  margin-top: 0 !important;
+
+  .default.tabs {
+    .ui.menu {
+      border-bottom: none !important;
+      background-color: #00a390 !important;
+      padding-bottom: 0 !important;
+      margin-left: 0 !important;
+
+      &::after,
+      &::before {
+        display: none !important;
+      }
+
+      .item {
+        padding: 1rem !important;
+        border-radius: 0 !important;
+        color: #fff !important;
+        border-bottom: none !important;
+        margin-bottom: 0 !important;
+
+        p {
+          font-size: 16px !important;
+        }
+
+        &.active:hover,
+        &:hover {
+          text-decoration: none !important;
+          padding-bottom: calc(1rem - 3px) !important;
+          border-bottom: 3px solid #fff !important;
+          color: #fff !important;
+        }
+
+        &.active {
+          padding-bottom: calc(1rem - 3px) !important;
+          border-bottom: 3px solid #fff !important;
+          color: #fff !important;
+        }
+      }
+    }
+  }
+}

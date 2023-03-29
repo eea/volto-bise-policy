@@ -4,6 +4,9 @@
 
 @import '@eeacms/volto-bise-policy/../theme/tokens/tokens';
 
+@fontName: 'OpenSans';
+@fontSize: 16px;
+
 /*-------------------
     Brand Colors
 --------------------*/
@@ -20,3 +23,5 @@
 @linkColor: @secondaryColor;
 @linkHoverColor: @primaryColor;
 @linkActiveColor: @linkHoverColor;
+
+@scrollbarWidth: 15px;

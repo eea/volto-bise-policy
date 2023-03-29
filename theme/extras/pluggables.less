@@ -128,9 +128,9 @@ div#view .ui.container > {
 }
 
 ul.n2k-list {
-  padding-left: 28px;
-  margin: 0;
-  margin-bottom: 1rem;
+  padding-left: 28px !important;
+  margin: 0 !important;
+  margin-bottom: 1rem !important;
 
   li {
     position: relative;
@@ -141,23 +141,24 @@ ul.n2k-list {
   }
 
   li:before {
-    position: absolute;
-    top: 50%;
-    left: -28px;
-    width: 18px;
-    height: 18px;
-    background: url(../assets/icons/plus.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    content: '';
-    opacity: 1;
-    transform: translateY(-50%);
+    position: absolute !important;
+    top: 50% !important;
+    left: -28px !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
+    background: url(../assets/icons/plus.png) !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    content: '' !important;
+    opacity: 1 !important;
+    transform: translateY(-50%) !important;
   }
 }
 
 .n2k-green-border {
   padding: 1rem;
-  border: 1px solid #72a34a;
+  border: 1px solid @secondaryColor;
   margin-bottom: 1rem;
   border-radius: 10px;
 
@@ -169,7 +170,7 @@ ul.n2k-list {
 .n2k-circle {
   position: relative;
   margin-bottom: 1rem;
-  background-color: #72a34a;
+  background-color: @secondaryColor;
   border-radius: 50%;
   color: #fff;
   text-align: center;

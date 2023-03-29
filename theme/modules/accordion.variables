@@ -1,0 +1,7 @@
+/*******************************
+           Accordion
+*******************************/
+
+/* Icon */
+@iconColor: #fff;
+@iconColorActive: #fff;

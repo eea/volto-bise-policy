@@ -1,6 +1,6 @@
 {
   "name": "@eeacms/volto-bise-policy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "@eeacms/volto-bise-policy: Volto add-on",
   "main": "src/index.js",
   "author": "European Environment Agency: IDM2 A-Team",
@@ -14,6 +14,7 @@
   ],
   "addons": [
     "@eeacms/volto-datablocks",
+    "@eeacms/volto-block-toc",
     "@eeacms/volto-eea-design-system",
     "@eeacms/volto-eea-website-theme"
   ],
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "@eeacms/volto-datablocks": "*",
+    "@eeacms/volto-block-toc": "*",
     "@eeacms/volto-eea-design-system": "*",
     "@eeacms/volto-eea-website-theme": "*",
     "esri-loader": "3.7.0"
