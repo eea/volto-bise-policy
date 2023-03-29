@@ -6,8 +6,6 @@ import installStyles from './components/manage/Styles';
 import biseLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo.svg';
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo-white.svg';
 
-import { getBlocksTocEntries } from '@eeacms/volto-block-toc/Block/TocView';
-
 const applyConfig = (config) => {
   // Volto specific settings
   config.settings = {
@@ -76,23 +74,6 @@ const applyConfig = (config) => {
   const advancedLinkIndex = toolbarButtons.indexOf('a');
   toolbarButtons.splice(linkIndex, 1, 'a');
   toolbarButtons.splice(advancedLinkIndex, 1);
-
-  config.blocks.blocksConfig.columnsBlock.tocEntries = (blockData, data) => {
-    const columns = blockData.data.blocks_layout.items || [];
-    let entries = [];
-
-    columns.forEach((column) => {
-      const { blocksFormEntries } = getBlocksTocEntries(
-        {
-          ...blockData.data.blocks[column],
-        },
-        data,
-      );
-      entries = [...entries, ...blocksFormEntries];
-    });
-
-    return entries;
-  };
 
   return [installBlocks, installStyles].reduce(
     (acc, apply) => apply(acc),
