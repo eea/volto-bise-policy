@@ -14,6 +14,7 @@
   ],
   "addons": [
     "@eeacms/volto-datablocks",
+    "@eeacms/volto-block-toc",
     "@eeacms/volto-eea-design-system",
     "@eeacms/volto-eea-website-theme"
   ],
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "@eeacms/volto-datablocks": "*",
+    "@eeacms/volto-block-toc": "*",
     "@eeacms/volto-eea-design-system": "*",
     "@eeacms/volto-eea-website-theme": "*",
     "esri-loader": "3.7.0"
