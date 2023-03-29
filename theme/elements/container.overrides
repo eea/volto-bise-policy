@@ -1,0 +1,156 @@
+/*******************************
+            Container
+*******************************/
+
+.has--size--full:not(.block-editor-columnsBlock),
+.full-width {
+  width: calc(100vw - var(--scrollbar-width, @scrollbarWidth)) !important;
+  margin-left: calc(-50vw + var(--scrollbar-width, @scrollbarWidth) / 2) !important;
+  margin-right: calc(-50vw + var(--scrollbar-width, @scrollbarWidth) / 2) !important;
+}
+
+@media only screen and (min-width: @largestMobileScreen) {
+  body.has-toolbar {
+    .has--size--full:not(.block-editor-columnsBlock),
+    .full-width {
+      width: calc(100vw - @toolbarWidth - var(--scrollbar-width, @scrollbarWidth)) !important;
+      margin-left: calc(-50vw + (@toolbarWidth + var(--scrollbar-width, @scrollbarWidth)) / 2) !important;
+      margin-right: calc(-50vw + (@toolbarWidth + var(--scrollbar-width, @scrollbarWidth)) / 2) !important;
+    }
+  }
+
+  body.has-toolbar-collapsed {
+    .has--size--full:not(.block-editor-columnsBlock),
+    .full-width {
+      width: calc(100vw - @toolbarWidthMin - var(--scrollbar-width, @scrollbarWidth)) !important;
+      margin-left: calc(-50vw + (var(--scrollbar-width, @scrollbarWidth) + @toolbarWidthMin) / 2) !important;
+      margin-right: calc(-50vw + (var(--scrollbar-width, @scrollbarWidth) + @toolbarWidthMin) / 2) !important;
+    }
+  }
+}
+
+.section-add,
+.section-edit {
+  #page-add .container,
+  #page-edit .container {
+    max-width: @containerWidth !important;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-width: @largestMobileScreen) {
+  .ui.container {
+    width: @mobileWidth !important;
+    margin-left: @mobileGutter !important;
+    margin-right: @mobileGutter !important;
+  }
+  .ui.grid.container {
+    width: @mobileGridWidth !important;
+  }
+  .ui.relaxed.grid.container {
+    width: @mobileRelaxedGridWidth !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: @mobileVeryRelaxedGridWidth !important;
+  }
+}
+
+body.has-toolbar {
+  /* Tablet */
+  @media only screen and (min-width: @tabletBreakpoint) and (max-width: @largestTabletScreen) {
+    .ui.container {
+      width: calc(@tabletWidth - @toolbarWidth);
+    }
+    .ui.grid.container {
+      width: calc(@tabletGridWidth - @toolbarWidth) !important;
+    }
+    .ui.relaxed.grid.container {
+      width: calc(@tabletRelaxedGridWidth - @toolbarWidth) !important;
+    }
+    .ui.very.relaxed.grid.container {
+      width: calc(@tabletVeryRelaxedGridWidth - @toolbarWidth) !important;
+    }
+  }
+
+  /* Small Monitor */
+  @media only screen and (min-width: @computerBreakpoint) and (max-width: @largestSmallMonitor) {
+    .ui.container {
+      width: calc(@computerWidth - @toolbarWidth);
+    }
+    .ui.grid.container {
+      width: calc(@computerGridWidth - @toolbarWidth) !important;
+    }
+    .ui.relaxed.grid.container {
+      width: calc(@computerRelaxedGridWidth - @toolbarWidth) !important;
+    }
+    .ui.very.relaxed.grid.container {
+      width: calc(@computerVeryRelaxedGridWidth - @toolbarWidth) !important;
+    }
+  }
+
+  /* Large Monitor */
+  @media only screen and (min-width: @largeMonitorBreakpoint) {
+    .ui.container {
+      width: calc(@largeMonitorWidth - @toolbarWidth);
+    }
+    .ui.grid.container {
+      width: calc(@largeMonitorGridWidth - @toolbarWidth) !important;
+    }
+    .ui.relaxed.grid.container {
+      width: calc(@largeMonitorRelaxedGridWidth - @toolbarWidth) !important;
+    }
+    .ui.very.relaxed.grid.container {
+      width: calc(@largeMonitorVeryRelaxedGridWidth - @toolbarWidth) !important;
+    }
+  }
+}
+
+body.has-toolbar-collapsed {
+  /* Tablet */
+  @media only screen and (min-width: @tabletBreakpoint) and (max-width: @largestTabletScreen) {
+    .ui.container {
+      width: calc(@tabletWidth - @toolbarWidthMin);
+    }
+    .ui.grid.container {
+      width: calc(@tabletGridWidth - @toolbarWidthMin) !important;
+    }
+    .ui.relaxed.grid.container {
+      width: calc(@tabletRelaxedGridWidth - @toolbarWidthMin) !important;
+    }
+    .ui.very.relaxed.grid.container {
+      width: calc(@tabletVeryRelaxedGridWidth - @toolbarWidthMin) !important;
+    }
+  }
+
+  /* Small Monitor */
+  @media only screen and (min-width: @computerBreakpoint) and (max-width: @largestSmallMonitor) {
+    .ui.container {
+      width: calc(@computerWidth - @toolbarWidthMin);
+    }
+    .ui.grid.container {
+      width: calc(@computerGridWidth - @toolbarWidthMin) !important;
+    }
+    .ui.relaxed.grid.container {
+      width: calc(@computerRelaxedGridWidth - @toolbarWidthMin) !important;
+    }
+    .ui.very.relaxed.grid.container {
+      width: calc(@computerVeryRelaxedGridWidth - @toolbarWidthMin) !important;
+    }
+  }
+
+  /* Large Monitor */
+  @media only screen and (min-width: @largeMonitorBreakpoint) {
+    .ui.container {
+      width: calc(@largeMonitorWidth - @toolbarWidthMin);
+    }
+    .ui.grid.container {
+      width: calc(@largeMonitorGridWidth - @toolbarWidthMin) !important;
+    }
+    .ui.relaxed.grid.container {
+      width: calc(@largeMonitorRelaxedGridWidth - @toolbarWidthMin) !important;
+    }
+    .ui.very.relaxed.grid.container {
+      width: calc(@largeMonitorVeryRelaxedGridWidth - @toolbarWidthMin) !important;
+    }
+  }
+}

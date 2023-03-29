@@ -1,18 +1,10 @@
-// .search-action {
-//   background-color: @primaryColor;
-// }
-
-#search-box {
-  min-height: 100%;
-}
-
-.has-toolbar.homepage .eea.header {
-  width: 100%;
-}
+/*******************************
+            Header
+*******************************/
 
 /*----------------------------------------------------------------------------
-      HEADER MAIN BAR DESKTOP
-  ----------------------------------------------------------------------------*/
+   HEADER MAIN BAR
+----------------------------------------------------------------------------*/
 
 #main {
   .main.bar {
@@ -28,3 +20,105 @@
     }
   }
 }
+
+.main-menu .item a,
+.main-menu .item a:hover {
+  text-decoration: none;
+}
+
+.eea.header {
+  z-index: 4;
+}
+
+.eea.header .main.bar > .ui.container .ui.grid .column {
+  display: flex;
+  align-items: center;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.eea.header .eea-logo {
+  margin-top: 0;
+}
+
+/************************
+        MEGA MENU
+************************/
+
+/*Mega Menu Accordion - Tablet & Mobile */
+#mega-menu .ui.accordion {
+  .content {
+    background: transparent;
+  }
+}
+
+/*----------------------------------------------------------------------------
+   Natura 2000 subsite
+----------------------------------------------------------------------------*/
+
+.subsite.subsite-natura2000 {
+  .eea.header .main.bar {
+    backdrop-filter: blur(2px);
+    background-color: hsla(0,0%,100%,.8);;
+  }
+
+  .eea.header .main.bar > .ui.container {
+    height: 92px;
+  }
+
+  .eea.header .main-menu {
+    align-items: center;
+  }
+
+  @media only screen and (min-width: @mobileBreakpoint) {
+    .eea.header .main.bar > .ui.container {
+      height: 92px;
+    }
+
+    .eea.header .eea-logo {
+      max-width: fit-content;
+      height: 60px;
+    }
+
+    .burger-action.mobile,
+    .search-action {
+      width: 58px;
+      height: 92px;
+    }
+  }
+
+  @media only screen and (min-width: @tabletBreakpoint) {
+    .eea.header .main.bar > .ui.container {
+      height: 92px;
+    }
+
+    .eea.header .eea-logo {
+      max-width: fit-content;
+      height: 60px;
+    }
+
+    .burger-action.mobile,
+    .search-action {
+      width: 58px;
+      height: 92px;
+    }
+  }
+
+  @media only screen and (min-width: @computerBreakpoint) {
+    .eea.header .eea-logo {
+      max-width: fit-content;
+      height: 60px;
+    }
+  }
+}
+
+
+// #search-box {
+//   min-height: 100%;
+// }
+
+// .has-toolbar.homepage .eea.header {
+//   width: 100%;
+// }

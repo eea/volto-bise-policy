@@ -3,8 +3,8 @@
  * @module components/theme/Header/Header
  */
 
-import React, { useCallback, useState } from 'react';
-import { Dropdown, Image } from 'semantic-ui-react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Dropdown, Image, Sticky } from 'semantic-ui-react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
 
@@ -14,12 +14,10 @@ import {
   getBaseUrl,
   hasApiExpander,
   flattenToAppURL,
-  normalizeLanguageName,
 } from '@plone/volto/helpers';
 import { getNavigation } from '@plone/volto/actions';
 import { Header, Logo } from '@eeacms/volto-eea-design-system/ui';
 import { usePrevious } from '@eeacms/volto-eea-design-system/helpers';
-import { find } from 'lodash';
 import globeIcon from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/global-line.svg';
 import eeaFlag from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/eea.png';
 
@@ -49,50 +47,60 @@ function getLanguage() {
 /**
  * EEA Specific Header component.
  */
-const EEAHeader = ({ pathname, token, history, subsite, ...props }) => {
+const EEAHeader = ({ token, history, subsite, content, ...props }) => {
+  const dispatch = useDispatch();
   const [language, setLanguage] = useState(getLanguage());
+  const previousToken = usePrevious(token);
+  const { items } = props;
+  const { eea } = config.settings;
+  const { headerOpts } = eea || {};
+  const { logo, logoWhite } = headerOpts || {};
 
-  const translations = useSelector(
-    (state) => state.content.data?.['@components']?.translations?.items,
+  const width = useSelector((state) => state.screen?.width);
+
+  const router_pathname = useSelector(
+    (state) => removeTrailingSlash(state.router?.location?.pathname) || '',
   );
+  let pathname = router_pathname;
 
-  const router_pathname = useSelector((state) => {
-    return removeTrailingSlash(state.router?.location?.pathname) || '';
-  });
+  const content_pathname = useMemo(
+    () => flattenToAppURL(content.data?.['@id']),
+    [content],
+  );
 
   const isSubsite = subsite?.['@type'] === 'Subsite';
 
-  const items = props.items;
+  if (content.get.loading && content_pathname !== router_pathname) {
+    pathname = content_pathname;
+  }
 
-  const isHomePageInverse = useSelector((state) => {
-    const layout = state.content?.data?.layout;
-    const has_home_layout =
-      layout === 'homepage_inverse_view' ||
-      (__CLIENT__ && document.body.classList.contains('homepage-inverse'));
-    return (
-      has_home_layout &&
-      (pathname === router_pathname || router_pathname.endsWith('/edit'))
-    );
-  });
-
-  const { eea, bise } = config.settings;
-  const headerOpts = eea.headerOpts || {};
-  const { logo, logoWhite } = headerOpts || {};
-  const width = useSelector((state) => state.screen?.width);
-  const dispatch = useDispatch();
-  const previousToken = usePrevious(token);
+  const isHomePageInverse = ['', '/', '/edit', '/edit/'].includes(pathname);
 
   const isMultilingual =
-    config.settings.isMultilingual ||
-    (subsite &&
-      bise.multilingualSubsites.includes(flattenToAppURL(subsite['@id'])));
+    config.settings.isMultilingual || (isSubsite && subsite.isMultilingual);
 
-  const changeLanguage = useCallback((language) => {
-    const cookies = new Cookies();
+  const changeLanguage = useCallback(
+    (lang) => {
+      setLanguage(lang);
+      const cookies = new Cookies();
+      cookies.set('LANGUAGE', lang);
+    },
+    [setLanguage],
+  );
 
-    cookies.set('LANGUAGE', normalizeLanguageName(language) || '');
-    setLanguage(language);
-  }, []);
+  const getSubsiteItems = useCallback(() => {
+    if (!subsite) return [];
+    const subsiteData = items.filter((item) => item.url === subsite['@id'])[0];
+    const subsiteItems = subsiteData?.items || [];
+    if (subsite.isMultilingual) {
+      const subsiteMultilingualData = subsiteItems.filter(
+        (item) => item.url === `${subsite['@id']}/${language}`,
+      )[0];
+      return subsiteMultilingualData?.items || [];
+    }
+
+    return subsiteItems;
+  }, [items, language, subsite]);
 
   React.useEffect(() => {
     const { settings } = config;
@@ -114,12 +122,12 @@ const EEAHeader = ({ pathname, token, history, subsite, ...props }) => {
 
   return (
     <Header menuItems={items}>
-      {isHomePageInverse && <BodyClass className="homepage" />}
+      {isHomePageInverse && <BodyClass className="homepage homepage-inverse" />}
       <Header.TopHeader>
         <Header.TopItem className="official-union">
           <Image src={eeaFlag} alt="eea flag"></Image>
           <Header.TopDropdownMenu
-            text="An official website of the European Union | How do you Know?"
+            text="An official website of the European Union | How do you know?"
             tabletText="EEA information systems"
             mobileText=" "
             icon="chevron down"
@@ -127,10 +135,9 @@ const EEAHeader = ({ pathname, token, history, subsite, ...props }) => {
             className=""
             viewportWidth={width}
           >
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div
               className="content"
-              role="menu"
-              tabIndex="0"
               onClick={(evt) => evt.stopPropagation()}
               onKeyDown={(evt) => evt.stopPropagation()}
             >
@@ -142,8 +149,6 @@ const EEAHeader = ({ pathname, token, history, subsite, ...props }) => {
                 href="https://europa.eu/european-union/contact/institutions-bodies_en"
                 target="_blank"
                 rel="noreferrer"
-                role="option"
-                aria-selected="false"
               >
                 See all EU institutions and bodies
               </a>
@@ -161,7 +166,7 @@ const EEAHeader = ({ pathname, token, history, subsite, ...props }) => {
               <div className="wrapper">
                 <Dropdown.Item>
                   <UniversalLink
-                    href={`/natura2000${language ? `/${language}` : ''}`}
+                    href={`/natura2000/${language}`}
                     className="site"
                     target="_self"
                     rel="noreferrer"
@@ -187,103 +192,117 @@ const EEAHeader = ({ pathname, token, history, subsite, ...props }) => {
         )}
 
         {isMultilingual && (
-          <Header.TopDropdownMenu
-            id="language-switcher"
-            className="item"
-            text={`${language.toUpperCase()}`}
-            mobileText={`${language.toUpperCase()}`}
-            icon={
-              <Image src={globeIcon} alt="language dropdown globe icon"></Image>
-            }
-            viewportWidth={width}
-          >
-            <ul
-              className="wrapper language-list"
-              role="listbox"
-              aria-label="language switcher"
+          <Header.TopItem>
+            <Header.TopDropdownMenu
+              id="language-switcher"
+              className="item"
+              text={`${language.toUpperCase()}`}
+              mobileText={`${language.toUpperCase()}`}
+              hasLanguageDropdown={true}
+              icon={
+                <Image
+                  src={globeIcon}
+                  alt="language dropdown globe icon"
+                ></Image>
+              }
+              viewportWidth={width}
             >
-              {eea.languages.map((item, index) => (
-                <Dropdown.Item
-                  as="li"
-                  key={index}
-                  text={
-                    <span>
-                      {item.name}
-                      <span className="country-code">
-                        {item.code.toUpperCase()}
+              <ul
+                className="wrapper language-list"
+                role="listbox"
+                aria-label="language switcher"
+              >
+                {eea.languages.map((item, index) => (
+                  <Dropdown.Item
+                    as="li"
+                    key={index}
+                    text={
+                      <span>
+                        {item.name}
+                        <span className="country-code">
+                          {item.code.toUpperCase()}
+                        </span>
                       </span>
-                    </span>
-                  }
-                  onClick={() => {
-                    const translation = find(translations, {
-                      language: item.code,
-                    });
-                    const to = translation
-                      ? flattenToAppURL(translation['@id'])
-                      : `/${item.code}`;
-                    changeLanguage(item.code);
-                    history.push(to);
-                  }}
-                ></Dropdown.Item>
-              ))}
-            </ul>
-          </Header.TopDropdownMenu>
+                    }
+                    onClick={() => {
+                      if (isSubsite && subsite.isMultilingual) {
+                        for (const language of eea.languages) {
+                          const multilingualSubsiteRe = new RegExp(
+                            `^(${subsite['@id']})(/${language.code}($|/))(.*)`,
+                            'g',
+                          );
+                          const matches = [
+                            ...router_pathname.matchAll(multilingualSubsiteRe),
+                          ][0];
+                          if (matches && matches[2] !== `/${item.code}/`) {
+                            changeLanguage(item.code);
+                            history.push(
+                              `${matches[1]}/${item.code}${
+                                matches[4] ? '/' + matches[4] : ''
+                              }`,
+                            );
+                            break;
+                          }
+                        }
+                      }
+                    }}
+                  ></Dropdown.Item>
+                ))}
+              </ul>
+            </Header.TopDropdownMenu>
+          </Header.TopItem>
         )}
       </Header.TopHeader>
-      <Header.Main
-        pathname={pathname}
-        inverted={isHomePageInverse ? true : false}
-        transparency={isHomePageInverse ? true : false}
-        hideSearch={isSubsite}
-        logo={
-          <div {...(isSubsite ? { className: 'logo-wrapper' } : {})}>
+      <Sticky
+        active={isSubsite && subsite['@id'] === '/natura2000'}
+        context={__CLIENT__ && document.querySelector('.content-area')}
+      >
+        <Header.Main
+          pathname={router_pathname}
+          inverted={isHomePageInverse ? true : false}
+          transparency={isHomePageInverse ? true : false}
+          hideSearch={isSubsite}
+          logo={
             <Logo
               src={isHomePageInverse ? logoWhite : logo}
               title={eea.websiteTitle}
               alt={eea.organisationName}
               url={eea.logoTargetUrl}
             />
-
-            {!!subsite && subsite.title && (
-              <UniversalLink
-                href={`${flattenToAppURL(subsite['@id'])}${
-                  isMultilingual ? `/${language}` : ''
-                }`}
-                className="subsite-logo"
-              >
-                {subsite.title}
-              </UniversalLink>
-            )}
-          </div>
-        }
-        menuItems={items}
-        renderGlobalMenuItem={(item, { onClick }) => (
-          <a
-            href={item.url || '/'}
-            title={item.title}
-            onClick={(e) => {
-              e.preventDefault();
-              onClick(e, item);
-            }}
-          >
-            {item.title}
-          </a>
-        )}
-        renderMenuItem={(item, options, props) => (
-          <UniversalLink
-            href={item.url || '/'}
-            title={item.title}
-            {...(options || {})}
-            className={cx(options?.className, {
-              active: item.url === router_pathname,
-            })}
-          >
-            {props?.iconPosition !== 'right' && props?.children}
-            <span>{item.title}</span>
-            {props?.iconPosition === 'right' && props?.children}
-          </UniversalLink>
-        )}
-      ></Header.Main>
+          }
+          menuItems={
+            isSubsite && !subsite.isRoot
+              ? getSubsiteItems()
+              : items.filter((item) => item.url !== '/natura2000')
+          }
+          renderGlobalMenuItem={(item, { onClick }) => (
+            <a
+              href={item.url || '/'}
+              title={item.title}
+              onClick={(e) => {
+                e.preventDefault();
+                onClick(e, item);
+              }}
+            >
+              {item.title}
+            </a>
+          )}
+          renderMenuItem={(item, options, props) => (
+            <UniversalLink
+              href={item.url || '/'}
+              title={item.nav_title || item.title}
+              {...(options || {})}
+              className={cx(options?.className, {
+                active: item.url === router_pathname,
+              })}
+            >
+              {props?.iconPosition !== 'right' && props?.children}
+              <span>{item.nav_title || item.title}</span>
+              {props?.iconPosition === 'right' && props?.children}
+            </UniversalLink>
+          )}
+        />
+      </Sticky>
     </Header>
   );
 };
@@ -294,7 +313,8 @@ export default compose(
     (state) => ({
       token: state.userSession.token,
       items: state.navigation.items,
-      subsite: state.content.data?.['@components']?.subsite,
+      subsite: state.subsite.data,
+      content: state.content,
     }),
     { getNavigation },
   ),
