@@ -8,17 +8,18 @@ const modify = (config, { target, dev }, webpack) => {
   config.resolve.alias['../../theme.config'] = themeConfigPath;
   config.resolve.alias['../../theme'] = `${__dirname}/theme`;
   const projectRootPath = path.resolve('.');
-  const themeLessPath = `${projectRootPath}/node_modules/@eeacms/volto-eea-design-system/theme`;
+  const themeLessPath = `${projectRootPath}/node_modules/@eeacms/volto-spotlight/theme`;
 
-  config.resolve.alias['eea-design-system-theme'] = dev
-    ? `${projectRootPath}/src/addons/volto-eea-design-system/theme/themes/eea`
-    : `${themeLessPath}/themes/eea`;
+  config.resolve.alias['volto-spotlight-theme'] = dev
+    ? `${projectRootPath}/src/addons/volto-spotlight/theme/themes/spotlight`
+    : `${themeLessPath}/themes/spotlight`;
 
   const semanticLessPath = `${projectRootPath}/node_modules/semantic-ui-less`;
-  const hasDesignSystemInstalled = config.resolve.alias['eea-volto-themes'];
-  config.resolve.alias['eea-volto-theme-folder'] = hasDesignSystemInstalled
-    ? themeLessPath
-    : semanticLessPath;
+  const hasDesignSystemInstalled =
+    config.resolve.alias['volto-spotlight-themes'];
+  config.resolve.alias[
+    'volto-spotlight-theme-folder'
+  ] = hasDesignSystemInstalled ? themeLessPath : semanticLessPath;
 
   return config;
 };

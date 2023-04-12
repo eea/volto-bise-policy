@@ -2,13 +2,14 @@
         Global Overrides
 *******************************/
 
-@import '../extras/keyfacts.less';
-@import '../extras/factsheets.less';
-@import '../extras/pluggables.less';
-@import '../extras/stylemenu.less';
-@import '../extras/tocnav.less';
-@import './helpers.less';
-@import './natura2000.less';
+@import '../extras/widgets';
+@import '../extras/keyfacts';
+@import '../extras/factsheets';
+@import '../extras/pluggables';
+@import '../extras/stylemenu';
+@import '../extras/tocnav';
+@import './helpers';
+@import './natura2000';
 
 // :root {
 //   .define-color(primary, #005248);
@@ -20,24 +21,6 @@
 //   .define-color(dark-primary, #005248);
 //   .define-color(dark-secondary, #005248);
 //   .define-color(dark-tertiary, #2e3e4c);
-// }
-
-// body::-webkit-scrollbar {
-//   width: @scrollbarWidth;
-// }
-
-// body::-webkit-scrollbar-track {
-//   background: #F9F9F9;
-// }
-
-// body::-webkit-scrollbar-thumb {
-//   background-color: #B4B4B4;
-//   border-radius: 20px;
-//   border: 3px solid #FAF9F9;
-// }
-
-// body::-webkit-scrollbar-thumb:hover {
-//   background-color: #6A6A6A;
 // }
 
 @font-face {
@@ -111,9 +94,9 @@ p.has--clear--both:empty {
       // border-bottom: 2px solid @darkSecondaryColor;
     }
 
-    h2 {
-      // border-bottom: 2px solid @secondaryColor;
-    }
+    // h2 {
+    //   border-bottom: 2px solid @secondaryColor;
+    // }
 
     .column-blocks-wrapper {
       display: flex;
@@ -275,4 +258,34 @@ p.has--clear--both:empty {
   .ui.content-area {
     margin-bottom: 2rem;
   }
-} 
+}
+
+#toolbar {
+  z-index: 6;
+}
+
+
+@{view} {
+  .red-bg::before {
+    .full-width();
+  }
+}
+
+@{edit} {
+  .red-bg::before {
+    .full-width-edit();
+  }
+}
+
+.red-bg {
+  position: relative;
+  color: #fff;
+
+  &::before {
+    content: '';
+    height: 100%;
+    background-color: coral;
+    z-index: -1 !important;
+    position: absolute !important;
+  }
+}
