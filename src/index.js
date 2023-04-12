@@ -1,4 +1,5 @@
 import installLink from '@plone/volto-slate/editor/plugins/AdvancedLink';
+import { addStylingFieldsetSchemaEnhancer } from '@eeacms/volto-bise-policy/components/manage/Blocks/schema';
 
 import installBlocks from './components/manage/Blocks';
 import installStyles from './components/manage/Styles';
@@ -74,6 +75,29 @@ const applyConfig = (config) => {
   const advancedLinkIndex = toolbarButtons.indexOf('a');
   toolbarButtons.splice(linkIndex, 1, 'a');
   toolbarButtons.splice(advancedLinkIndex, 1);
+
+  // Customizations
+  // Group
+  if (config.blocks.blocksConfig.group) {
+    config.blocks.blocksConfig.group.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+  }
+
+  // Columns
+  if (config.blocks.blocksConfig.columnsBlock) {
+    config.blocks.blocksConfig.columnsBlock.mostUsed = true;
+    config.blocks.blocksConfig.columnsBlock.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+  }
+
+  // Listing
+  if (config.blocks.blocksConfig.listing) {
+    config.blocks.blocksConfig.listing.title = 'Listing (Content)';
+    config.blocks.blocksConfig.listing.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+  }
+
+  // Hero image left
+  if (config.blocks.blocksConfig.hero_image_left) {
+    config.blocks.blocksConfig.hero_image_left.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+  }
 
   return [installBlocks, installStyles].reduce(
     (acc, apply) => apply(acc),
