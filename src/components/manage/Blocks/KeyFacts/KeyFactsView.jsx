@@ -42,7 +42,7 @@ const View = ({ data }) => {
           <div className="facts-wrapper">
             {(lines || []).map((line, i) => (
               <div className="fact" key={i}>
-                {line.upper.data ? (
+                {line.upper?.data ? (
                   <>
                     <div
                       className="upper"
