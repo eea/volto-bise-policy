@@ -149,6 +149,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
                 href="https://europa.eu/european-union/contact/institutions-bodies_en"
                 target="_blank"
                 rel="noreferrer"
+                onKeyDown={(evt) => evt.stopPropagation()}
               >
                 See all EU institutions and bodies
               </a>
@@ -176,14 +177,15 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
                 </Dropdown.Item>
                 {headerOpts.partnerLinks.links.map((item, index) => (
                   <Dropdown.Item key={index}>
-                    <UniversalLink
+                    <a
                       href={item.href}
                       className="site"
-                      target={item.target || '_blank'}
+                      target="_blank"
                       rel="noreferrer"
+                      onKeyDown={(evt) => evt.stopPropagation()}
                     >
                       {item.title}
-                    </UniversalLink>
+                    </a>
                   </Dropdown.Item>
                 ))}
               </div>
