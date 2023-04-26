@@ -18,6 +18,7 @@ import {
 import { getNavigation } from '@plone/volto/actions';
 import { Header, Logo } from '@eeacms/volto-eea-design-system/ui';
 import { usePrevious } from '@eeacms/volto-eea-design-system/helpers';
+import find from 'lodash/find';
 import globeIcon from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/global-line.svg';
 import eeaFlag from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/eea.png';
 
@@ -149,6 +150,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
                 href="https://europa.eu/european-union/contact/institutions-bodies_en"
                 target="_blank"
                 rel="noreferrer"
+                onKeyDown={(evt) => evt.stopPropagation()}
               >
                 See all EU institutions and bodies
               </a>
@@ -176,14 +178,15 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
                 </Dropdown.Item>
                 {headerOpts.partnerLinks.links.map((item, index) => (
                   <Dropdown.Item key={index}>
-                    <UniversalLink
+                    <a
                       href={item.href}
                       className="site"
-                      target={item.target || '_blank'}
+                      target="_blank"
                       rel="noreferrer"
+                      onKeyDown={(evt) => evt.stopPropagation()}
                     >
                       {item.title}
-                    </UniversalLink>
+                    </a>
                   </Dropdown.Item>
                 ))}
               </div>
