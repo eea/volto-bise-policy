@@ -154,36 +154,24 @@ p.has--clear--both:empty {
     padding: 0 !important;
   }
 
-  /* TEXT */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  a,
-  span,
-  button {
-    font-family: OpenSans, 'Raleway', sans-serif;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: @primaryColor !important;
-  }
-
-  h2 {
-    font-weight: 600;
-  }
-
-  a {
+  .eea.header a:hover {
     color: @secondaryColor;
-    font-weight: 600;
+  }
+
+  .content-area {
+    /* TEXT */
+    // h1,
+    // h2,
+    // h3,
+    // h4,
+    // h5,
+    // h6,
+    // p,
+    // a,
+    // span,
+    // button {
+    //   font-family: OpenSans, 'Raleway', sans-serif;
+    // }
 
     h1,
     h2,
@@ -191,12 +179,16 @@ p.has--clear--both:empty {
     h4,
     h5,
     h6 {
-      color: @secondaryColor !important;
+      color: @primaryColor !important;
     }
 
-    &:hover {
+    h2 {
+      font-weight: 600;
+    }
+
+    a {
       color: @secondaryColor;
-      text-decoration: underline;
+      font-weight: 600;
 
       h1,
       h2,
@@ -206,21 +198,6 @@ p.has--clear--both:empty {
       h6 {
         color: @secondaryColor !important;
       }
-    }
-  }
-
-  .light-links {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: @secondaryColor !important;
-    }
-
-    a {
-      color: @secondaryColor;
 
       &:hover {
         color: @secondaryColor;
@@ -236,15 +213,44 @@ p.has--clear--both:empty {
         }
       }
     }
-  }
 
-  .dark-links {
-    a {
-      color: @primaryColor;
+    .light-links {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: @secondaryColor !important;
+      }
 
-      &:hover {
+      a {
+        color: @secondaryColor;
+
+        &:hover {
+          color: @secondaryColor;
+          text-decoration: underline;
+
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            color: @secondaryColor !important;
+          }
+        }
+      }
+    }
+
+    .dark-links {
+      a {
         color: @primaryColor;
-        text-decoration: underline;
+
+        &:hover {
+          color: @primaryColor;
+          text-decoration: underline;
+        }
       }
     }
   }
@@ -264,28 +270,6 @@ p.has--clear--both:empty {
   z-index: 6;
 }
 
-
-@{view} {
-  .red-bg::before {
-    .full-width();
-  }
-}
-
-@{edit} {
-  .red-bg::before {
-    .full-width-edit();
-  }
-}
-
-.red-bg {
-  position: relative;
-  color: #fff;
-
-  &::before {
-    content: '';
-    height: 100%;
-    background-color: coral;
-    z-index: -1 !important;
-    position: absolute !important;
-  }
+.simple-data-table {
+  padding: 0;
 }
