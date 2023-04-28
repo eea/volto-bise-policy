@@ -1,7 +1,7 @@
 import imageSVG from '@plone/volto/icons/image.svg';
 import NavigationBlockView from './View';
 import NavigationBlockEdit from './Edit';
-import { getFieldURL } from '@eeacms/volto-bise-policy/src/helpers';
+import { getFieldURL } from '@eeacms/volto-bise-policy/helpers';
 
 export default (config) => {
   config.blocks.blocksConfig.newsletterSignup = {
