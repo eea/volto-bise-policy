@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { flattenToAppURL } from '@plone/volto/helpers';
+import { getFieldURL } from '@eeacms/volto-bise-policy/helpers';
 
 const View = (props) => {
   useEffect(() => {
-    props.history.push(flattenToAppURL(props.data.url));
+    props.history.push(getFieldURL(props.data.url));
     /* eslint-disable-next-line */
   }, []);
 
