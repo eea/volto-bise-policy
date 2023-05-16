@@ -30,19 +30,18 @@ const applyConfig = (config) => {
     headerSearchBox: [
       {
         isDefault: true,
+        // to replace search path change path to whatever you want and match with the page in volto website
         path: '/advanced-search',
-        placeholder: 'Search...',
-      },
-      {
-        path: 'datahub',
-        placeholder: 'Search Datahub...',
+        placeholder: 'Search BISE...',
         description:
           'Looking for more information? Try searching the full EEA website content',
-        buttonTitle: 'Go to full site search',
+        buttonTitle: 'Go to advanced search',
+        buttonUrl: 'https://www.eea.europa.eu/en/advanced-search',
       },
     ],
     logoTargetUrl: '/',
   };
+
 
   // BISE config
   config.settings.bise = {
