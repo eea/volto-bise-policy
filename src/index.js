@@ -42,7 +42,6 @@ const applyConfig = (config) => {
     logoTargetUrl: '/',
   };
 
-
   // BISE config
   config.settings.bise = {
     subsites: [
