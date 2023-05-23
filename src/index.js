@@ -8,6 +8,12 @@ import installStyles from './components/manage/Styles';
 import biseLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo.svg';
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo-white.svg';
 
+const restrictedBlocks = [
+  'imagecards',
+  'embed_eea_tableau_block',
+  'embed_eea_map_block',
+];
+
 const applyConfig = (config) => {
   // Volto specific settings
   config.settings = {
@@ -131,6 +137,13 @@ const applyConfig = (config) => {
       colorscale: ['#12957D', '#F9EA8A', '#DD552B', '#AEB0B3'],
     },
   ];
+
+  // Disable some blocks
+  restrictedBlocks.forEach((block) => {
+    if (config.blocks.blocksConfig[block]) {
+      config.blocks.blocksConfig[block].restricted = true;
+    }
+  });
 
   return [installBlocks, installStyles].reduce(
     (acc, apply) => apply(acc),
