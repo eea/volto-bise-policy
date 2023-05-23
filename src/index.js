@@ -8,6 +8,12 @@ import installStyles from './components/manage/Styles';
 import biseLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo.svg';
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo-white.svg';
 
+const restrictedBlocks = [
+  'imagecards',
+  'embed_eea_tableau_block',
+  'embed_eea_map_block',
+];
+
 const applyConfig = (config) => {
   // Volto specific settings
   config.settings = {
@@ -58,11 +64,6 @@ const applyConfig = (config) => {
     multilingualSubsites: ['/natura2000'],
   };
 
-  config.settings.apiExpanders.push({
-    match: '/',
-    GET_CONTENT: ['translations'],
-  });
-
   config.blocks.requiredBlocks = [];
 
   config.blocks.blocksConfig.html.restricted = false;
@@ -92,7 +93,6 @@ const applyConfig = (config) => {
     ) => {
       // integration with volto-block-toc
       const headlines = tocData.levels || ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-      // const column_blocks = block?.data?.blocks || {};
       let entries = [];
       const sorted_column_blocks = getBlocks(block?.data || {});
       sorted_column_blocks.forEach((column_block) => {
@@ -131,6 +131,13 @@ const applyConfig = (config) => {
       colorscale: ['#12957D', '#F9EA8A', '#DD552B', '#AEB0B3'],
     },
   ];
+
+  // Disable some blocks
+  restrictedBlocks.forEach((block) => {
+    if (config.blocks.blocksConfig[block]) {
+      config.blocks.blocksConfig[block].restricted = true;
+    }
+  });
 
   return [installBlocks, installStyles].reduce(
     (acc, apply) => apply(acc),
