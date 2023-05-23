@@ -1,3 +1,4 @@
+import { getBlocks } from '@plone/volto/helpers';
 import installLink from '@plone/volto-slate/editor/plugins/AdvancedLink';
 import { addStylingFieldsetSchemaEnhancer } from '@eeacms/volto-bise-policy/components/manage/Blocks/schema';
 
@@ -30,15 +31,13 @@ const applyConfig = (config) => {
     headerSearchBox: [
       {
         isDefault: true,
+        // to replace search path change path to whatever you want and match with the page in volto website
         path: '/advanced-search',
-        placeholder: 'Search...',
-      },
-      {
-        path: 'datahub',
-        placeholder: 'Search Datahub...',
+        placeholder: 'Search BISE...',
         description:
           'Looking for more information? Try searching the full EEA website content',
-        buttonTitle: 'Go to full site search',
+        buttonTitle: 'Go to advanced search',
+        buttonUrl: 'https://www.eea.europa.eu/en/advanced-search',
       },
     ],
     logoTargetUrl: '/',
@@ -86,6 +85,28 @@ const applyConfig = (config) => {
   if (config.blocks.blocksConfig.columnsBlock) {
     config.blocks.blocksConfig.columnsBlock.mostUsed = true;
     config.blocks.blocksConfig.columnsBlock.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+    config.blocks.blocksConfig.columnsBlock.tocEntry = undefined;
+    config.blocks.blocksConfig.columnsBlock.tocEntries = (
+      block = {},
+      tocData,
+    ) => {
+      // integration with volto-block-toc
+      const headlines = tocData.levels || ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+      // const column_blocks = block?.data?.blocks || {};
+      let entries = [];
+      const sorted_column_blocks = getBlocks(block?.data || {});
+      sorted_column_blocks.forEach((column_block) => {
+        const sorted_blocks = getBlocks(column_block[1]);
+        sorted_blocks.forEach((block) => {
+          const { value, plaintext } = block[1];
+          const type = value?.[0]?.type;
+          if (headlines.includes(type)) {
+            entries.push([parseInt(type.slice(1)), plaintext, block[0]]);
+          }
+        });
+      });
+      return entries;
+    };
   }
 
   // Listing
@@ -98,6 +119,18 @@ const applyConfig = (config) => {
   if (config.blocks.blocksConfig.hero_image_left) {
     config.blocks.blocksConfig.hero_image_left.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
   }
+
+  // Plotly bise color
+  config.settings.plotlyCustomColors = [
+    {
+      title: 'Biodiversity Default',
+      colorscale: ['#094238', '#12957D', '#19C4A5'],
+    },
+    {
+      title: '',
+      colorscale: ['#12957D', '#F9EA8A', '#DD552B', '#AEB0B3'],
+    },
+  ];
 
   return [installBlocks, installStyles].reduce(
     (acc, apply) => apply(acc),
