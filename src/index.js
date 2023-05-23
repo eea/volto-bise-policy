@@ -64,11 +64,6 @@ const applyConfig = (config) => {
     multilingualSubsites: ['/natura2000'],
   };
 
-  config.settings.apiExpanders.push({
-    match: '/',
-    GET_CONTENT: ['translations'],
-  });
-
   config.blocks.requiredBlocks = [];
 
   config.blocks.blocksConfig.html.restricted = false;
@@ -98,7 +93,6 @@ const applyConfig = (config) => {
     ) => {
       // integration with volto-block-toc
       const headlines = tocData.levels || ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-      // const column_blocks = block?.data?.blocks || {};
       let entries = [];
       const sorted_column_blocks = getBlocks(block?.data || {});
       sorted_column_blocks.forEach((column_block) => {
