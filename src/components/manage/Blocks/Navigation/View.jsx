@@ -10,13 +10,13 @@ import './styles.less';
 const View = ({ history, data, navigation, ...props }) => {
   const search = history?.location?.search || '';
   const pathname = props.path || props.pathname;
-  const pages = getFieldURL(data.pages || []);
+  const pages = data.pages || [];
   const items = useMemo(() => {
     return [
       ...(navigation.filter(
         (item) => flattenToAppURL(item.url) === getFieldURL(data.parent),
       )[0]?.items || []),
-      ...pages,
+      ...pages.map((page) => ({ ...page, url: getFieldURL(page.url) })),
     ];
   }, [navigation, pages, data.parent]);
 
