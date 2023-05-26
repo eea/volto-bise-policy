@@ -1,0 +1,3 @@
+.sticky-navigation-anchors.full-width {
+  z-index: @zIndex;
+}

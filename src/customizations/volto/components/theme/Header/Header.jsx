@@ -53,7 +53,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
   const previousToken = usePrevious(token);
   const { items } = props;
   const { eea } = config.settings;
-  const { headerOpts } = eea || {};
+  const { headerOpts, headerSearchBox } = eea || {};
   const { logo, logoWhite } = headerOpts || {};
 
   const width = useSelector((state) => state.screen?.width);
@@ -74,7 +74,8 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
     pathname = content_pathname;
   }
 
-  const isHomePageInverse = ['', '/', '/edit', '/edit/'].includes(pathname);
+  const isHomePageInverse =
+    content_pathname === '' && ['', '/'].includes(pathname);
 
   const isMultilingual =
     config.settings.isMultilingual || (isSubsite && subsite.isMultilingual);
@@ -261,6 +262,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
       >
         <Header.Main
           pathname={router_pathname}
+          headerSearchBox={headerSearchBox}
           inverted={isHomePageInverse ? true : false}
           transparency={isHomePageInverse ? true : false}
           hideSearch={isSubsite}
