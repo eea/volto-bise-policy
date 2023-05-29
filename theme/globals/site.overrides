@@ -255,9 +255,9 @@ p.has--clear--both:empty {
     }
   }
 
-  .ui.overlay.sidebar {
-    z-index: 800;
-  }
+  // .ui.overlay.sidebar {
+  //   z-index: 800;
+  // }
 }
 
 .subsite.subsite-natura2000:not(.subsite-root) {
@@ -266,9 +266,9 @@ p.has--clear--both:empty {
   }
 }
 
-#toolbar {
-  z-index: 6;
-}
+// #toolbar {
+//   z-index: 6;
+// }
 
 .simple-data-table {
   padding: 0;

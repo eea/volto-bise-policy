@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Menu } from 'semantic-ui-react';
 import { UniversalLink } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
+import { getFieldURL } from '@eeacms/volto-bise-policy/helpers';
 
 import './styles.less';
 
@@ -13,9 +14,9 @@ const View = ({ history, data, navigation, ...props }) => {
   const items = useMemo(() => {
     return [
       ...(navigation.filter(
-        (item) => flattenToAppURL(item.url) === flattenToAppURL(data.parent),
+        (item) => flattenToAppURL(item.url) === getFieldURL(data.parent),
       )[0]?.items || []),
-      ...pages,
+      ...pages.map((page) => ({ ...page, url: getFieldURL(page.url) })),
     ];
   }, [navigation, pages, data.parent]);
 

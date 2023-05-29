@@ -26,10 +26,6 @@
   text-decoration: none;
 }
 
-.eea.header {
-  z-index: 4;
-}
-
 .eea.header .main.bar > .ui.container .ui.grid .column {
   display: flex;
   align-items: center;
