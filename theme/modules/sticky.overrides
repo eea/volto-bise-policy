@@ -1,3 +1,7 @@
+.eea.header .ui.sticky {
+  z-index: @zIndex;
+}
+
 .sticky-navigation-anchors.full-width {
   z-index: @zIndex;
 }

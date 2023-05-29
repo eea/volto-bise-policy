@@ -123,11 +123,19 @@ const applyConfig = (config) => {
   // Plotly bise color
   config.settings.plotlyCustomColors = [
     {
-      title: 'Biodiversity Default',
-      colorscale: ['#094238', '#12957D', '#19C4A5'],
+      title: 'A2',
+      colorscale: [
+        '#3D2201',
+        '#603808',
+        '#8B5E34',
+        '#BC8A5F',
+        '#E7BC91',
+        '#FFEDD8',
+        '#FFF6EC',
+      ],
     },
     {
-      title: '',
+      title: 'A1',
       colorscale: ['#12957D', '#F9EA8A', '#DD552B', '#AEB0B3'],
     },
   ];

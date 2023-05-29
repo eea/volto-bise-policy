@@ -51,3 +51,94 @@
     }
   }
 }
+
+.eea.header .main.bar.n2k-site {
+  .ui.grid {
+    height: 100%;
+
+    .column {
+      justify-content: center;
+
+      > * {
+        flex: unset !important;
+
+        &:not(:last-child) {
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.at-glance {
+  height: 100%;
+  padding: 0 2rem;
+  background: #00a390 0% 0% no-repeat padding-box;
+  border: none;
+  color: #fff !important;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff !important;
+  }
+}
+
+.deep-dive {
+  font-weight: bold;
+}
+
+.with-n2k-navigation {
+  .eea.header {
+    .main.bar .ui.grid {
+      > :first-child {
+        width: 200px !important;
+
+        img {
+          object-fit: fill;
+        }
+      }
+
+      > :last-child {
+        width: calc(100% - 200px) !important;
+      }
+
+      @media @smallMonitorUp {
+        .main-menu {
+          justify-content: center;
+  
+          ul {
+            padding-inline-start: 0;
+            justify-content: center !important;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+
+.tabs-block {
+  .columns-header {
+    display: none;
+  }
+}
+
+.tabs-block.carousel_n2k {
+  overflow: hidden;
+
+  .slick-arrows {
+    .learn-more {
+      position: absolute;
+      left: 0;
+      width: 130px;
+      color: #fff !important;
+      text-align: left;
+      transform: translate(-100%, 0);
+
+      @media only screen and (max-width: 1700px) {
+        display: none;
+      }
+    }
+  }
+}

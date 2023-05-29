@@ -4,11 +4,12 @@
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { Dropdown, Image, Sticky } from 'semantic-ui-react';
+import { Container, Dropdown, Grid, Image, Sticky } from 'semantic-ui-react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
 
-import { withRouter } from 'react-router-dom';
+import { matchPath } from 'react-router';
+import { withRouter, useParams } from 'react-router-dom';
 import { UniversalLink } from '@plone/volto/components';
 import {
   getBaseUrl,
@@ -51,6 +52,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
   const dispatch = useDispatch();
   const [language, setLanguage] = useState(getLanguage());
   const previousToken = usePrevious(token);
+  const params = useParams();
   const { items } = props;
   const { eea } = config.settings;
   const { headerOpts, headerSearchBox } = eea || {};
@@ -58,10 +60,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
 
   const width = useSelector((state) => state.screen?.width);
 
-  const router_pathname = useSelector(
-    (state) => removeTrailingSlash(state.router?.location?.pathname) || '',
-  );
-  let pathname = router_pathname;
+  const pathname = removeTrailingSlash(props.pathname);
 
   const content_pathname = useMemo(
     () => flattenToAppURL(content.data?.['@id']),
@@ -70,9 +69,26 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
 
   const isSubsite = subsite?.['@type'] === 'Subsite';
 
-  if (content.get.loading && content_pathname !== router_pathname) {
-    pathname = content_pathname;
-  }
+  const isN2KSite = useMemo(() => {
+    return !!matchPath(pathname, {
+      path: ['/natura2000/sites/site', '/natura2000/sites/site_cdda'],
+      exact: false,
+    });
+  }, [pathname]);
+
+  const isN2KSpecies = useMemo(() => {
+    return !!matchPath(pathname, {
+      path: '/natura2000/species/species',
+      exact: false,
+    });
+  }, [pathname]);
+
+  const isN2KHabitat = useMemo(() => {
+    return !!matchPath(pathname, {
+      path: '/natura2000/habitats/habitat',
+      exact: false,
+    });
+  }, [pathname]);
 
   const isHomePageInverse =
     content_pathname === '' && ['', '/'].includes(pathname);
@@ -124,6 +140,10 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
   return (
     <Header menuItems={items}>
       {isHomePageInverse && <BodyClass className="homepage homepage-inverse" />}
+      {isSubsite && !subsite.isRoot && !isN2KSpecies && !isN2KHabitat && (
+        <BodyClass className="with-n2k-navigation" />
+      )}
+
       <Header.TopHeader>
         <Header.TopItem className="official-union">
           <Image src={eeaFlag} alt="eea flag"></Image>
@@ -194,7 +214,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
           </Header.TopItem>
         )}
 
-        {isMultilingual && (
+        {isMultilingual && !isN2KSite && !isN2KSpecies && !isN2KHabitat && (
           <Header.TopItem>
             <Header.TopDropdownMenu
               id="language-switcher"
@@ -235,7 +255,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
                             'g',
                           );
                           const matches = [
-                            ...router_pathname.matchAll(multilingualSubsiteRe),
+                            ...pathname.matchAll(multilingualSubsiteRe),
                           ][0];
                           if (matches && matches[2] !== `/${item.code}/`) {
                             changeLanguage(item.code);
@@ -260,52 +280,87 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
         active={isSubsite && subsite['@id'] === '/natura2000'}
         context={__CLIENT__ && document.querySelector('.content-area')}
       >
-        <Header.Main
-          pathname={router_pathname}
-          headerSearchBox={headerSearchBox}
-          inverted={isHomePageInverse ? true : false}
-          transparency={isHomePageInverse ? true : false}
-          hideSearch={isSubsite}
-          logo={
-            <Logo
-              src={isHomePageInverse ? logoWhite : logo}
-              title={eea.websiteTitle}
-              alt={eea.organisationName}
-              url={eea.logoTargetUrl}
-            />
-          }
-          menuItems={
-            isSubsite && !subsite.isRoot
-              ? getSubsiteItems()
-              : items.filter((item) => item.url !== '/natura2000')
-          }
-          renderGlobalMenuItem={(item, { onClick }) => (
-            <a
-              href={item.url || '/'}
-              title={item.title}
-              onClick={(e) => {
-                e.preventDefault();
-                onClick(e, item);
-              }}
-            >
-              {item.title}
-            </a>
-          )}
-          renderMenuItem={(item, options, props) => (
-            <UniversalLink
-              href={item.url || '/'}
-              title={item.nav_title || item.title}
-              {...(options || {})}
-              className={cx(options?.className, {
-                active: item.url === router_pathname,
-              })}
-            >
-              {props?.iconPosition !== 'right' && props?.children}
-              <span>{item.nav_title || item.title}</span>
-              {props?.iconPosition === 'right' && props?.children}
-            </UniversalLink>
-          )}
-        />
+        {!isN2KSite ? (
+          <Header.Main
+            pathname={pathname}
+            headerSearchBox={headerSearchBox}
+            inverted={isHomePageInverse ? true : false}
+            transparency={isHomePageInverse ? true : false}
+            hideSearch={isSubsite}
+            logo={
+              <Logo
+                src={isHomePageInverse ? logoWhite : logo}
+                title={eea.websiteTitle}
+                alt={eea.organisationName}
+                url={eea.logoTargetUrl}
+              />
+            }
+            menuItems={
+              isSubsite && !subsite.isRoot && !isN2KSpecies && !isN2KHabitat
+                ? getSubsiteItems()
+                : items.filter((item) => item.url !== '/natura2000')
+            }
+            renderGlobalMenuItem={(item, { onClick }) => (
+              <a
+                href={item.url || '/'}
+                title={item.title}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onClick(e, item);
+                }}
+              >
+                {item.title}
+              </a>
+            )}
+            renderMenuItem={(item, options, props) => (
+              <UniversalLink
+                href={item.url || '/'}
+                title={item.nav_title || item.title}
+                {...(options || {})}
+                className={cx(options?.className, {
+                  active: item.url === pathname,
+                })}
+              >
+                {props?.iconPosition !== 'right' && props?.children}
+                <span>{item.nav_title || item.title}</span>
+                {props?.iconPosition === 'right' && props?.children}
+              </UniversalLink>
+            )}
+          />
+        ) : (
+          <div className="main bar transparency n2k-site">
+            <Container>
+              <Grid>
+                <Grid.Column>
+                  <button
+                    title="At a glance"
+                    className="item firstLevel at-glance"
+                    onClick={() => {
+                      window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth',
+                      });
+                    }}
+                  >
+                    AT A GLANCE
+                  </button>
+                  <UniversalLink
+                    href={
+                      params.site_code
+                        ? `https://natura2000.eea.europa.eu/Natura2000/SDF.aspx?site=${params.site_code}`
+                        : '#'
+                    }
+                    openLinkInNewTab={true}
+                    title="Go to expert view"
+                    className="item firstLevel deep-dive"
+                  >
+                    GO TO EXPERT VIEW
+                  </UniversalLink>
+                </Grid.Column>
+              </Grid>
+            </Container>
+          </div>
+        )}
       </Sticky>
     </Header>
   );
