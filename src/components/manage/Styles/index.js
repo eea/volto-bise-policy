@@ -77,17 +77,18 @@ export default (config) => {
   config.settings.slate.styleMenu = config.settings.slate.styleMenu || {};
   config.settings.slate.styleMenu.inlineStyles = [
     ...(config.settings.slate.styleMenu?.inlineStyles || []),
-    { cssClass: 'primary-big-text', label: 'Big text' },
-    { cssClass: 'medium-text', label: 'Medium text' },
-    { cssClass: 'small-text', label: 'Small text' },
-    { cssClass: 'white-text', label: 'White text' },
+    // { cssClass: 'primary-big-text', label: 'Big text' },
+    // { cssClass: 'medium-text', label: 'Medium text' },
+    // { cssClass: 'small-text', label: 'Small text' },
+    // { cssClass: 'white-text', label: 'White text' },
     { cssClass: 'primary-text', label: 'Primary text' },
     { cssClass: 'secondary-text', label: 'Secondary text' },
-    { cssClass: 'dark-green-text', label: 'Dark green text' },
-    { cssClass: 'blue-text', label: 'Blue text' },
-    { cssClass: 'red-text', label: 'Red text' },
-    { cssClass: 'yellow-text', label: 'Yellow text' },
-    { cssClass: 'grey-text', label: 'Grey text' },
+    { cssClass: 'tertiary-text', label: 'Tertiary text' },
+    // { cssClass: 'dark-green-text', label: 'Dark green text' },
+    // { cssClass: 'blue-text', label: 'Blue text' },
+    // { cssClass: 'red-text', label: 'Red text' },
+    // { cssClass: 'yellow-text', label: 'Yellow text' },
+    // { cssClass: 'grey-text', label: 'Grey text' },
   ];
   // config.settings.slate.styleMenu.blockStyles = [
   //   ...config.settings.slate.styleMenu.blockStyles,
