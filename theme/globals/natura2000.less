@@ -90,7 +90,7 @@
 .with-n2k-navigation {
   .eea.header {
     .main.bar .ui.grid {
-      > :first-child {
+      > :first-child:not(:last-child) {
         width: 200px !important;
 
         img {
@@ -98,7 +98,7 @@
         }
       }
 
-      > :last-child {
+      > :last-child:not(:first-child) {
         width: calc(100% - 200px) !important;
       }
 

@@ -91,7 +91,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
   }, [pathname]);
 
   const isHomePageInverse =
-    content_pathname === '' && ['', '/'].includes(pathname);
+    content_pathname === '' && history.location.pathname === '';
 
   const isMultilingual =
     config.settings.isMultilingual || (isSubsite && subsite.isMultilingual);

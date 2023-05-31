@@ -1,3 +1,7 @@
+.eea.header {
+  z-index: @zIndex;
+}
+
 .eea.header .ui.sticky {
   z-index: @zIndex;
 }
@@ -5,3 +9,7 @@
 .sticky-navigation-anchors.full-width {
   z-index: @zIndex;
 }
+
+// #toolbar {
+//   z-index: @zIndex + 1;
+// }
