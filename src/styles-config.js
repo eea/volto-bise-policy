@@ -1,14 +1,7 @@
-export default (config) => {
-  // config.settings.plotlyChartsColorScale = [
-  //   '#ee252c',
-  //   '#d5e843',
-  //   '#33b540',
-  //   '#352d4e',
-  //   '#f9ae79',
-  //   '#87d6cb',
-  //   ...(config.settings.plotlyChartsColorScale || []),
-  // ];
+import { Icon } from '@plone/volto/components';
+import contentBoxSVG from '@eeacms/volto-bise-policy/icons/content-box.svg';
 
+export default (config) => {
   config.settings.available_colors = [
     '#005248', // primary color
     '#00A390', // secondary color
@@ -77,27 +70,36 @@ export default (config) => {
   config.settings.slate.styleMenu = config.settings.slate.styleMenu || {};
   config.settings.slate.styleMenu.inlineStyles = [
     ...(config.settings.slate.styleMenu?.inlineStyles || []),
-    // { cssClass: 'primary-big-text', label: 'Big text' },
-    // { cssClass: 'medium-text', label: 'Medium text' },
-    // { cssClass: 'small-text', label: 'Small text' },
-    // { cssClass: 'white-text', label: 'White text' },
+    { cssClass: 'primary-big-text', label: 'Big text' },
+    { cssClass: 'medium-text', label: 'Medium text' },
+    { cssClass: 'small-text', label: 'Small text' },
+    { cssClass: 'white-text', label: 'White text' },
     { cssClass: 'primary-text', label: 'Primary text' },
     { cssClass: 'secondary-text', label: 'Secondary text' },
     { cssClass: 'tertiary-text', label: 'Tertiary text' },
-    // { cssClass: 'dark-green-text', label: 'Dark green text' },
-    // { cssClass: 'blue-text', label: 'Blue text' },
-    // { cssClass: 'red-text', label: 'Red text' },
-    // { cssClass: 'yellow-text', label: 'Yellow text' },
-    // { cssClass: 'grey-text', label: 'Grey text' },
+    { cssClass: 'dark-green-text', label: 'Dark green text' },
+    { cssClass: 'blue-text', label: 'Blue text' },
+    { cssClass: 'red-text', label: 'Red text' },
+    { cssClass: 'yellow-text', label: 'Yellow text' },
+    { cssClass: 'grey-text', label: 'Grey text' },
   ];
-  // config.settings.slate.styleMenu.blockStyles = [
-  //   ...config.settings.slate.styleMenu.blockStyles,
-  //   { cssClass: 'green-block-text', label: 'Green Text' },
-  //   { cssClass: 'underline-block-text', label: 'Underline Text' },
-  // ];
 
   config.settings.pluggableStyles = [
     ...(config.settings.pluggableStyles || []),
+    {
+      id: 'content-box-tertiary',
+      title: 'Tertiary',
+      previewComponent: () => (
+        <Icon name={contentBoxSVG} size="88px" className="tertiary" />
+      ),
+      viewComponent: (props) => {
+        return (
+          <div className="content-box tertiary">
+            <div className="content-box-inner">{props.children}</div>
+          </div>
+        );
+      },
+    },
     {
       id: 'borderBlock',
       title: 'Border',
@@ -157,6 +159,26 @@ export default (config) => {
       id: 'n2kCircle',
       title: 'N2k circle',
       cssClass: 'n2k-circle',
+    },
+  ];
+
+  // Plotly bise color
+  config.settings.plotlyCustomColors = [
+    {
+      title: 'A2',
+      colorscale: [
+        '#3D2201',
+        '#603808',
+        '#8B5E34',
+        '#BC8A5F',
+        '#E7BC91',
+        '#FFEDD8',
+        '#FFF6EC',
+      ],
+    },
+    {
+      title: 'A1',
+      colorscale: ['#12957D', '#F9EA8A', '#DD552B', '#AEB0B3'],
     },
   ];
 
