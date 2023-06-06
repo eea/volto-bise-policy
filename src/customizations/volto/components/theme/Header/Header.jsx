@@ -4,7 +4,7 @@
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { Container, Dropdown, Grid, Image, Sticky } from 'semantic-ui-react';
+import { Dropdown, Image, Sticky } from 'semantic-ui-react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
 
@@ -62,6 +62,8 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
 
   const pathname = removeTrailingSlash(props.pathname);
 
+  const _pathname = removeTrailingSlash(history.location.pathname);
+
   const content_pathname = useMemo(
     () => flattenToAppURL(content.data?.['@id']),
     [content],
@@ -90,8 +92,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
     });
   }, [pathname]);
 
-  const isHomePageInverse =
-    content_pathname === '' && history.location.pathname === '';
+  const isHomePageInverse = content_pathname === '' && _pathname === '';
 
   const isMultilingual =
     config.settings.isMultilingual || (isSubsite && subsite.isMultilingual);
@@ -143,6 +144,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
       {isSubsite && !subsite.isRoot && !isN2KSpecies && !isN2KHabitat && (
         <BodyClass className="with-n2k-navigation" />
       )}
+      {isSubsite && isN2KSite && <BodyClass className="is-n2k-site" />}
 
       <Header.TopHeader>
         <Header.TopItem className="official-union">
@@ -280,87 +282,89 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
         active={isSubsite && subsite['@id'] === '/natura2000'}
         context={__CLIENT__ && document.querySelector('.content-area')}
       >
-        {!isN2KSite ? (
-          <Header.Main
-            pathname={pathname}
-            headerSearchBox={headerSearchBox}
-            inverted={isHomePageInverse ? true : false}
-            transparency={isHomePageInverse ? true : false}
-            hideSearch={isSubsite}
-            logo={
-              <Logo
-                src={isHomePageInverse ? logoWhite : logo}
-                title={eea.websiteTitle}
-                alt={eea.organisationName}
-                url={eea.logoTargetUrl}
-              />
-            }
-            menuItems={
-              isSubsite && !subsite.isRoot && !isN2KSpecies && !isN2KHabitat
-                ? getSubsiteItems()
-                : items.filter((item) => item.url !== '/natura2000')
-            }
-            renderGlobalMenuItem={(item, { onClick }) => (
-              <a
-                href={item.url || '/'}
-                title={item.title}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onClick(e, item);
-                }}
-              >
-                {item.title}
-              </a>
-            )}
-            renderMenuItem={(item, options, props) => (
-              <UniversalLink
-                href={item.url || '/'}
-                title={item.nav_title || item.title}
-                {...(options || {})}
-                className={cx(options?.className, {
-                  active: item.url === pathname,
-                })}
-              >
-                {props?.iconPosition !== 'right' && props?.children}
-                <span>{item.nav_title || item.title}</span>
-                {props?.iconPosition === 'right' && props?.children}
-              </UniversalLink>
-            )}
-          />
-        ) : (
-          <div className="main bar transparency n2k-site">
-            <Container>
-              <Grid>
-                <Grid.Column>
-                  <button
-                    title="At a glance"
-                    className="item firstLevel at-glance"
-                    onClick={() => {
+        <Header.Main
+          pathname={pathname}
+          headerSearchBox={headerSearchBox}
+          inverted={isHomePageInverse ? true : false}
+          transparency={isHomePageInverse ? true : false}
+          hideSearch={isSubsite}
+          logo={
+            <Logo
+              src={isHomePageInverse ? logoWhite : logo}
+              title={eea.websiteTitle}
+              alt={eea.organisationName}
+              url={eea.logoTargetUrl}
+            />
+          }
+          menuItems={
+            isN2KSite
+              ? [
+                  {
+                    title: 'AT A GLANCE',
+                    url: '#',
+                    items: [],
+                    className: 'at-glance',
+                    onClick: (e) => {
+                      e.preventDefault();
                       window.scrollTo({
                         top: document.body.scrollHeight,
                         behavior: 'smooth',
                       });
-                    }}
-                  >
-                    AT A GLANCE
-                  </button>
-                  <UniversalLink
-                    href={
-                      params.site_code
-                        ? `https://natura2000.eea.europa.eu/Natura2000/SDF.aspx?site=${params.site_code}`
-                        : '#'
-                    }
-                    openLinkInNewTab={true}
-                    title="Go to expert view"
-                    className="item firstLevel deep-dive"
-                  >
-                    GO TO EXPERT VIEW
-                  </UniversalLink>
-                </Grid.Column>
-              </Grid>
-            </Container>
-          </div>
-        )}
+                    },
+                  },
+                  {
+                    title: 'GO TO EXPERT VIEW',
+                    url: params.site_code
+                      ? `https://natura2000.eea.europa.eu/Natura2000/SDF.aspx?site=${params.site_code}`
+                      : '#',
+                    items: [],
+                    className: 'deep-dive',
+                    target: params.site_code ? '_blank' : null,
+                  },
+                ]
+              : isSubsite && !subsite.isRoot && !isN2KSpecies && !isN2KHabitat
+              ? getSubsiteItems()
+              : items.filter((item) => item.url !== '/natura2000')
+          }
+          renderGlobalMenuItem={(item, { onClick }) => (
+            <a
+              href={item.url || '/'}
+              title={item.title}
+              target={item.target || '_self'}
+              className={item.className}
+              onClick={(e) => {
+                if (!isN2KSite) {
+                  e.preventDefault();
+                  onClick(e, item);
+                }
+                if (item.onClick) {
+                  item.onClick(e, item);
+                }
+              }}
+            >
+              {item.title}
+            </a>
+          )}
+          renderMenuItem={(item, options, props) => (
+            <UniversalLink
+              href={item.url || '/'}
+              title={item.nav_title || item.title}
+              {...(options || {})}
+              className={cx(options?.className, {
+                active: item.url === pathname,
+              })}
+              onClick={(e) => {
+                if (item.onClick) {
+                  item.onClick(e);
+                }
+              }}
+            >
+              {props?.iconPosition !== 'right' && props?.children}
+              <span>{item.nav_title || item.title}</span>
+              {props?.iconPosition === 'right' && props?.children}
+            </UniversalLink>
+          )}
+        />
       </Sticky>
     </Header>
   );
