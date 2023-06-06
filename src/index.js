@@ -3,7 +3,7 @@ import installLink from '@plone/volto-slate/editor/plugins/AdvancedLink';
 import { addStylingFieldsetSchemaEnhancer } from '@eeacms/volto-bise-policy/components/manage/Blocks/schema';
 
 import installBlocks from './components/manage/Blocks';
-import installStyles from './components/manage/Styles';
+import installStyles from './styles-config';
 
 import biseLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo.svg';
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo-white.svg';
@@ -119,26 +119,6 @@ const applyConfig = (config) => {
   if (config.blocks.blocksConfig.hero_image_left) {
     config.blocks.blocksConfig.hero_image_left.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
   }
-
-  // Plotly bise color
-  config.settings.plotlyCustomColors = [
-    {
-      title: 'A2',
-      colorscale: [
-        '#3D2201',
-        '#603808',
-        '#8B5E34',
-        '#BC8A5F',
-        '#E7BC91',
-        '#FFEDD8',
-        '#FFF6EC',
-      ],
-    },
-    {
-      title: 'A1',
-      colorscale: ['#12957D', '#F9EA8A', '#DD552B', '#AEB0B3'],
-    },
-  ];
 
   // Disable some blocks
   restrictedBlocks.forEach((block) => {

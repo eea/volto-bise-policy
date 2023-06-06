@@ -239,39 +239,54 @@ const NestedAccordion = ({ menuItems, renderMenuItem, pathName }) => {
     if (pathName.indexOf(element.url) !== -1) {
       defaultIndex = index;
     }
+    const hasItems = element.items?.length > 0;
+    let overview = cloneDeep(element);
+
     x.title = (
-      <Accordion.Title key={`title-${index}`} index={index} as="button">
-        {element.title}
-        <Icon className="ri-arrow-down-s-line" size="small" />
+      <Accordion.Title
+        key={`title-${index}`}
+        index={index}
+        as="button"
+        active={hasItems ? false : undefined}
+      >
+        {hasItems ? (
+          <>
+            {element.title}
+            <Icon className="ri-arrow-down-s-line" size="small" />
+          </>
+        ) : (
+          renderMenuItem(overview)
+        )}
       </Accordion.Title>
     );
-    let overview = cloneDeep(element);
-    x.content = (
-      <Accordion.Content key={index}>
-        <div className="mega-menu-title">
-          {/* Inverted right labeled button as a category title - Mobile */}
-          {renderMenuItem(
-            overview,
-            { className: 'ui button inverted icon right labeled' },
-            {
-              iconPosition: 'right',
-              children: (
-                <>
-                  {/* Add word overview to titles */}
-                  <span> overview</span>
-                  <Icon className={'arrow right icon'} alt={'Title icon'} />
-                </>
-              ),
-            },
-          )}
-        </div>
-        <FirstLevelContent
-          element={element}
-          renderMenuItem={renderMenuItem}
-          pathName={pathName}
-        />
-      </Accordion.Content>
-    );
+    if (hasItems) {
+      x.content = (
+        <Accordion.Content key={index}>
+          <div className="mega-menu-title">
+            {/* Inverted right labeled button as a category title - Mobile */}
+            {renderMenuItem(
+              overview,
+              { className: 'ui button inverted icon right labeled' },
+              {
+                iconPosition: 'right',
+                children: (
+                  <>
+                    {/* Add word overview to titles */}
+                    <span> overview</span>
+                    <Icon className={'arrow right icon'} alt={'Title icon'} />
+                  </>
+                ),
+              },
+            )}
+          </div>
+          <FirstLevelContent
+            element={element}
+            renderMenuItem={renderMenuItem}
+            pathName={pathName}
+          />
+        </Accordion.Content>
+      );
+    }
     rootPanels.push(x);
   });
 
