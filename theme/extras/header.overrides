@@ -75,7 +75,8 @@
 
     .eea.header .eea-logo {
       max-width: fit-content;
-      height: 60px;
+      max-height: 60px;
+      height: auto;
     }
 
     .burger-action.mobile,
@@ -92,7 +93,8 @@
 
     .eea.header .eea-logo {
       max-width: fit-content;
-      height: 60px;
+      max-height: 60px;
+      height: auto;
     }
 
     .burger-action.mobile,
@@ -105,7 +107,8 @@
   @media only screen and (min-width: @computerBreakpoint) {
     .eea.header .eea-logo {
       max-width: fit-content;
-      height: 60px;
+      max-height: 60px;
+      height: auto;
     }
   }
 }

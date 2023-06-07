@@ -16,6 +16,6 @@
   }
 }
 
-// #toolbar {
-//   z-index: @zIndex + 1;
-// }
+#toolbar {
+  z-index: @zIndex + 1;
+}
