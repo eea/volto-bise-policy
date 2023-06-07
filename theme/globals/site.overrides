@@ -109,9 +109,20 @@ p.has--clear--both:empty {
   }
 }
 
-.smart-table .search-description {
-  margin-bottom: 2rem;
-  color: #6b6b6b;
+.smart-table {
+  .search-description {
+    margin-bottom: 2rem;
+    color: #6b6b6b;
+  }
+
+  .ui.search {
+    .ui.input {
+      max-width: unset;
+      > input {
+        border-radius: 12px;
+      }
+    }
+  }
 }
 
 .subsite.subsite-natura2000.subsite-root {
