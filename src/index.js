@@ -5,8 +5,9 @@ import { addStylingFieldsetSchemaEnhancer } from '@eeacms/volto-bise-policy/comp
 import installBlocks from './components/manage/Blocks';
 import installStyles from './styles-config';
 
-import biseLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo.svg';
-import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme//assets/images/Header/bise-logo-white.svg';
+import biseLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo.svg';
+import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo-white.svg';
+import ecLogo from '@eeacms/volto-bise-policy/../theme/assets/logos/logo-ec-inverse.svg';
 
 const restrictedBlocks = [
   'imagecards',
@@ -57,7 +58,17 @@ const applyConfig = (config) => {
     ],
     logoTargetUrl: '/',
   };
-
+  config.settings.eea.footerOpts.managedBy[1] = {
+    link: 'https://commission.europa.eu',
+    src: ecLogo,
+    alt: 'European commission Logo',
+    className: 'site logo',
+    columnSize: {
+      mobile: 6,
+      tablet: 12,
+      computer: 4,
+    },
+  };
   // BISE config
   config.settings.bise = {
     subsites: [
