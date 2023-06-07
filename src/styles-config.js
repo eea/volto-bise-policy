@@ -87,14 +87,14 @@ export default (config) => {
   config.settings.pluggableStyles = [
     ...(config.settings.pluggableStyles || []),
     {
-      id: 'content-box-tertiary',
-      title: 'Tertiary',
+      id: 'content-box-light-green',
+      title: 'Light green',
       previewComponent: () => (
-        <Icon name={contentBoxSVG} size="88px" className="tertiary" />
+        <Icon name={contentBoxSVG} size="88px" className="light-green" />
       ),
       viewComponent: (props) => {
         return (
-          <div className="content-box tertiary">
+          <div className="content-box light-green">
             <div className="content-box-inner">{props.children}</div>
           </div>
         );
