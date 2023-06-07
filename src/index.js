@@ -14,6 +14,15 @@ const restrictedBlocks = [
   'embed_eea_map_block',
 ];
 
+const customBlocks = [
+  'html',
+  'countryFlag',
+  'tableau_block',
+  'body_classname',
+  'redirect',
+  'navigationBlock',
+];
+
 const applyConfig = (config) => {
   // Volto specific settings
   config.settings = {
@@ -120,6 +129,11 @@ const applyConfig = (config) => {
     config.blocks.blocksConfig.hero_image_left.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
   }
 
+  config = [installBlocks, installStyles].reduce(
+    (acc, apply) => apply(acc),
+    config,
+  );
+
   // Disable some blocks
   restrictedBlocks.forEach((block) => {
     if (config.blocks.blocksConfig[block]) {
@@ -127,10 +141,18 @@ const applyConfig = (config) => {
     }
   });
 
-  return [installBlocks, installStyles].reduce(
-    (acc, apply) => apply(acc),
-    config,
-  );
+  // Set custom blocks
+  config.blocks.groupBlocksOrder = [
+    ...config.blocks.groupBlocksOrder,
+    { id: 'custom_blocks', title: 'Custom blocks' },
+  ];
+  customBlocks.forEach((block) => {
+    if (config.blocks.blocksConfig[block]) {
+      config.blocks.blocksConfig[block].group = 'custom_blocks';
+    }
+  });
+
+  return config;
 };
 
 export default applyConfig;

@@ -273,3 +273,25 @@ p.has--clear--both:empty {
 .simple-data-table {
   padding: 0;
 }
+
+.content-box {
+  &.light-green {
+    background-color: @green-1;
+    color: @tertiaryColor;
+  }
+}
+
+.style-select-widget {
+  svg.light-green {
+    background-color:@green-1;
+    fill: @tertiaryColor !important;
+  }
+}
+
+#sidebar > .sidebar-container > .tabs-wrapper > .ui.menu {
+  flex-wrap: nowrap;
+}
+
+.ui.button.full-size-sidenav-btn {
+  padding: 6px !important;
+}
