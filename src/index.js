@@ -59,7 +59,7 @@ const applyConfig = (config) => {
     logoTargetUrl: '/',
   };
   config.settings.eea.footerOpts.managedBy[1] = {
-    link: 'https://commission.europa.eu',
+    url: 'https://commission.europa.eu',
     src: ecLogo,
     alt: 'European commission Logo',
     className: 'site logo',
