@@ -62,7 +62,7 @@ const applyConfig = (config) => {
     url: 'https://commission.europa.eu',
     src: ecLogo,
     alt: 'European commission Logo',
-    className: 'site logo',
+    className: 'commission logo',
     columnSize: {
       mobile: 6,
       tablet: 12,
