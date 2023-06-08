@@ -306,3 +306,27 @@ p.has--clear--both:empty {
 .ui.button.full-size-sidenav-btn {
   padding: 6px !important;
 }
+
+.color-picker-widget .wrapper {
+  flex-flow: row;
+}
+
+.simple-data-table .default-table {
+  tr th {
+    padding: 0 !important;
+
+    &:not(:last-child) {
+      border-right: 0.1rem solid @secondaryColor !important;
+    }
+
+    &::after {
+      border-bottom-color: @secondaryColor;
+    }
+  }
+
+  tr td {
+    &:not(:last-child) {
+      border-right: 0.1rem solid @secondaryColor !important;
+    }
+  }
+}
