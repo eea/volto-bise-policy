@@ -9,11 +9,7 @@ import biseLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bi
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo-white.svg';
 import ecLogo from '@eeacms/volto-bise-policy/../theme/assets/logos/logo-ec-inverse.svg';
 
-const restrictedBlocks = [
-  'imagecards',
-  'embed_eea_tableau_block',
-  'embed_eea_map_block',
-];
+const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
 const customBlocks = [
   'html',
