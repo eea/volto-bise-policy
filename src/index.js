@@ -54,6 +54,8 @@ const applyConfig = (config) => {
     ],
     logoTargetUrl: '/',
   };
+
+  config.settings.eea.footerOpts.logosHeader = 'Managed by';
   config.settings.eea.footerOpts.managedBy[1] = {
     url: 'https://commission.europa.eu',
     src: ecLogo,
