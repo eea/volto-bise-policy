@@ -138,6 +138,13 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
     }
   }, [token, dispatch, pathname, previousToken]);
 
+  React.useEffect(() => {
+    if (isN2KSpecies && [0, '0'].includes(params.id_eunis)) {
+      history.push('/species-name-or-error-code');
+    }
+    /* eslint-disable-next-line */
+  }, [isN2KSpecies, params]);
+
   return (
     <Header menuItems={items}>
       {isHomePageInverse && <BodyClass className="homepage homepage-inverse" />}
