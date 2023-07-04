@@ -7,7 +7,7 @@ import installStyles from './styles-config';
 
 import biseLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo.svg';
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo-white.svg';
-import ecLogo from '@eeacms/volto-bise-policy/../theme/assets/logos/logo-ec-inverse.svg';
+import ecLogo from '@eeacms/volto-bise-policy/../theme/assets/logos/logo-ec.svg';
 
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
