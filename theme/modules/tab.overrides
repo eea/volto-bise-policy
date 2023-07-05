@@ -1,3 +1,27 @@
+.tabs-block.light .slick-arrows button.slick-arrow svg {
+  fill: #fff;
+
+  path {
+    fill: #fff;
+  }
+}
+
+.tabs-block.grey .slick-arrows button.slick-arrow svg {
+  fill: #b3b3b3;
+
+  path {
+    fill: #b3b3b3;
+  }
+}
+
+.tabs-block.dark .slick-arrows button.slick-arrow svg {
+  fill: #000;
+
+  path {
+    fill: #000;
+  }
+}
+
 .subsite-natura2000 {
   .tabs-block {
     color: inherit;
@@ -66,30 +90,6 @@
   .tabs-block .slick-arrows button.slick-arrow {
     display: flex !important;
     align-items: center;
-  }
-  
-  .tabs-block.light .slick-arrows button.slick-arrow svg {
-    fill: #fff;
-  
-    path {
-      fill: #fff;
-    }
-  }
-  
-  .tabs-block.grey .slick-arrows button.slick-arrow svg {
-    fill: #b3b3b3;
-  
-    path {
-      fill: #b3b3b3;
-    }
-  }
-  
-  .tabs-block.dark .slick-arrows button.slick-arrow svg {
-    fill: #000;
-  
-    path {
-      fill: #000;
-    }
   }
   
   .tabs-block.carousel_n2k .slick-arrows .learn-more {
