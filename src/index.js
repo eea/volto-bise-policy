@@ -20,6 +20,34 @@ const customBlocks = [
   'navigationBlock',
 ];
 
+const n2kLanguages = [
+  { name: 'Български', code: 'bg' },
+  { name: 'čeština', code: 'cs' },
+  { name: 'Hrvatski', code: 'hr' },
+  { name: 'dansk', code: 'da' },
+  { name: 'Nederlands', code: 'nl' },
+  { name: 'ελληνικά', code: 'el' },
+  { name: 'English', code: 'en' },
+  { name: 'eesti', code: 'et' },
+  { name: 'Suomi', code: 'fi' },
+  { name: 'Français', code: 'fr' },
+  { name: 'Deutsch', code: 'de' },
+  { name: 'magyar', code: 'hu' },
+  { name: 'Irish', code: 'ga' },
+  { name: 'italiano', code: 'it' },
+  { name: 'Latviešu', code: 'lv' },
+  { name: 'lietuvių', code: 'lt' },
+  { name: 'Malti', code: 'mt' },
+  { name: 'Norsk', code: 'no' },
+  { name: 'polski', code: 'pl' },
+  { name: 'Português', code: 'pt' },
+  { name: 'Română', code: 'ro' },
+  { name: 'slovenčina', code: 'sk' },
+  { name: 'Slovenščina', code: 'sl' },
+  { name: 'Español', code: 'es' },
+  { name: 'Svenska', code: 'sv' },
+];
+
 const applyConfig = (config) => {
   // Volto specific settings
   config.settings = {
@@ -35,6 +63,7 @@ const applyConfig = (config) => {
   // EEA customizations
   config.settings.eea = {
     ...(config.settings.eea || {}),
+    languages: n2kLanguages,
     headerOpts: {
       ...(config.settings.eea?.headerOpts || {}),
       logo: biseLogo,
