@@ -38,7 +38,6 @@ const n2kLanguages = [
   { name: 'Latviešu', code: 'lv' },
   { name: 'lietuvių', code: 'lt' },
   { name: 'Malti', code: 'mt' },
-  { name: 'Norsk', code: 'no' },
   { name: 'polski', code: 'pl' },
   { name: 'Português', code: 'pt' },
   { name: 'Română', code: 'ro' },
