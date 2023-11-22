@@ -16,7 +16,8 @@
     "@eeacms/volto-datablocks",
     "@eeacms/volto-block-toc",
     "@eeacms/volto-eea-design-system",
-    "@eeacms/volto-eea-website-theme"
+    "@eeacms/volto-eea-website-theme",
+    "@eeacms/volto-spotlight"
   ],
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "@eeacms/volto-datablocks": "*",
     "@eeacms/volto-eea-design-system": "*",
     "@eeacms/volto-eea-website-theme": "*",
+    "@eeacms/volto-spotlight": "*",
     "esri-loader": "3.7.0"
   },
   "devDependencies": {
@@ -34,10 +36,10 @@
     "@plone/scripts": "*",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cypress-fail-fast": "^5.0.1",
-    "md5": "^2.3.0",
-    "react-plotly.js": "2.5.1",
     "husky": "^8.0.3",
-    "lint-staged": "^14.0.1"
+    "lint-staged": "^14.0.1",
+    "md5": "^2.3.0",
+    "react-plotly.js": "2.5.1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json}": [
