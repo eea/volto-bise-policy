@@ -37,7 +37,8 @@
     "md5": "^2.3.0",
     "react-plotly.js": "2.5.1",
     "husky": "^8.0.3",
-    "lint-staged": "^14.0.1"
+    "lint-staged": "^14.0.1",
+    "dotenv": "^16.3.2"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json}": [
