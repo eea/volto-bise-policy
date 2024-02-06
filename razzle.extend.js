@@ -17,9 +17,8 @@ const modify = (config, { target, dev }, webpack) => {
   const semanticLessPath = `${projectRootPath}/node_modules/semantic-ui-less`;
   const hasDesignSystemInstalled =
     config.resolve.alias['volto-spotlight-themes'];
-  config.resolve.alias[
-    'volto-spotlight-theme-folder'
-  ] = hasDesignSystemInstalled ? themeLessPath : semanticLessPath;
+  config.resolve.alias['volto-spotlight-theme-folder'] =
+    hasDesignSystemInstalled ? themeLessPath : semanticLessPath;
 
   return config;
 };

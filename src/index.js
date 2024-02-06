@@ -59,6 +59,25 @@ const applyConfig = (config) => {
   config.settings.defaultLanguage =
     config.settings.eea?.defaultLanguage || 'en';
 
+  // mega menu layout settings
+  config.settings.menuItemsLayouts = {
+    '/policy': {
+      hideChildrenFromNavigation: false,
+    },
+    '/europes-biodiversity': {
+      hideChildrenFromNavigation: false,
+    },
+    '/countries': {
+      menuItemColumns: ['eight wide column', 'four wide column'],
+      menuItemChildrenListColumns: [5, 2],
+      appendExtraMenuItemsToLastColumn: true,
+      hideChildrenFromNavigation: false,
+    },
+    '/resources': {
+      hideChildrenFromNavigation: false,
+    },
+  };
+
   // EEA customizations
   config.settings.eea = {
     ...(config.settings.eea || {}),
