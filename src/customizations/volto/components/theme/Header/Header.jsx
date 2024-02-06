@@ -178,7 +178,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
               <a
                 href="https://europa.eu/european-union/contact/institutions-bodies_en"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener"
                 onKeyDown={(evt) => evt.stopPropagation()}
               >
                 See all EU institutions and bodies
@@ -211,7 +211,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
                       href={item.href}
                       className="site"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener"
                       onKeyDown={(evt) => evt.stopPropagation()}
                     >
                       {item.title}
