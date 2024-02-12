@@ -1,6 +1,6 @@
 {
   "name": "@eeacms/volto-bise-policy",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "@eeacms/volto-bise-policy: Volto add-on",
   "main": "src/index.js",
   "author": "European Environment Agency: IDM2 A-Team",
@@ -16,7 +16,8 @@
     "@eeacms/volto-datablocks",
     "@eeacms/volto-block-toc",
     "@eeacms/volto-eea-design-system",
-    "@eeacms/volto-eea-website-theme"
+    "@eeacms/volto-eea-website-theme",
+    "@eeacms/volto-spotlight"
   ],
   "repository": {
     "type": "git",
@@ -27,15 +28,41 @@
     "@eeacms/volto-datablocks": "*",
     "@eeacms/volto-eea-design-system": "*",
     "@eeacms/volto-eea-website-theme": "*",
-    "esri-loader": "3.7.0"
+    "@eeacms/volto-spotlight": "*",
+    "esri-loader": "3.7.0",
+    "plotly.js": "^2.28.0",
+    "react-plotly.js": "2.6.0"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.0",
     "@plone/scripts": "*",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cypress-fail-fast": "^5.0.1",
-    "md5": "^2.3.0",
-    "react-plotly.js": "2.5.1"
+    "dotenv": "^16.3.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "md5": "^2.3.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json}": [
+      "make lint-fix",
+      "make prettier-fix"
+    ],
+    "src/**/*.{jsx}": [
+      "make i18n"
+    ],
+    "theme/**/*.{css,less}": [
+      "make stylelint-fix"
+    ],
+    "src/**/*.{css,less}": [
+      "make stylelint-fix"
+    ],
+    "theme/**/*.overrides": [
+      "make stylelint-fix"
+    ],
+    "src/**/*.overrides": [
+      "make stylelint-fix"
+    ]
   },
   "scripts": {
     "release": "release-it",
@@ -54,6 +81,7 @@
     "lint:fix": "make lint-fix",
     "i18n": "make i18n",
     "cypress:run": "make cypress-run",
-    "cypress:open": "make cypress-open"
+    "cypress:open": "make cypress-open",
+    "prepare": "husky install"
   }
 }
