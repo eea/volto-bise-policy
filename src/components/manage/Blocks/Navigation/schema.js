@@ -19,7 +19,7 @@ const pagesSchema = {
   required: [],
 };
 
-export default {
+const schema = {
   title: 'Navigation block',
   fieldsets: [
     {
@@ -41,3 +41,5 @@ export default {
   },
   required: [],
 };
+
+export default schema;

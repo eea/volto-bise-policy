@@ -1,4 +1,4 @@
-export default {
+const schema = {
   title: 'Redirect',
 
   fieldsets: [
@@ -18,3 +18,5 @@ export default {
 
   required: [],
 };
+
+export default schema;
