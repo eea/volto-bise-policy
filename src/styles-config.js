@@ -1,7 +1,7 @@
 import { Icon } from '@plone/volto/components';
 import contentBoxSVG from '@eeacms/volto-bise-policy/icons/content-box.svg';
 
-export default (config) => {
+const config = (config) => {
   config.settings.available_colors = [
     '#005248', // primary color
     '#00A390', // secondary color
@@ -184,3 +184,5 @@ export default (config) => {
 
   return config;
 };
+
+export default config;
