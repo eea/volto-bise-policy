@@ -100,6 +100,7 @@ const applyConfig = (config) => {
       },
     ],
     logoTargetUrl: '/',
+    organisationName: 'Biodiversity Information System for Europe',
   };
 
   config.settings.eea.footerOpts.logosHeader = 'Managed by';
