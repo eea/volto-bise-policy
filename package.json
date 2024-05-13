@@ -34,6 +34,7 @@
     "react-plotly.js": "2.6.0"
   },
   "devDependencies": {
+    "cypress": "13.1.0",
     "@cypress/code-coverage": "^3.10.0",
     "@plone/scripts": "*",
     "babel-plugin-transform-class-properties": "^6.24.1",
