@@ -54,13 +54,7 @@ class Edit extends Component {
     const templateSchema =
       config.blocks.blocksConfig.simpleDataConnectedTable?.templates?.[template]
         ?.schema || {};
-    console.log({ template, templateSchema });
-    console.log(
-      'config.blocks.blocksConfig.simpleDataConnectedTable?.templates?.[template]',
-      config.blocks.blocksConfig.simpleDataConnectedTable?.templates?.[
-        template
-      ],
-    );
+
     const schema = SimpleDataTableSchema(
       config,
       typeof templateSchema === 'function'
