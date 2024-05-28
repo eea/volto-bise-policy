@@ -4,6 +4,7 @@ import { addStylingFieldsetSchemaEnhancer } from '@eeacms/volto-bise-policy/comp
 
 import installBlocks from './components/manage/Blocks';
 import installStyles from './styles-config';
+import installDataTable from './customizations/@eeacms/volto-datablocks/components/manage/Blocks/SimpleDataTable';
 
 import biseLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo.svg';
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo-white.svg';
@@ -186,7 +187,7 @@ const applyConfig = (config) => {
     config.blocks.blocksConfig.hero_image_left.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
   }
 
-  config = [installBlocks, installStyles].reduce(
+  config = [installBlocks, installStyles, installDataTable].reduce(
     (acc, apply) => apply(acc),
     config,
   );

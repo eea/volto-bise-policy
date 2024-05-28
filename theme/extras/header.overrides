@@ -39,6 +39,31 @@
   margin-top: 0;
 }
 
+
+@media only screen and (min-width: @computerBreakpoint) {
+   .main.bar {
+    .ui.container {
+      height: @computerMainSectionHeight;
+
+      nav {
+        width: 88%;
+      }
+      .ui.text.menu {
+        display: flex;
+        width: 100%;
+        max-height: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0;
+
+        .item {
+          padding: @mainMenuItemPadding;
+        }
+      }
+    }
+  }
+}
+
 /************************
         MEGA MENU
 ************************/
