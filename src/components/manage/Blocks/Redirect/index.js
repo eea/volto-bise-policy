@@ -2,7 +2,7 @@ import worldSVG from '@plone/volto/icons/world.svg';
 import RedirectEdit from './Edit';
 import RedirectView from './View';
 
-export default (config) => {
+const config = (config) => {
   config.blocks.blocksConfig.redirect = {
     id: 'redirect',
     title: 'Redirect',
@@ -22,3 +22,5 @@ export default (config) => {
   };
   return config;
 };
+
+export default config;

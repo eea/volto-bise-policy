@@ -2,7 +2,7 @@ import worldSVG from '@plone/volto/icons/world.svg';
 import BodyClassEdit from './Edit';
 import BodyClassView from './View';
 
-export default (config) => {
+const config = (config) => {
   config.blocks.blocksConfig.body_classname = {
     id: 'body_classname',
     title: 'Body classname',
@@ -22,3 +22,5 @@ export default (config) => {
   };
   return config;
 };
+
+export default config;

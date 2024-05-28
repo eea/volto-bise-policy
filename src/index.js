@@ -146,13 +146,15 @@ const applyConfig = (config) => {
   // Customizations
   // Group
   if (config.blocks.blocksConfig.group) {
-    config.blocks.blocksConfig.group.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+    config.blocks.blocksConfig.group.schemaEnhancer =
+      addStylingFieldsetSchemaEnhancer;
   }
 
   // Columns
   if (config.blocks.blocksConfig.columnsBlock) {
     config.blocks.blocksConfig.columnsBlock.mostUsed = true;
-    config.blocks.blocksConfig.columnsBlock.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+    config.blocks.blocksConfig.columnsBlock.schemaEnhancer =
+      addStylingFieldsetSchemaEnhancer;
     config.blocks.blocksConfig.columnsBlock.tocEntry = undefined;
     config.blocks.blocksConfig.columnsBlock.tocEntries = (
       block = {},
@@ -179,12 +181,14 @@ const applyConfig = (config) => {
   // Listing
   if (config.blocks.blocksConfig.listing) {
     config.blocks.blocksConfig.listing.title = 'Listing (Content)';
-    config.blocks.blocksConfig.listing.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+    config.blocks.blocksConfig.listing.schemaEnhancer =
+      addStylingFieldsetSchemaEnhancer;
   }
 
   // Hero image left
   if (config.blocks.blocksConfig.hero_image_left) {
-    config.blocks.blocksConfig.hero_image_left.schemaEnhancer = addStylingFieldsetSchemaEnhancer;
+    config.blocks.blocksConfig.hero_image_left.schemaEnhancer =
+      addStylingFieldsetSchemaEnhancer;
   }
 
   config = [installBlocks, installStyles, installDataTable].reduce(

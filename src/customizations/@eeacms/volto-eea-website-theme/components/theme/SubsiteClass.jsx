@@ -14,9 +14,10 @@ const SubsiteClass = () => {
     () => content?.data?.['@components']?.subsite || {},
     [content],
   );
-  const pathname = useMemo(() => flattenToAppURL(content?.['@id']) || '', [
-    content,
-  ]);
+  const pathname = useMemo(
+    () => flattenToAppURL(content?.['@id']) || '',
+    [content],
+  );
 
   const { eea, bise } = config.settings;
   const { subsites, multilingualSubsites } = bise || {};
