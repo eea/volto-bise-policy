@@ -25,6 +25,7 @@ import eeaFlag from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/
 import config from '@plone/volto/registry';
 import { compose } from 'recompose';
 import { BodyClass } from '@plone/volto/helpers';
+import { withScreenSize } from '@eeacms/volto-resize-helper/hocs';
 
 import cx from 'classnames';
 
@@ -48,7 +49,7 @@ function getLanguage() {
 /**
  * EEA Specific Header component.
  */
-const EEAHeader = ({ token, history, subsite, content, ...props }) => {
+const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
   const dispatch = useDispatch();
   const [language, setLanguage] = useState(getLanguage());
   const previousToken = usePrevious(token);
@@ -144,6 +145,20 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
     }
     /* eslint-disable-next-line */
   }, [isN2KSpecies, params]);
+
+  React.useEffect(() => {
+    let width = 0;
+    const menuEl = document.querySelector('.eea.header .main.bar');
+    const items =
+      document.querySelectorAll(
+        '.eea.header .main.bar .main-menu .ui.eea-main-menu li.item',
+      ) || [];
+
+    for (let item of items) {
+      width += item.offsetWidth;
+    }
+    menuEl.style.setProperty('--menu-width', `${width}px`);
+  }, [screen]);
 
   return (
     <Header menuItems={items}>
@@ -379,6 +394,7 @@ const EEAHeader = ({ token, history, subsite, content, ...props }) => {
 
 export default compose(
   withRouter,
+  withScreenSize,
   connect(
     (state) => ({
       token: state.userSession.token,

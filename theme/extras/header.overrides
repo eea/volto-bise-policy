@@ -10,9 +10,8 @@
   .main.bar {
     .ui.container {
       .ui.text.menu {
-        flex-wrap: wrap;
         justify-content: end;
-  
+
         .item:first-child {
           display: flex;
         }
@@ -39,9 +38,8 @@
   margin-top: 0;
 }
 
-
 @media only screen and (min-width: @computerBreakpoint) {
-   .main.bar {
+  .main.bar {
     .ui.container {
       height: @computerMainSectionHeight;
 
@@ -52,7 +50,7 @@
         display: flex;
         width: 100%;
         max-height: 100%;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: space-between;
         margin: 0;
 
@@ -82,67 +80,51 @@
 .subsite.subsite-natura2000 {
   .eea.header .main.bar {
     backdrop-filter: blur(2px);
-    background-color: hsla(0,0%,100%,.8);;
+    background-color: hsla(0, 0%, 100%, 0.8);
   }
-
   .eea.header .main.bar > .ui.container {
-    height: 92px;
+    height: 160px;
+    width: 100%;
   }
-
   .eea.header .main-menu {
     align-items: center;
   }
-
   @media only screen and (min-width: @mobileBreakpoint) {
     .eea.header .main.bar > .ui.container {
-      height: 92px;
+      height: 69px;
     }
-
     .eea.header .eea-logo {
-      max-width: fit-content;
-      max-height: 60px;
+      max-width: 142px;
       height: auto;
     }
-
     .burger-action.mobile,
     .search-action {
-      width: 58px;
-      height: 92px;
+      width: 44px;
+      height: 69px;
     }
   }
-
   @media only screen and (min-width: @tabletBreakpoint) {
     .eea.header .main.bar > .ui.container {
-      height: 92px;
+      height: 117px;
     }
-
     .eea.header .eea-logo {
-      max-width: fit-content;
-      max-height: 60px;
+      max-width: 252px;
       height: auto;
     }
-
     .burger-action.mobile,
     .search-action {
-      width: 58px;
-      height: 92px;
+      width: 66px;
+      height: 117px;
     }
   }
-
   @media only screen and (min-width: @computerBreakpoint) {
+    .eea.header .main.bar > .ui.container {
+      height: 160px;
+    }
     .eea.header .eea-logo {
-      max-width: fit-content;
-      max-height: 60px;
+      max-width: 300px;
+      width: 100%;
       height: auto;
     }
   }
 }
-
-
-// #search-box {
-//   min-height: 100%;
-// }
-
-// .has-toolbar.homepage .eea.header {
-//   width: 100%;
-// }
