@@ -124,16 +124,17 @@
 .with-n2k-navigation {
   .eea.header {
     .main.bar .ui.grid {
-      > :first-child:not(:last-child) {
-        width: 200px !important;
-
-        img {
-          object-fit: fill;
+      @media only screen and (min-width: 992px) {
+        > :first-child:not(:last-child) {
+          flex: 1;
+          img {
+            object-fit: fill;
+          }
         }
-      }
 
-      > :last-child:not(:first-child) {
-        width: calc(100% - 200px) !important;
+        > :last-child:not(:first-child) {
+          width: var(--menu-width, 800px) !important;
+        }
       }
 
       @media @smallMonitorUp {
