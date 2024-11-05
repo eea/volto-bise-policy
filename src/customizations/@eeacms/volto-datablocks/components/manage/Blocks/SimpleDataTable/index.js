@@ -8,7 +8,7 @@ import {
 import { SmartView, smartSchema } from './templates/smart';
 import { ColoredTableView, coloredTableSchema } from './templates/colored';
 
-export default (config) => {
+const applyConfig = (config) => {
   config.blocks.blocksConfig.simpleDataConnectedTable = {
     id: 'simpleDataConnectedTable',
     title: 'Data Table',
@@ -62,3 +62,5 @@ export default (config) => {
   };
   return config;
 };
+
+export default applyConfig;
