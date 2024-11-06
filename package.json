@@ -28,7 +28,7 @@
     "@eeacms/volto-block-toc": "*",
     "@eeacms/volto-datablocks": "*",
     "@eeacms/volto-eea-design-system": "*",
-    "@eeacms/volto-eea-website-theme": "<1.18.2",
+    "@eeacms/volto-eea-website-theme": "2.0.0",
     "@eeacms/volto-resize-helper": "*",
     "@eeacms/volto-spotlight": "*",
     "esri-loader": "3.7.0",
