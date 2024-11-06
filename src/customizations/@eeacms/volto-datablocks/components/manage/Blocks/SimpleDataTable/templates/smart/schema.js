@@ -1,4 +1,4 @@
-export default () => ({
+const getSchema = () => ({
   title: 'Smart datatable',
   fieldsets: [
     {
@@ -15,3 +15,5 @@ export default () => ({
   },
   required: [],
 });
+
+export default getSchema;

@@ -10,7 +10,7 @@ import './styles.less';
 const View = ({ history, data, navigation, ...props }) => {
   const search = history?.location?.search || '';
   const pathname = props.path || props.pathname;
-  const pages = data.pages || [];
+  const pages = useMemo(() => data.pages || [], [data.pages]);
   const items = useMemo(() => {
     return [
       ...(navigation.filter(

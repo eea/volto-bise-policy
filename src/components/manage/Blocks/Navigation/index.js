@@ -2,7 +2,7 @@ import imageSVG from '@plone/volto/icons/image.svg';
 import NavigationBlockView from './View';
 import NavigationBlockEdit from './Edit';
 
-export default (config) => {
+const config = (config) => {
   config.blocks.blocksConfig.navigationBlock = {
     id: 'navigationBlock',
     title: 'Navigation Block',
@@ -20,3 +20,5 @@ export default (config) => {
   };
   return config;
 };
+
+export default config;

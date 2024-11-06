@@ -107,10 +107,12 @@ const EditWrapper = compose(
   }),
 )(Edit);
 
-export default (props) => {
+const $Edit = (props) => {
   return (
     <VisibilitySensor offset={{ top: -150, bottom: -150 }}>
       <EditWrapper {...props} />
     </VisibilitySensor>
   );
 };
+
+export default $Edit;
