@@ -10,7 +10,7 @@ const config = (config) => {
     group: 'custom_addons',
     view: FactsheetsListingView,
     edit: FactsheetsListingEdit,
-    restricted: false,
+    restricted: true,
     mostUsed: false,
     blockHasOwnFocusManagement: false,
     sidebarTab: 1,

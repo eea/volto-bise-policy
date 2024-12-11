@@ -133,4 +133,8 @@ const View = ({ data, provider_data, id, ...rest }) => {
   );
 };
 
-export default compose(connectToProviderData)(View);
+export default compose(
+  connectToProviderData((props) => ({
+    provider_url: props.data?.provider_url,
+  })),
+)(View);

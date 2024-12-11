@@ -1,7 +1,6 @@
-import React from 'react';
 import { defaultHoverTemplate } from './constants';
 
-const MaesViewerSchema = () => ({
+const maesViewrSchema = {
   title: 'Edit MAES Viewer',
 
   fieldsets: [
@@ -27,7 +26,7 @@ const MaesViewerSchema = () => ({
       widget: 'slate_richtext',
     },
     provider_url: {
-      widget: 'pick_provider',
+      widget: 'internal_url',
       title: 'Data provider',
     },
     ecosystem: {
@@ -55,6 +54,6 @@ const MaesViewerSchema = () => ({
   },
 
   required: ['provider_url'],
-});
+};
 
-export default MaesViewerSchema;
+export default maesViewrSchema;
