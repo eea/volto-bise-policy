@@ -31,7 +31,7 @@ function Edit(props) {
     }
 
     return newSchema;
-  }, ['block', 'data', 'onChangeBlock', 'provider_data']);
+  }, [block, data, onChangeBlock, provider_data]);
 
   return (
     <div className={cx('block', { selected })}>
