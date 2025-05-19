@@ -121,6 +121,22 @@
   }
 }
 
+// Table of contents - accordion menu
+.table-of-contents.accordionMenu {
+  .ui.accordion {
+    .content {
+      .accordion-list-bulleted li::marker {
+        content: '\25CB';
+        color: @lightSecondaryColor;
+        font-size: 1.2em;
+      }
+      .title {
+        font-size: 1em;
+      }
+    }
+  }
+}
+
 @media only screen and (min-width: 769px) {
   .table-of-contents.horizontalMenu {
     .ui.menu {
