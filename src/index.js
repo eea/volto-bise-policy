@@ -117,6 +117,14 @@ const applyConfig = (config) => {
     },
   };
   // BISE config
+
+  // TODO: Config custom formatters
+  config.settings.formatters = {
+    squareBracketsToItalic: (value) => {
+      return value.replace(/\[(.*?)\]/g, '<em>$1</em>')
+    }
+  }
+
   config.settings.bise = {
     subsites: [
       {
