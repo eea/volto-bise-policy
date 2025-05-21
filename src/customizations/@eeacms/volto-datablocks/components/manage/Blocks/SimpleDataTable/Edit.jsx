@@ -61,7 +61,7 @@ class Edit extends Component {
       typeof templateSchema === 'function'
         ? templateSchema(config)
         : templateSchema,
-        this.props.intl
+      this.props.intl,
     );
 
     // TODO: create picker for columns to include
