@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
+import { injectIntl } from 'react-intl';
 import { SidebarPortal } from '@plone/volto/components'; // EditBlock
 import InlineForm from '@plone/volto/components/manage/Form/InlineForm';
 import config from '@plone/volto/registry';
@@ -60,6 +61,7 @@ class Edit extends Component {
       typeof templateSchema === 'function'
         ? templateSchema(config)
         : templateSchema,
+        this.props.intl
     );
 
     // TODO: create picker for columns to include
@@ -105,7 +107,7 @@ const EditWrapper = compose(
       },
     };
   }),
-)(Edit);
+)(injectIntl(Edit));
 
 const $Edit = (props) => {
   return (
