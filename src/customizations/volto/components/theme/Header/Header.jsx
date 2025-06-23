@@ -74,7 +74,11 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
 
   const isN2KSite = useMemo(() => {
     return !!matchPath(pathname, {
-      path: ['/natura2000/sites/site', '/natura2000/sites/site_cdda', '/natura2000/sites/emerald'],
+      path: [
+        '/natura2000/sites/site',
+        '/natura2000/sites/site_cdda',
+        '/natura2000/sites/emerald',
+      ],
       exact: false,
     });
   }, [pathname]);
