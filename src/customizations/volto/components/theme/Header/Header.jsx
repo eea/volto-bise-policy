@@ -74,7 +74,14 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
 
   const isN2KSite = useMemo(() => {
     return !!matchPath(pathname, {
-      path: ['/natura2000/sites/site', '/natura2000/sites/site_cdda'],
+      path: ['/natura2000/sites/site', '/natura2000/sites/site_cdda', '/natura2000/sites/emerald'],
+      exact: false,
+    });
+  }, [pathname]);
+
+  const hideExpertView = useMemo(() => {
+    return !!matchPath(pathname, {
+      path: ['/natura2000/sites/site_cdda', '/natura2000/sites/emerald'],
       exact: false,
     });
   }, [pathname]);
@@ -343,7 +350,10 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
                     className: 'deep-dive',
                     target: params.site_code ? '_blank' : null,
                   },
-                ]
+                ].filter(
+                  (item) =>
+                    item.title !== 'GO TO EXPERT VIEW' || !hideExpertView,
+                )
               : isSubsite && !subsite.isRoot && !isN2KSpecies && !isN2KHabitat
               ? getSubsiteItems()
               : items.filter((item) => item.url !== '/natura2000')
