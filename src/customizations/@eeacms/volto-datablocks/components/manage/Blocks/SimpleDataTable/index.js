@@ -16,7 +16,7 @@ const applyConfig = (config) => {
     group: 'data_blocks',
     view: SimpleDataTableView,
     edit: SimpleDataTableEdit,
-    restricted: true,
+    restricted: false,
     mostUsed: false,
     sidebarTab: 1,
     security: {

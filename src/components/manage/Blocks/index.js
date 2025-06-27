@@ -1,4 +1,5 @@
 import installBodyClass from './BodyClass';
+import installCustomJS from './CustomJS';
 import installRedirect from './Redirect';
 import installFactsheetsListing from './FactsheetsListing';
 import installKeyFacts from './KeyFacts';
@@ -8,6 +9,7 @@ import installNavigation from './Navigation';
 const config = (config) => {
   return [
     installBodyClass,
+    installCustomJS,
     installRedirect,
     installFactsheetsListing,
     installKeyFacts,
