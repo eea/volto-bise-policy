@@ -99,7 +99,13 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
 
   const isN2KHabitat = useMemo(() => {
     return !!matchPath(pathname, {
-      path: '/natura2000/habitats/habitat',
+      path: [
+        '/natura2000/habitats/habitat',
+        '/natura2000/habitats/habitats_eunis2012',
+        '/natura2000/habitats/habitats_eunis_revised',
+        '/natura2000/habitats/habitats_rl',
+        '/natura2000/habitats/habitats_res4',
+      ],
       exact: false,
     });
   }, [pathname]);
