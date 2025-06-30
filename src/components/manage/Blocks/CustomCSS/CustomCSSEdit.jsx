@@ -6,7 +6,9 @@ const CustomCSSBlockEdit = ({ data, onChangeBlock, block }) => {
       id="cssCode"
       title="Inline CSS"
       value={data.cssCode}
-      onChange={(id, value) => onChangeBlock(block, { ...data, cssCode: value })}
+      onChange={(id, value) =>
+        onChangeBlock(block, { ...data, cssCode: value })
+      }
     />
   );
 };
