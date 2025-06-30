@@ -11,12 +11,12 @@ import { ColoredTableView, coloredTableSchema } from './templates/colored';
 const applyConfig = (config) => {
   config.blocks.blocksConfig.simpleDataConnectedTable = {
     id: 'simpleDataConnectedTable',
-    title: 'Data Table',
+    title: 'Simple Data Table',
     icon: tableSVG,
     group: 'data_blocks',
     view: SimpleDataTableView,
     edit: SimpleDataTableEdit,
-    restricted: true,
+    restricted: false,
     mostUsed: false,
     sidebarTab: 1,
     security: {

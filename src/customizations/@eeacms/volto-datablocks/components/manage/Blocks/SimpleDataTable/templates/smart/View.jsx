@@ -61,14 +61,16 @@ const View = (props) => {
       clearTimeout(timeoutRef.current);
       props.dispatch({ type: 'TABLE_START_SEARCH', query: data.value });
       timeoutRef.current = setTimeout(() => {
-        props.history.push({
-          search:
-            '?' +
-            qs.stringify({
-              ...props.query,
-              searchTerm: data.value,
-            }),
-        });
+        if (props.history) {
+          props.history.push({
+            search:
+              '?' +
+              qs.stringify({
+                ...props.query,
+                searchTerm: data.value,
+              }),
+          });
+        }
         if (data.value.length === 0) {
           props.dispatch({ type: 'TABLE_CLEAN_QUERY' });
           return;
@@ -233,9 +235,7 @@ const View = (props) => {
                 {placeholder}
               </Table.Cell>
             </Table.Row>
-          ) : (
-            ''
-          )}
+          ) : null}
         </Table.Body>
         {Math.ceil(items.length / row_size) > 1 ? (
           <Table.Footer>
@@ -258,9 +258,7 @@ const View = (props) => {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
-        ) : (
-          ''
-        )}
+        ) : null}
       </Table>
     </div>
   );
