@@ -55,6 +55,15 @@ const applyConfig = (config) => {
     navDepth: 3,
   };
 
+  if (__SERVER__) {
+    const devsource = __DEVELOPMENT__
+      ? ` http://localhost:${parseInt(process.env.PORT || '3000') + 1}`
+      : '';
+    config.settings.serverConfig.csp = {
+      'script-src': `'self' {nonce}${devsource}`,
+    };
+  }
+
   // Multi-lingual
   config.settings.isMultilingual = false;
   config.settings.defaultLanguage =
