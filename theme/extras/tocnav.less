@@ -124,10 +124,17 @@
 // Table of contents - accordion menu
 .table-of-contents.accordionMenu {
   .ui.accordion {
+    .accordion {
+      margin: 1em 0em 0em !important;
+      padding: 0em;
+    }
+    .title {
+      padding: 0.75em 2em;
+    }
     .content {
+      --bg-color: initial !important;
       ul {
-        padding-top: 0.5rem;
-        padding-bottom: 1.3rem;
+        padding: 0.5rem 10px 1.3rem 50px;
       }
       .accordion-list-bulleted li::marker {
         content: '\25CB';
