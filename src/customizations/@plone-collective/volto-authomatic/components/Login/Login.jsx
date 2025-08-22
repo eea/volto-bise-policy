@@ -82,8 +82,8 @@ const messages = defineMessages({
     defaultMessage: 'Sign in with EEA Microsoft Entra ID',
   },
   orSignIn: {
-    id: 'Or sign in with external provider:',
-    defaultMessage: 'Or sign in with external provider:',
+    id: 'Or sign in with EEA Entra ID:',
+    defaultMessage: 'Or sign in with EEA Entra ID:',
   },
   loading: {
     id: 'Loading',
