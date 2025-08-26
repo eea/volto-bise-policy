@@ -361,8 +361,8 @@ function Login({ intl }) {
           <div style={{ marginTop: '2rem', width: '100%' }}>
             <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
               <FormattedMessage
-                id="Or sign in with external provider:"
-                defaultMessage="Or sign in with external provider:"
+                id="Or sign in with EEA Entra ID:"
+                defaultMessage="Or sign in with EEA Entra ID:"
               />
             </div>
             <div style={{ width: '100%' }}>
