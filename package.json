@@ -17,6 +17,7 @@
     "@eeacms/volto-block-toc",
     "@eeacms/volto-eea-design-system",
     "@eeacms/volto-eea-website-theme",
+    "@eeacms/volto-hero-block",
     "@eeacms/volto-resize-helper",
     "@eeacms/volto-spotlight",
     "@plone-collective/volto-authomatic"
@@ -30,6 +31,7 @@
     "@eeacms/volto-datablocks": "*",
     "@eeacms/volto-eea-design-system": "*",
     "@eeacms/volto-eea-website-theme": "*",
+    "@eeacms/volto-hero-block": "^7.1.0",
     "@eeacms/volto-resize-helper": "*",
     "@eeacms/volto-spotlight": "*",
     "@plone-collective/volto-authomatic": "2.0.1",
