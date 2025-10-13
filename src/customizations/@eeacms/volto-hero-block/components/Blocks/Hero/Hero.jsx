@@ -72,7 +72,6 @@ function Hero({
 
   return (
     <div
-      style={{ border: '1px solid red' }}
       className={cx(
         'eea hero-block',
         !image &&
