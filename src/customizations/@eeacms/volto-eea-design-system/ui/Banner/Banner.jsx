@@ -54,24 +54,25 @@ const mapImagePosition = {
 };
 
 function Banner({ image, metadata, properties, children, styles, ...rest }) {
+  const { bg = 'center' } = styles || {};
+
+  const imageStyle = useMemo(() => {
+    return {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      objectPosition: mapImagePosition[bg],
+      zIndex: -1,
+    };
+  }, [bg]);
+
   if (image) {
     //extract Lead image from page content.
     const content = metadata || properties;
     const imageUrl = getImageSource(content['image']) ?? image;
-    const { bg = 'center' } = styles || {};
-
-    const imageStyle = useMemo(() => {
-      return {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        objectPosition: mapImagePosition[bg],
-        zIndex: -1,
-      };
-    }, [bg]);
 
     return (
       <>
