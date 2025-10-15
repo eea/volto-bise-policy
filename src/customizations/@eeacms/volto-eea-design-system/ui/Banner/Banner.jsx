@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Container, Icon, Button, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
 import { formatDate } from '@plone/volto/helpers/Utils/Date';
 import cx from 'classnames';
 import config from '@plone/volto/registry';
+import { Image } from '@plone/volto/components';
+import { Helmet } from '@plone/volto/helpers';
 
 Banner.propTypes = {
   title: PropTypes.string,
@@ -45,25 +47,55 @@ export const sharePage = (url, platform) => {
   link.click();
 };
 
+const mapImagePosition = {
+  'has--bg--top': 'top',
+  'has--bg--center': 'center',
+  'has--bg--bottom': 'bottom',
+};
+
 function Banner({ image, metadata, properties, children, styles, ...rest }) {
   if (image) {
     //extract Lead image from page content.
     const content = metadata || properties;
     const imageUrl = getImageSource(content['image']) ?? image;
+    const { bg = 'center' } = styles || {};
+
+    const imageStyle = useMemo(() => {
+      return {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        objectPosition: mapImagePosition[bg],
+        zIndex: -1,
+      };
+    }, [bg]);
+
     return (
-      <div className="eea banner" style={{ border: '1px solid blue' }}>
-        <div
-          className={cx(
-            imageUrl ? 'image' : '',
-            ...Object.values(styles || {}),
-          )}
-          style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : {}}
-        >
-          <div className="gradient">
-            <Container>{children}</Container>
+      <>
+        <Helmet>
+          <link rel="preload" href={imageUrl} as="image" />
+        </Helmet>
+        <div className="eea banner">
+          <div
+            className={cx(
+              imageUrl ? 'image' : '',
+              ...Object.values(styles || {}),
+            )}
+            style={{
+              position: 'relative',
+              zIndex: 0,
+            }}
+          >
+            {imageUrl && <Image src={imageUrl} alt="" style={imageStyle} />}
+            <div className="gradient">
+              <Container>{children}</Container>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
   return (
