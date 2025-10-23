@@ -78,13 +78,16 @@
 ----------------------------------------------------------------------------*/
 
 .subsite.subsite-natura2000 {
+  .main.bar .ui.text.menu {
+    gap: 0;
+  }
   .eea.header .main.bar {
     backdrop-filter: blur(2px);
     background-color: hsla(0, 0%, 100%, 0.8);
   }
   .eea.header .main.bar > .ui.container {
     height: 160px;
-    width: 100%;
+    // width: 100%;
   }
   .eea.header .main-menu {
     align-items: center;
