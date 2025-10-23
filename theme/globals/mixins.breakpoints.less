@@ -1,0 +1,85 @@
+@breakpointOffset: 0;
+@minOffset: 0;
+@maxOffset: 0;
+@extraRule: '';
+
+.media(@breakpointName, @rules) {
+  @breakpointRule: @@breakpointName;
+  @withoutToolbar: ~":not(.has-toolbar):not(.has-toolbar-collapsed)"; 
+  @withoutSidebar: ~":not(.has-sidebar):not(.has-sidebar-collapsed)"; 
+  body {
+    &@{withoutToolbar}@{withoutSidebar} {
+      @maxOffset: @scrollbarWidth;
+      @extraRule: ~"(min-width: @{tabletBreakpoint})";
+      @media @breakpointRule { @rules(); }
+    }
+
+    &@{withoutSidebar} {
+      &.has-toolbar {
+        @maxOffset: @toolbarWidth + @scrollbarWidth;
+        @extraRule: ~"(min-width: @{tabletBreakpoint})";
+        @media @breakpointRule { @rules(); }
+      }
+
+      &.has-toolbar-collapsed {
+        @maxOffset: @collapsedWidth + @scrollbarWidth;
+        @extraRule: ~"(min-width: @{tabletBreakpoint})";
+        @media @breakpointRule { @rules(); }
+      }
+    }
+
+    &@{withoutToolbar} {
+      &.has-sidebar {
+        @maxOffset: @sidebarWidth + @scrollbarWidth;
+        @extraRule: ~"(min-width: @{tabletBreakpoint})";
+        @media @breakpointRule { @rules(); }
+      }
+
+      &.has-sidebar-collapsed {
+        @maxOffset: @collapsedWidth + @scrollbarWidth;
+        @extraRule: ~"(min-width: @{tabletBreakpoint})";
+        @media @breakpointRule { @rules(); }
+      }
+    }
+
+    &.has-toolbar.has-sidebar {
+      @maxOffset: @toolbarWidth + @sidebarWidth + @scrollbarWidth;
+      @extraRule: ~"(min-width: @{tabletBreakpoint})";
+      @media @breakpointRule { @rules(); }
+    }
+
+    &.has-toolbar.has-sidebar-collapsed {
+      @maxOffset: @toolbarWidth + @collapsedWidth + @scrollbarWidth;
+      @extraRule: ~"(min-width: @{tabletBreakpoint})";
+      @media @breakpointRule { @rules(); }
+    }
+
+    &.has-toolbar-collapsed.has-sidebar {
+      @maxOffset: @collapsedWidth + @sidebarWidth + @scrollbarWidth;
+      @extraRule: ~"(min-width: @{tabletBreakpoint})";
+      @media @breakpointRule { @rules(); }
+    }
+
+    &.has-toolbar-collapsed.has-sidebar-collapsed {
+      @maxOffset: 2 * @collapsedWidth + @scrollbarWidth;
+      @extraRule: ~"(min-width: @{tabletBreakpoint})";
+      @media @breakpointRule { @rules(); }
+    }
+  }
+}
+
+.innerTablet(@rules) {
+  .media(innerTablet, @rules);
+}
+.innerSmallMonitor(@rules) {
+  .media(innerSmallMonitor, @rules);
+}
+.innerLargeMonitor(@rules) {
+  .media(innerLargeMonitor, @rules);
+}
+.innerNarrowMonitor(@rules) {
+  .media(innerNarrowMonitor, @rules);
+}
+.innerWideMonitor(@rules) {
+  .media(innerWideMonitor, @rules);
+}

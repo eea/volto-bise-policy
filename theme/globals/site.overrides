@@ -2,6 +2,34 @@
         Global Overrides
 *******************************/
 
+body {
+  --toolbar-width: 0px;
+  --sidebar-width: 0px;
+
+  &.has-toolbar {
+    --toolbar-width: @toolbarWidth;
+  }
+
+  &.has-toolbar-collapsed {
+    --toolbar-width: @collapsedWidth;
+  }
+
+  &.has-sidebar {
+    --sidebar-width: @sidebarWidth;
+  }
+
+  &.has-sidebar-collapsed {
+    --sidebar-width: @collapsedWidth;
+  }
+
+  @media @mobile {
+    &.has-toolbar,
+    &.has-toolbar-collapsed {
+      --toolbar-width: 0px;
+    }
+  }
+}
+
 @import '../extras/widgets';
 @import '../extras/keyfacts';
 @import '../extras/factsheets';
@@ -57,7 +85,7 @@ a {
   color: @linkColor;
 
   &:visited {
-    color:  @linkColor;
+    color: @linkColor;
   }
 
   &:active {
@@ -294,7 +322,7 @@ p.has--clear--both:empty {
 
 .style-select-widget {
   svg.light-green {
-    background-color:@green-1;
+    background-color: @green-1;
     fill: @tertiaryColor !important;
   }
 }

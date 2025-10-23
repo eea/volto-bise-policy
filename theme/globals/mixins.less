@@ -1,0 +1,60 @@
+@import './mixins.breakpoints.less';
+
+// Gradient Mixin
+.gradientMix(@type; @colors; @dir: 0deg; @prefixes: webkit, moz, ms, o; @index: length(@prefixes)) when (@index > 0) {
+  .gradientMix(@type; @colors; @dir; @prefixes; (@index - 1));
+
+  @prefix  : extract(@prefixes, @index);
+  @dir-old : 90 - (@dir);
+
+  background-image: ~"-@{prefix}-@{type}-gradient(@{dir-old}, @{colors})";
+  & when ( @index = length(@prefixes) ) {
+    background-image: ~"@{type}-gradient(@{dir}, @{colors})";
+  }
+}
+
+.image-overlay-gradient() {
+  .gradientMix(linear; rgba(46, 62, 76, 0.65) 38.6%, rgba(46, 62, 76, 0.169) 59.52%, rgba(69, 95, 106, 0) 79.64%; 13.39deg)
+}
+
+.useTitleMaxLines(@value: 2) {
+  display: -webkit-box !important;
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--title-max-lines, @value);
+}
+
+.full-width() {
+  position: relative;
+  width: calc(@pageFullWidth) !important;
+  max-width: initial !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: calc(-1 * (@pageHalfWidth)) !important;
+  margin-right: calc(-1 * (@pageHalfWidth)) !important;
+}
+
+.full-width-edit() {
+  position: relative;
+  width: calc(@pageFullWidthEdit) !important;
+  max-width: initial !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: calc(-1 * (@pageHalfWidthEdit)) !important;
+  margin-right: calc(-1 * (@pageHalfWidthEdit)) !important;
+}
+
+.half-width(@maxWidth: unset) {
+  position: relative;
+  flex: 0 0 auto;
+  width: calc(@pageHalfWidth) !important;
+  max-width: @maxWidth !important;
+}
+
+.half-width-edit(@maxWidth: unset) {
+  position: relative;
+  flex: 0 0 auto;
+  width: calc(@pageHalfWidthEdit) !important;
+  max-width: @maxWidth !important;
+}

@@ -1,11 +1,69 @@
 /*******************************
          Site Settings
 *******************************/
-
+@import '@eeacms/volto-bise-policy/../theme/globals/mixins';
 @import '@eeacms/volto-bise-policy/../theme/tokens/tokens';
 
-// @fontName: 'OpenSans';
-// @fontSize: 16px;
+/*-------------------
+  Pastanaga Toolbar
+--------------------*/
+
+@collapsedWidth: 20px;
+@sidebarWidth: 375px;
+@toolbarWidth: 80px;
+@toolbarWidthMin: @collapsedWidth;
+@fullSizeIcon: 36px;
+
+/*-------------------
+     Breakpoints
+--------------------*/
+@breakpointOffset: 0;
+@minOffset: 0;
+@maxOffset: @scrollbarWidth;
+@extraRule: '';
+
+@narrowBreakpoint: 900px;
+
+@mobile: breakpoint(0, @largestMobileScreen);
+@mobileUp: breakpoint(@tabletBreakpoint, 0);
+@tablet: breakpoint(@tabletBreakpoint, @largestTabletScreen);
+@tabletUp: breakpoint(@computerBreakpoint, 0);
+@smallMonitor: breakpoint(@computerBreakpoint, @largestSmallMonitor);
+@smallMonitorUp: breakpoint(@computerBreakpoint, 0);
+@largeMonitor: breakpoint(@largeMonitorBreakpoint, 0);
+@narrowMonitor: breakpoint(@narrowBreakpoint, 0);
+@wideMonitor: breakpoint(@laptopMonitorBreakpoint, 0);
+
+@innerTablet: breakpoint(
+  @tabletBreakpoint + @minOffset,
+  @tabletBreakpoint + @maxOffset,
+  0,
+  @extraRule
+);
+@innerSmallMonitor: breakpoint(
+  @computerBreakpoint + @minOffset,
+  @computerBreakpoint + @maxOffset,
+  0,
+  @extraRule
+);
+@innerLargeMonitor: breakpoint(
+  @largeMonitorBreakpoint + @minOffset,
+  @largeMonitorBreakpoint + @maxOffset,
+  0,
+  @extraRule
+);
+@innerNarrowMonitor: breakpoint(
+  @narrowBreakpoint + @minOffset,
+  @narrowBreakpoint + @maxOffset,
+  @breakpointOffset,
+  @extraRule
+);
+@innerWideMonitor: breakpoint(
+  @laptopMonitorBreakpoint + @minOffset,
+  @laptopMonitorBreakpoint + @maxOffset,
+  @breakpointOffset,
+  @extraRule
+);
 
 /*-------------------
     Brand Colors
@@ -25,3 +83,21 @@
 @linkActiveColor: @linkHoverColor;
 
 @scrollbarWidth: 15px;
+
+@toolbarWidthCSS: var(--toolbar-width, 0px);
+@sidebarWidthCSS: var(--sidebar-width, 0px);
+@scrollbarWidthCSS: var(--scrollbar-width, 0px);
+@editMinimumGutter: 3rem;
+@editGutter: var(--edit-gutter, 0px);
+@parentGutter: ~'(@{pageFullWidth} - 100%) / 2';
+@pageOffsetWidth: ~'@{toolbarWidthCSS} + @{sidebarWidthCSS} + @{scrollbarWidthCSS}';
+@offsetWidth: ~'@{toolbarWidthCSS} + @{sidebarWidthCSS}';
+@pageFullWidth: ~'var(--vw, 1vw) * 100 - (@{offsetWidth})';
+@pageFullWidthEdit: ~'var(--vw, 1vw) * 100 - (@{offsetWidth} + @{editMinimumGutter} * 2)';
+@pageFullHeight: ~'var(--vh, 1vh) * 100';
+@pageHalfWidth: ~'var(--vw, 1vw) * 50 - (@{offsetWidth}) / 2';
+@pageHalfWidthEdit: ~'var(--vw, 1vw) * 50 - (@{offsetWidth} + @{editMinimumGutter} * 2) / 2';
+@pageHalfHeight: ~'var(--vh, 1vh) * 100';
+
+@view: ~'body:not(.section-edit):not(.section-add)';
+@edit: ~'body.section-edit,body.section-add';
