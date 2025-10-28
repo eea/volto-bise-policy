@@ -57,7 +57,16 @@ const config = (config) => {
     '#BCBEC0', // grey shade
     '#E6E7E8', // grey shade
     '#F9F9F9', // grey shade
+    '#FEFEFE', // white
     '#FFFFFF', // white
+    // Habitat group colors
+    '#FEF6CD', // group 1
+    '#CDE6F7', // group 2
+    '#DCEED6', // group 3
+    '#FEE2D5', // group 4
+    '#D6D7D9', // group 5
+    '#E8A7C1', // group 6
+    '#6989A5', // group 7
   ];
 
   config.blocks.blocksConfig.columnsBlock =
