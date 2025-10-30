@@ -92,6 +92,10 @@ const config = (config) => {
     { cssClass: 'yellow-text', label: 'Yellow text' },
     { cssClass: 'grey-text', label: 'Grey text' },
   ];
+  config.settings.slate.toolbarButtons = [
+    'italic',
+    ...(config.settings.slate.toolbarButtons || []),
+  ];
 
   config.settings.pluggableStyles = [
     ...(config.settings.pluggableStyles || []),
