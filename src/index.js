@@ -10,6 +10,21 @@ import biseLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bi
 import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Header/bise-logo-white.svg';
 import ecLogo from '@eeacms/volto-bise-policy/../theme/assets/logos/logo-ec.svg';
 
+import {
+  EUNISMSFDWidget,
+  EUNISMSFDView,
+  EUNISHDWidget,
+  EUNISHDView,
+  EUNISEuropeanRedListView,
+  EUNISEuropeanRedListWidget,
+  EUNISLinksToFinerEUNISHabitatsWidget,
+  EUNISLinksToFinerEUNISHabitatsView,
+  EUNISRegionalSeaConventionValueView,
+  EUNISRegionalSeaConventionValueWidget,
+  EUNISCountryCodeView,
+  EUNISCountryCodeWidget,
+} from './components/Widgets/EUNISObjectListWidget';
+
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
 const customBlocks = [
@@ -220,6 +235,25 @@ const applyConfig = (config) => {
       config.blocks.blocksConfig[block].group = 'custom_blocks';
     }
   });
+
+  config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;
+  config.widgets.views.id.eunis_national_json = EUNISCountryCodeView;
+  config.widgets.id.eunis_regional_sea_convention_value_json =
+    EUNISRegionalSeaConventionValueWidget;
+  config.widgets.views.id.eunis_regional_sea_convention_value_json =
+    EUNISRegionalSeaConventionValueView;
+  config.widgets.id.eunis_links_to_finer_eunis_habitats_json =
+    EUNISLinksToFinerEUNISHabitatsWidget;
+  config.widgets.views.id.eunis_links_to_finer_eunis_habitats_json =
+    EUNISLinksToFinerEUNISHabitatsView;
+  config.widgets.id.eunis_european_red_list_json = EUNISEuropeanRedListWidget;
+  config.widgets.views.id.eunis_european_red_list_json =
+    EUNISEuropeanRedListView;
+  config.widgets.id.eunis_hd_relevant_classification_json = EUNISHDWidget;
+  config.widgets.views.id.eunis_hd_relevant_classification_json = EUNISHDView;
+  config.widgets.id.eunis_msfd_relevant_classification_json = EUNISMSFDWidget;
+  config.widgets.views.id.eunis_msfd_relevant_classification_json =
+    EUNISMSFDView;
 
   return config;
 };
