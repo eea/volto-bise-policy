@@ -227,7 +227,6 @@ export const EUNISMSFDView = ({ value }) => {
     try {
       parsedValue = JSON.parse(value);
     } catch (e) {
-      console.error('Failed to parse JSON:', e);
       return null;
     }
   }
@@ -259,7 +258,6 @@ export const EUNISHDView = ({ value }) => {
     try {
       parsedValue = JSON.parse(value);
     } catch (e) {
-      console.error('Failed to parse JSON:', e);
       return null;
     }
   }
@@ -297,7 +295,6 @@ export const EUNISLinksToFinerEUNISHabitatsView = ({ value }) => {
     try {
       parsedValue = JSON.parse(value);
     } catch (e) {
-      console.error('Failed to parse JSON:', e);
       return null;
     }
   }
@@ -334,7 +331,6 @@ export const EUNISCountryCodeView = ({ value }) => {
     try {
       parsedValue = JSON.parse(value);
     } catch (e) {
-      console.error('Failed to parse JSON:', e);
       return null;
     }
   }
