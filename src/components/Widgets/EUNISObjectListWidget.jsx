@@ -251,6 +251,22 @@ export const EUNISMSFDView = ({ value }) => {
   );
 };
 
+export const EUNISCodeView = ({ value }) => {
+  if (!value) return value;
+
+  return (
+    <span>
+      <a
+        href={`/habitats_eunis_revised/EUNISrev_${value}`}
+        target="_blank"
+        rel="noopener"
+      >
+        {value}
+      </a>
+    </span>
+  );
+};
+
 export const EUNISHDView = ({ value }) => {
   let parsedValue = value;
 
@@ -279,7 +295,62 @@ export const EUNISHDView = ({ value }) => {
                 <a href={item.link}>{item.value}</a>
               </>
             ) : (
-              `${item.relation}${item.value}`
+              <>
+                <span>{item.relation}</span>
+                <a
+                  href={`/habitats/ANNEX1_${item.value}`}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {item.value}
+                </a>
+              </>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export const EUNISEuropeanRedListView = ({ value }) => {
+  let parsedValue = value;
+
+  if (typeof value === 'string') {
+    try {
+      parsedValue = JSON.parse(value);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  const items = Array.isArray(parsedValue)
+    ? parsedValue
+    : parsedValue?.value || [];
+
+  if (!items || items.length === 0) return null;
+
+  return (
+    <div className="eunis-widget-view">
+      {items.map((item) => (
+        <div key={item['@id']} className="msfd-item">
+          <div>
+            {item.link ? (
+              <>
+                <span>{item.relation}</span>
+                <a href={item.link}>{item.value}</a>
+              </>
+            ) : (
+              <>
+                <span>{item.relation}</span>
+                <a
+                  href={`/habitats_rl/REDLIST_${item.value.split(' - ')[1]}`}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {item.value}
+                </a>
+              </>
             )}
           </div>
         </div>
@@ -315,7 +386,15 @@ export const EUNISLinksToFinerEUNISHabitatsView = ({ value }) => {
                 <a href={item.link}>{item.value}</a>
               </>
             ) : (
-              `${item.value}`
+              <>
+                <a
+                  href={`/habitats_eunis_revised/EUNISrev_${item.value}`}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {item.value}
+                </a>
+              </>
             )}
           </div>
         </div>
@@ -360,7 +439,6 @@ export const EUNISCountryCodeView = ({ value }) => {
   ));
 };
 
-export const EUNISEuropeanRedListView = EUNISHDView;
 export const EUNISRegionalSeaConventionValueView = EUNISMSFDView;
 
 const msfdSchema = {
@@ -397,7 +475,7 @@ const hdSchema = {
     {
       id: 'default',
       title: 'default',
-      fields: ['relation', 'value', 'link'],
+      fields: ['relation', 'value'],
     },
   ],
   properties: {
@@ -429,7 +507,7 @@ const europeanRedlistSchema = {
     {
       id: 'default',
       title: 'default',
-      fields: ['relation', 'value', 'link'],
+      fields: ['relation', 'value'],
     },
   ],
   properties: {
@@ -462,7 +540,7 @@ const linksToFinerEUNISHabitatsSchema = {
     {
       id: 'default',
       title: 'default',
-      fields: ['value', 'link'],
+      fields: ['value'],
     },
   ],
   properties: {
