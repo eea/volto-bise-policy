@@ -11,6 +11,7 @@ import biseWhiteLogo from '@eeacms/volto-bise-policy/../theme/assets/images/Head
 import ecLogo from '@eeacms/volto-bise-policy/../theme/assets/logos/logo-ec.svg';
 
 import {
+  EUNISCodeView,
   EUNISMSFDWidget,
   EUNISMSFDView,
   EUNISHDWidget,
@@ -254,6 +255,7 @@ const applyConfig = (config) => {
   config.widgets.id.eunis_msfd_relevant_classification_json = EUNISMSFDWidget;
   config.widgets.views.id.eunis_msfd_relevant_classification_json =
     EUNISMSFDView;
+  config.widgets.views.id.eunis_code = EUNISCodeView;
 
   return config;
 };
