@@ -256,7 +256,11 @@ export const EUNISCodeView = ({ value }) => {
 
   return (
     <span>
-      <a href={`/habitats_eunis_revised/EUNISrev_${value}`} target="_blank">
+      <a
+        href={`/habitats_eunis_revised/EUNISrev_${value}`}
+        target="_blank"
+        rel="noopener"
+      >
         {value}
       </a>
     </span>
@@ -293,7 +297,11 @@ export const EUNISHDView = ({ value }) => {
             ) : (
               <>
                 <span>{item.relation}</span>
-                <a href={`/habitats/ANNEX1_${item.value}`} target="_blank">
+                <a
+                  href={`/habitats/ANNEX1_${item.value}`}
+                  target="_blank"
+                  rel="noopener"
+                >
                   {item.value}
                 </a>
               </>
@@ -338,6 +346,7 @@ export const EUNISEuropeanRedListView = ({ value }) => {
                 <a
                   href={`/habitats_rl/REDLIST_${item.value.split(' - ')[1]}`}
                   target="_blank"
+                  rel="noopener"
                 >
                   {item.value}
                 </a>
@@ -381,6 +390,7 @@ export const EUNISLinksToFinerEUNISHabitatsView = ({ value }) => {
                 <a
                   href={`/habitats_eunis_revised/EUNISrev_${item.value}`}
                   target="_blank"
+                  rel="noopener"
                 >
                   {item.value}
                 </a>
