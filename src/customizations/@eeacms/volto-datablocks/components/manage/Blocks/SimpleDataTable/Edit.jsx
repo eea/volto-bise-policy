@@ -72,10 +72,18 @@ class Edit extends Component {
     const choices = Array.from(
       Object.keys(provider_data).sort((a, b) => a - b),
     ).map((n) => [n, n]);
-    schema.properties.columns.schemaExtender = (schema) => {
-      schema.properties.column.choices = choices;
-      schema.properties.column_link.choices = choices;
-      return schema;
+
+    const originalExtender = schema.properties.columns.schemaExtender;
+
+    schema.properties.columns.schemaExtender = (schema, child) => {
+      // First, apply the original schemaExtender
+      const extendedSchema = originalExtender(schema, child, this.props.intl);
+
+      // Then apply customizations
+      extendedSchema.properties.column.choices = choices;
+      extendedSchema.properties.column_link.choices = choices;
+
+      return extendedSchema;
     };
 
     return schema;
