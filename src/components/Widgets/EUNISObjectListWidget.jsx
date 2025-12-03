@@ -240,7 +240,7 @@ export const EUNISMSFDView = ({ value }) => {
   return (
     <div className="eunis-widget-view">
       {items.map((item) => (
-        <div key={item['@id']} className="msfd-item">
+        <div key={item['@id']} className="eunis-widget-item">
           <div>
             {item.relation}
             {item.value}
@@ -287,7 +287,7 @@ export const EUNISHDView = ({ value }) => {
   return (
     <div className="eunis-widget-view">
       {items.map((item) => (
-        <div key={item['@id']} className="msfd-item">
+        <div key={item['@id']} className="eunis-widget-item">
           <div>
             {item.link ? (
               <>
@@ -333,7 +333,7 @@ export const EUNISEuropeanRedListView = ({ value }) => {
   return (
     <div className="eunis-widget-view">
       {items.map((item) => (
-        <div key={item['@id']} className="msfd-item">
+        <div key={item['@id']} className="eunis-widget-item">
           <div>
             {item.link ? (
               <>
@@ -379,7 +379,7 @@ export const EUNISLinksToFinerEUNISHabitatsView = ({ value }) => {
   return (
     <div className="eunis-widget-view">
       {items.map((item) => (
-        <div key={item['@id']} className="msfd-item">
+        <div key={item['@id']} className="eunis-widget-item">
           <div>
             {item.link ? (
               <>
@@ -427,7 +427,7 @@ export const EUNISCountryCodeView = ({ value }) => {
       </div>
       <div className="eunis-widget-view">
         {country.national.map((item) => (
-          <div key={item['@id']} className="msfd-item">
+          <div key={item['@id']} className="eunis-widget-item">
             <div>
               {item.relation}
               {item.value}
@@ -441,6 +441,15 @@ export const EUNISCountryCodeView = ({ value }) => {
 
 export const EUNISRegionalSeaConventionValueView = EUNISMSFDView;
 
+const relationChoices = [
+  ['=', '= equal to'],
+  ['#', '# overlaps'],
+  ['<', '< included in'],
+  ['>', '> including'],
+  ['>=', '>= equal to/including'],
+  ['<=', '<= equal to/included'],
+];
+
 const msfdSchema = {
   title: 'MSFD',
   fieldsets: [
@@ -453,12 +462,7 @@ const msfdSchema = {
   properties: {
     relation: {
       title: 'Relation',
-      choices: [
-        ['=', '= equal to'],
-        ['#', '# overlaps'],
-        ['<', '< included in'],
-        ['>', '> including'],
-      ],
+      choices: relationChoices,
       required: true,
     },
     value: {
@@ -481,12 +485,7 @@ const hdSchema = {
   properties: {
     relation: {
       title: 'Relation',
-      choices: [
-        ['=', '= equal to'],
-        ['#', '# overlaps'],
-        ['<', '< included in'],
-        ['>', '> including'],
-      ],
+      choices: relationChoices,
       required: true,
     },
     value: {
@@ -513,12 +512,7 @@ const europeanRedlistSchema = {
   properties: {
     relation: {
       title: 'Relation',
-      choices: [
-        ['=', '= equal to'],
-        ['#', '# overlaps'],
-        ['<', '< included in'],
-        ['>', '> including'],
-      ],
+      choices: relationChoices,
       required: true,
     },
     value: {
@@ -568,13 +562,7 @@ const regionalSeaConventionValueSchema = {
   properties: {
     relation: {
       title: 'Relation',
-      choices: [
-        ['=', '= equal to'],
-        ['#', '# overlaps'],
-        ['<', '< included in'],
-        ['>', '> including'],
-      ],
-
+      choices: relationChoices,
       required: true,
     },
     value: {
@@ -597,12 +585,7 @@ const nationalSchema = {
   properties: {
     relation: {
       title: 'Relation',
-      choices: [
-        ['=', '= equal to'],
-        ['#', '# overlaps'],
-        ['<', '< included in'],
-        ['>', '> including'],
-      ],
+      choices: relationChoices,
       required: true,
     },
     value: {
