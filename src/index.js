@@ -35,6 +35,7 @@ const customBlocks = [
   'body_classname',
   'redirect',
   'navigationBlock',
+  'caseStudyExplorer',
 ];
 
 const n2kLanguages = [
@@ -237,6 +238,19 @@ const applyConfig = (config) => {
     }
   });
 
+  if (__SERVER__) {
+    const installExpressMiddleware = require('./express-middleware').default;
+    config = installExpressMiddleware(config);
+
+    const devsource = __DEVELOPMENT__
+      ? ` http://localhost:${parseInt(process.env.PORT || '3000') + 1}`
+      : '';
+    config.settings.serverConfig.csp = {
+      'script-src': `'self' {nonce}${devsource}`,
+    };
+  }
+
+  // EUNIS Widgets
   config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;
   config.widgets.views.id.eunis_national_json = EUNISCountryCodeView;
   config.widgets.id.eunis_regional_sea_convention_value_json =
