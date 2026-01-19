@@ -103,7 +103,7 @@ export function CaseStudyFilter(props) {
 }
 
 function CaseStudyFiltersComponent(props) {
-  const { filters, activeFilters, setActiveFilters, map, ol } = props;
+  // const { filters, activeFilters, setActiveFilters, map, ol } = props;
 
   React.useEffect(() => {
     window.addEventListener('click', (event) => {
