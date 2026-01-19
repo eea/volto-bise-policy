@@ -16,9 +16,7 @@ describe('FeatureDisplay Component', () => {
       sectors: ['Sector 1', 'Sector 2'],
     };
 
-    const { getByRole } = render(
-      <FeatureDisplay feature={feature} />,
-    );
+    const { getByRole } = render(<FeatureDisplay feature={feature} />);
 
     const titleLink = getByRole('link', { name: 'Sample Feature' });
     expect(titleLink).toHaveAttribute(
