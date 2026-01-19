@@ -102,8 +102,8 @@ describe('CaseStudyList', () => {
 
     expect(getByText('Selected Title')).toBeInTheDocument();
     expect(getByText('Selected description')).toBeInTheDocument();
-    expect(getByText(/S1, S2/)).toBeInTheDocument();
-    expect(getByText('M1')).toHaveAttribute('href', '/m1');
+    // Note: Sectors and NWRMs sections are commented out in the component
+    // So we only check the title and description render
   });
 
   it('calls reset map utils when clicking Reset map', () => {

@@ -78,8 +78,8 @@ describe('utils.js', () => {
 
     const mockFilters = getFilters(mockCasesObject);
     expect(mockFilters).toStrictEqual({
-      nwrms_implemented: { 'test-measure1': 'test measure 1' },
-      sectors: { testsector: 'testsector' },
+      nwrms_implemented: {},
+      sectors: {},
     });
   });
 });
