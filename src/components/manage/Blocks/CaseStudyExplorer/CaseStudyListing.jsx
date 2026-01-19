@@ -91,15 +91,15 @@ function CaseStudyList(props) {
                 </p>
                 <div className="slot-bottom">
                   <div className="result-bottom">
-                    <div className="result-info">
+                    {/* <div className="result-info">
                       <span className="result-info-title">Sectors:</span>
                       <span>
                         {selectedCase.sectors
                           ? selectedCase.sectors.join(', ')
                           : ''}
                       </span>
-                    </div>
-                    <div className="result-info">
+                    </div> */}
+                    {/* <div className="result-info">
                       <span className="result-info-title">
                         NWRMs implemented:
                       </span>
@@ -120,7 +120,7 @@ function CaseStudyList(props) {
                           </span>
                         );
                       })}
-                    </div>
+                    </div> */}
                     <div
                       className="result-info show-on-map"
                       tabIndex="0"
@@ -177,11 +177,11 @@ function CaseStudyList(props) {
                     ></p>
                     <div className="slot-bottom">
                       <div className="result-bottom">
-                        <div className="result-info">
+                        {/* <div className="result-info">
                           <span className="result-info-title">Sectors:</span>
                           <span>{item.values_.sectors.join(', ')}</span>
-                        </div>
-                        <div className="result-info">
+                        </div> */}
+                        {/* <div className="result-info">
                           <span className="result-info-title">
                             NWRMs implemented:
                           </span>
@@ -205,7 +205,7 @@ function CaseStudyList(props) {
                               );
                             },
                           )}
-                        </div>
+                        </div> */}
                         <div
                           className="result-info show-on-map"
                           tabIndex="0"

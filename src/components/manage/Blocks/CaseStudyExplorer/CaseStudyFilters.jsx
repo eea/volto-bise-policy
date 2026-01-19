@@ -119,7 +119,7 @@ function CaseStudyFiltersComponent(props) {
 
   return (
     <>
-      <CaseStudyFilter
+      {/* <CaseStudyFilter
         filterTitle="Sectors"
         filterName="sectors"
         filters={filters}
@@ -137,7 +137,7 @@ function CaseStudyFiltersComponent(props) {
         setActiveFilters={setActiveFilters}
         map={map}
         ol={ol}
-      />
+      /> */}
     </>
   );
 }

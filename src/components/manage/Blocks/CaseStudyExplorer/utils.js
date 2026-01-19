@@ -115,24 +115,24 @@ export function getFilters(cases) {
     sectors: {},
   };
 
-  for (let key of Object.keys(cases)) {
-    const _case = cases[key];
-    let nwrms_implemented = _case.properties.measures;
-    nwrms_implemented.map((item) => {
-      if (!_filters.nwrms_implemented.hasOwnProperty(item['id'])) {
-        _filters.nwrms_implemented[item['id']] = item['title'];
-      }
-      return [];
-    });
+  // for (let key of Object.keys(cases)) {
+  //   const _case = cases[key];
+  //   let nwrms_implemented = _case.properties.measures;
+  //   nwrms_implemented.map((item) => {
+  //     if (!_filters.nwrms_implemented.hasOwnProperty(item['id'])) {
+  //       _filters.nwrms_implemented[item['id']] = item['title'];
+  //     }
+  //     return [];
+  //   });
 
-    let sectors = _case.properties.sectors;
-    sectors.map((item) => {
-      if (!_filters.sectors.hasOwnProperty(item)) {
-        _filters.sectors[item] = item;
-      }
-      return [];
-    });
-  }
+  //   let sectors = _case.properties.sectors;
+  //   sectors.map((item) => {
+  //     if (!_filters.sectors.hasOwnProperty(item)) {
+  //       _filters.sectors[item] = item;
+  //     }
+  //     return [];
+  //   });
+  // }
 
   return _filters;
 }

@@ -10,7 +10,7 @@ export default function FeatureDisplay({ feature }) {
           </a>
         </strong>
       </h3>
-      <div>
+      {/* <div>
         <h4>NWRMs implemented</h4>
         <ul>
           {feature.nwrms_implemented.map((item, index) => {
@@ -27,15 +27,15 @@ export default function FeatureDisplay({ feature }) {
             );
           })}
         </ul>
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <h4>Sectors </h4>
         <ul>
           {feature.sectors.map((item, index) => {
             return <li key={index}>{item}</li>;
           })}
         </ul>
-      </div>
+      </div> */}
     </div>
   ) : null;
 }

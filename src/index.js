@@ -25,6 +25,7 @@ import {
   EUNISCountryCodeView,
   EUNISCountryCodeWidget,
 } from './components/Widgets/EUNISObjectListWidget';
+import GeolocationWidget from './components/Widgets/GeolocationWidget';
 
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
@@ -95,6 +96,11 @@ const applyConfig = (config) => {
       hideChildrenFromNavigation: false,
     },
   };
+
+  config.settings.allowed_cors_destinations = [
+    ...(config.settings.allowed_cors_destinations || []),
+    'nominatim.openstreetmap.org',
+  ];
 
   // EEA customizations
   config.settings.eea = {
@@ -250,6 +256,7 @@ const applyConfig = (config) => {
     };
   }
 
+  config.widgets.id.geolocation = GeolocationWidget;
   // EUNIS Widgets
   config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;
   config.widgets.views.id.eunis_national_json = EUNISCountryCodeView;
