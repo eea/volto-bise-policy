@@ -198,7 +198,6 @@ const selectedClusterStyle = ({ selectedFeature, ol }) => {
             color: '#fff',
           }),
           fill: new ol.style.Fill({
-            // 309ebc blue 3 + green 3 mix
             color: '#007B6C', // #006BB8 #309ebc
           }),
         }),
