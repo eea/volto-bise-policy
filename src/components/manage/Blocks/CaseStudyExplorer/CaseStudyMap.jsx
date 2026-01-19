@@ -199,7 +199,7 @@ const selectedClusterStyle = ({ selectedFeature, ol }) => {
           }),
           fill: new ol.style.Fill({
             // 309ebc blue 3 + green 3 mix
-            color: '#309ebc', // #006BB8 #309ebc
+            color: '#007B6C', // #006BB8 #309ebc
           }),
         }),
         text: new ol.style.Text({
@@ -214,7 +214,7 @@ const selectedClusterStyle = ({ selectedFeature, ol }) => {
 
     if (size === 1) {
       // let color = feature.values_.features[0].values_['color'];
-      let color = '#50B0A4'; // #0083E0 #50B0A4
+      let color = '#289588'; // #0083E0 #50B0A4
 
       return new ol.style.Style({
         image: new ol.style.Circle({
