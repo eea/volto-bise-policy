@@ -26,6 +26,11 @@ import {
   EUNISCountryCodeWidget,
 } from './components/Widgets/EUNISObjectListWidget';
 import GeolocationWidget from './components/Widgets/GeolocationWidget';
+import {
+  NRRTypologyOfMeasuresView,
+  NRREcosystemTypologyView,
+  NRRArticleView,
+} from './components/Widgets/NRRWidgets';
 
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
@@ -257,6 +262,9 @@ const applyConfig = (config) => {
   }
 
   config.widgets.id.geolocation = GeolocationWidget;
+  config.widgets.views.id.nrr_typology_of_measures = NRRTypologyOfMeasuresView;
+  config.widgets.views.id.nrr_ecosystem_typology = NRREcosystemTypologyView;
+  config.widgets.views.id.nrr_article = NRRArticleView;
   // EUNIS Widgets
   config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;
   config.widgets.views.id.eunis_national_json = EUNISCountryCodeView;
