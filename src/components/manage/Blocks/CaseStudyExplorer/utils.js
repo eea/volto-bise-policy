@@ -46,7 +46,7 @@ export function getFeatures({ cases, ol }) {
         measures_implemented: c.properties.measures,
         typology_of_measures: c.properties.typology_of_measures,
         description: c.properties.description,
-        sectors: c.properties.sectors,
+        typology_of_measures: c.properties.typology_of_measures,
         index: index,
         path: c.properties.path,
         color: c.properties.nwrm_type === 'Light' ? '#50B0A4' : '#0083E0',
@@ -61,7 +61,7 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
   const data = cases.filter((_case) => {
     let flag_searchInput = false;
     let flag_implemented = false;
-    let flag_sectors = false;
+    let flag_typology_of_measures = false;
     let flag_case = caseStudiesIds
       ? caseStudiesIds.includes(_case.properties.url.split('/').pop())
       : true;
@@ -90,19 +90,19 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
       });
     }
 
-    if (!activeFilters.sectors.length) {
-      flag_sectors = true;
+    if (!activeFilters.typology_of_measures.length) {
+      flag_typology_of_measures = true;
     } else {
-      let sectors = _case.properties.sectors?.map((item) => {
+      let typology_of_measures = _case.properties.typology_of_measures?.map((item) => {
         return item.toString();
       });
 
-      activeFilters.sectors.forEach((filter) => {
-        if (sectors?.includes(filter)) flag_sectors = true;
+      activeFilters.typology_of_measures.forEach((filter) => {
+        if (typology_of_measures?.includes(filter)) flag_typology_of_measures = true;
       });
     }
 
-    return flag_case && flag_implemented && flag_sectors && flag_searchInput
+    return flag_case && flag_implemented && flag_typology_of_measures && flag_searchInput
       ? _case
       : false;
   });
@@ -113,7 +113,7 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
 export function getFilters(cases) {
   let _filters = {
     measures_implemented: {},
-    sectors: {},
+    typology_of_measures: {},
   };
 
   for (let key of Object.keys(cases)) {
@@ -126,13 +126,13 @@ export function getFilters(cases) {
       return [];
     });
 
-    //   let sectors = _case.properties.sectors;
-    //   sectors.map((item) => {
-    //     if (!_filters.sectors.hasOwnProperty(item)) {
-    //       _filters.sectors[item] = item;
-    //     }
-    //     return [];
-    //   });
+      let typology_of_measures = _case.properties.typology_of_measures;
+      typology_of_measures.map((item) => {
+        if (!_filters.typology_of_measures.hasOwnProperty(item)) {
+          _filters.typology_of_measures[item] = item;
+        }
+        return [];
+      });
   }
 
   return _filters;

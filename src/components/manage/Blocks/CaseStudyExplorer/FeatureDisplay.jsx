@@ -29,9 +29,9 @@ export default function FeatureDisplay({ feature }) {
         </ul>
       </div> */}
       {/* <div>
-        <h4>Sectors </h4>
+        <h4>typology_of_measures </h4>
         <ul>
-          {feature.sectors.map((item, index) => {
+          {feature.typology_of_measures.map((item, index) => {
             return <li key={index}>{item}</li>;
           })}
         </ul>

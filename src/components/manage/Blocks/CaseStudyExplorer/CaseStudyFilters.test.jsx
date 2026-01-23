@@ -34,14 +34,14 @@ describe('CaseStudyFilters', () => {
   global.URL.createObjectURL = jest.fn();
 
   const mockFilters = {
-    sectors: { sector1: 'Sector 1', sector2: 'Sector 2' },
+    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
   };
 
   it('renders without crashing', () => {
     const { container } = render(
       <CaseStudyFilters
         filters={mockFilters}
-        activeFilters={{ sectors: [] }}
+        activeFilters={{ typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
       />,
     );
@@ -55,14 +55,14 @@ describe('CaseStudyFilters', () => {
 describe('ActiveFilters', () => {
   const mockSetActiveFilters = jest.fn();
   const mockFilters = {
-    sectors: { sector1: 'Sector 1', sector2: 'Sector 2' },
+    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
   };
 
   it('renders without crashing', () => {
     render(
       <ActiveFilters
         filters={mockFilters}
-        activeFilters={{ sectors: [] }}
+        activeFilters={{ typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
       />,
     );
@@ -72,7 +72,7 @@ describe('ActiveFilters', () => {
 describe('SearchBox', () => {
   const mockSetActiveFilters = jest.fn();
   const mockFilters = {
-    sectors: { sector1: 'Sector 1', sector2: 'Sector 2' },
+    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
   };
 
   const mockSetSearchInput = jest.fn();
@@ -82,7 +82,7 @@ describe('SearchBox', () => {
     render(
       <SearchBox
         filters={mockFilters}
-        activeFilters={{ sectors: [] }}
+        activeFilters={{ typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
         searchInput={mockSearchInput}
         setSearchInput={mockSetSearchInput}
@@ -94,7 +94,7 @@ describe('SearchBox', () => {
 describe('CaseStudyFilter', () => {
   const mockSetActiveFilters = jest.fn();
   const mockFilters = {
-    sectors: { sector1: 'Sector 1', sector2: 'Sector 2' },
+    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
   };
 
   it('renders without crashing', () => {
@@ -102,7 +102,7 @@ describe('CaseStudyFilter', () => {
       <CaseStudyFilter
         filterTitle={'Case study filter'}
         filters={mockFilters}
-        activeFilters={{ sectors: [] }}
+        activeFilters={{ typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
         filterName={'Filter name'}
       />,

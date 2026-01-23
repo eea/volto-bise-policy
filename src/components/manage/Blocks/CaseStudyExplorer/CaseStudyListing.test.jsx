@@ -49,7 +49,7 @@ const mockPointsSource = {
         title: 'Feature 1',
         path: '/feature1',
         description: 'Description 1',
-        sectors: ['SectorA'],
+        typology_of_measures: ['SectorA'],
         measures_implemented: [{ title: 'M1', path: '/m1' }],
         geometry: { flatCoordinates: [0, 0] },
       },
@@ -61,7 +61,7 @@ const selectedCase = {
   title: 'Selected Title',
   path: '/selected',
   description: 'Selected description',
-  sectors: ['S1', 'S2'],
+  typology_of_measures: ['S1', 'S2'],
   measures_implemented: [{ title: 'M1', path: '/m1' }],
 };
 

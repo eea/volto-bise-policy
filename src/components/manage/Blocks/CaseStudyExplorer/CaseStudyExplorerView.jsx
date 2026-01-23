@@ -21,7 +21,7 @@ export default function CaseStudyExplorerView(props) {
 
   const [activeFilters, setActiveFilters] = React.useState({
     measures_implemented: [],
-    sectors: [],
+    typology_of_measures: [],
   });
 
   const [activeItems, setActiveItems] = React.useState(cases);
@@ -34,7 +34,7 @@ export default function CaseStudyExplorerView(props) {
   }, [
     cases,
     activeFilters.measures_implemented,
-    activeFilters.sectors,
+    activeFilters.typology_of_measures,
     activeItems.length,
   ]);
 

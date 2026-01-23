@@ -239,7 +239,7 @@ function ActiveFiltersComponent(props) {
     for (let i = 0; i < filterInputs.length; i++) {
       filterInputs[i].checked = false;
     }
-    setActiveFilters({ measures_implemented: [], sectors: [] });
+    setActiveFilters({ measures_implemented: [], typology_of_measures: [] });
     scrollToElement('search-input');
   };
 
@@ -301,11 +301,11 @@ function ActiveFiltersComponent(props) {
           ) : (
             ''
           )}
-          {activeFilters.sectors.length > 0 ? (
+          {activeFilters.typology_of_measures.length > 0 ? (
             <div className="filter-wrapper">
-              <div className="filter-label">Sector:</div>
-              {activeFilters.sectors.map((filterCode) => {
-                const filterLabel = filters.sectors[filterCode];
+              <div className="filter-label">Typology of measures:</div>
+              {activeFilters.typology_of_measures.map((filterCode) => {
+                const filterLabel = filters.typology_of_measures[filterCode];
                 return (
                   <div className="ui basic label filter-value">
                     <span>{filterLabel}</span>
@@ -313,7 +313,7 @@ function ActiveFiltersComponent(props) {
                       tabIndex="0"
                       onKeyPress={() => {}}
                       onClick={() => {
-                        removeFilter('sectors', filterCode);
+                        removeFilter('typology_of_measures', filterCode);
                         scrollToElement('search-input');
                       }}
                       role="button"

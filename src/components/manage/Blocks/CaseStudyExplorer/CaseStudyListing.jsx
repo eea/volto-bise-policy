@@ -92,10 +92,10 @@ function CaseStudyList(props) {
                 <div className="slot-bottom">
                   <div className="result-bottom">
                     {/* <div className="result-info">
-                      <span className="result-info-title">Sectors:</span>
+                      <span className="result-info-title">Typology of measures:</span>
                       <span>
-                        {selectedCase.sectors
-                          ? selectedCase.sectors.join(', ')
+                        {selectedCase.typology_of_measures
+                          ? selectedCase.typology_of_measures.join(', ')
                           : ''}
                       </span>
                     </div> */}
@@ -178,8 +178,8 @@ function CaseStudyList(props) {
                     <div className="slot-bottom">
                       <div className="result-bottom">
                         {/* <div className="result-info">
-                          <span className="result-info-title">Sectors:</span>
-                          <span>{item.values_.sectors.join(', ')}</span>
+                          <span className="result-info-title">Typology of measures:</span>
+                          <span>{item.values_.typology_of_measures.join(', ')}</span>
                         </div> */}
                         {/* <div className="result-info">
                           <span className="result-info-title">

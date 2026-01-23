@@ -13,7 +13,7 @@ describe('FeatureDisplay Component', () => {
         { path: 'https://example.com/nwrm-1', title: 'NWRM 1' },
         { path: 'https://example.com/nwrm-2', title: 'NWRM 2' },
       ],
-      sectors: ['Sector 1', 'Sector 2'],
+      typology_of_measures: ['Sector 1', 'Sector 2'],
     };
 
     const { getByRole } = render(<FeatureDisplay feature={feature} />);

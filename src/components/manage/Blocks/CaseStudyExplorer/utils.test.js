@@ -12,7 +12,7 @@ describe('utils.js', () => {
         nwrm_type: 'light',
         measures: [{ id: 'test-measure1', title: 'test measure 1' }],
         description: 'test',
-        sectors: ['testsector'],
+        typology_of_measures: ['testsector'],
         path: '/test-case-study',
         url: 'localhost.com/test-case-study',
       },
@@ -25,7 +25,7 @@ describe('utils.js', () => {
         nwrm_type: 'light',
         measures: [{ id: 'test-measure1', title: 'test measure 1' }],
         description: 'test',
-        sectors: ['testsector'],
+        typology_of_measures: ['testsector'],
         path: '/test-case-study',
         url: 'localhost.com/test-case-study',
       },
@@ -58,7 +58,7 @@ describe('utils.js', () => {
   test('filterCases', () => {
     const mockActiveFilters = {
       measures_implemented: ['test measure 1'],
-      sectors: ['testsector'],
+      typology_of_measures: ['testsector'],
     };
     const mockCaseStudiesIds = ['test-case-study'];
     const mockCasesFiltered = filterCases(
@@ -79,7 +79,7 @@ describe('utils.js', () => {
     const mockFilters = getFilters(mockCasesObject);
     expect(mockFilters).toStrictEqual({
       measures_implemented: {},
-      sectors: {},
+      typology_of_measures: {},
     });
   });
 });
