@@ -1,0 +1,41 @@
+import React from 'react';
+
+export default function FeatureDisplay({ feature }) {
+  return feature ? (
+    <div id="csepopup">
+      <h3>
+        <strong>
+          <a target="_blank" rel="noopener noreferrer" href={feature.path}>
+            {feature.title}
+          </a>
+        </strong>
+      </h3>
+      {/* <div>
+        <h4>Measures implemented</h4>
+        <ul>
+          {feature.measures_implemented.map((item, index) => {
+            return (
+              <li key={index}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={item['path']}
+                >
+                  {item['title']}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div> */}
+      {/* <div>
+        <h4>typology_of_measures </h4>
+        <ul>
+          {feature.typology_of_measures.map((item, index) => {
+            return <li key={index}>{item}</li>;
+          })}
+        </ul>
+      </div> */}
+    </div>
+  ) : null;
+}
