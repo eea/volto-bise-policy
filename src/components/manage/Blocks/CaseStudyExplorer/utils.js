@@ -93,16 +93,22 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
     if (!activeFilters.typology_of_measures.length) {
       flag_typology_of_measures = true;
     } else {
-      let typology_of_measures = _case.properties.typology_of_measures?.map((item) => {
-        return item.toString();
-      });
+      let typology_of_measures = _case.properties.typology_of_measures?.map(
+        (item) => {
+          return item.toString();
+        },
+      );
 
       activeFilters.typology_of_measures.forEach((filter) => {
-        if (typology_of_measures?.includes(filter)) flag_typology_of_measures = true;
+        if (typology_of_measures?.includes(filter))
+          flag_typology_of_measures = true;
       });
     }
 
-    return flag_case && flag_implemented && flag_typology_of_measures && flag_searchInput
+    return flag_case &&
+      flag_implemented &&
+      flag_typology_of_measures &&
+      flag_searchInput
       ? _case
       : false;
   });
@@ -126,13 +132,13 @@ export function getFilters(cases) {
       return [];
     });
 
-      let typology_of_measures = _case.properties.typology_of_measures;
-      typology_of_measures.map((item) => {
-        if (!_filters.typology_of_measures.hasOwnProperty(item)) {
-          _filters.typology_of_measures[item] = item;
-        }
-        return [];
-      });
+    let typology_of_measures = _case.properties.typology_of_measures;
+    typology_of_measures.map((item) => {
+      if (!_filters.typology_of_measures.hasOwnProperty(item)) {
+        _filters.typology_of_measures[item] = item;
+      }
+      return [];
+    });
   }
 
   return _filters;
