@@ -25,6 +25,12 @@ import {
   EUNISCountryCodeView,
   EUNISCountryCodeWidget,
 } from './components/Widgets/EUNISObjectListWidget';
+import GeolocationWidget from './components/Widgets/GeolocationWidget';
+import {
+  NRRTypologyOfMeasuresView,
+  NRREcosystemTypologyView,
+  NRRArticleView,
+} from './components/Widgets/NRRWidgets';
 
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
@@ -35,6 +41,7 @@ const customBlocks = [
   'body_classname',
   'redirect',
   'navigationBlock',
+  'caseStudyExplorer',
 ];
 
 const n2kLanguages = [
@@ -94,6 +101,11 @@ const applyConfig = (config) => {
       hideChildrenFromNavigation: false,
     },
   };
+
+  config.settings.allowed_cors_destinations = [
+    ...(config.settings.allowed_cors_destinations || []),
+    'nominatim.openstreetmap.org',
+  ];
 
   // EEA customizations
   config.settings.eea = {
@@ -237,6 +249,23 @@ const applyConfig = (config) => {
     }
   });
 
+  if (__SERVER__) {
+    const installExpressMiddleware = require('./express-middleware').default;
+    config = installExpressMiddleware(config);
+
+    const devsource = __DEVELOPMENT__
+      ? ` http://localhost:${parseInt(process.env.PORT || '3000') + 1}`
+      : '';
+    config.settings.serverConfig.csp = {
+      'script-src': `'self' {nonce}${devsource}`,
+    };
+  }
+
+  config.widgets.id.geolocation = GeolocationWidget;
+  config.widgets.views.id.nrr_typology_of_measures = NRRTypologyOfMeasuresView;
+  config.widgets.views.id.nrr_ecosystem_typology = NRREcosystemTypologyView;
+  config.widgets.views.id.nrr_article = NRRArticleView;
+  // EUNIS Widgets
   config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;
   config.widgets.views.id.eunis_national_json = EUNISCountryCodeView;
   config.widgets.id.eunis_regional_sea_convention_value_json =
