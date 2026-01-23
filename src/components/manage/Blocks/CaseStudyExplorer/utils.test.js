@@ -75,11 +75,14 @@ describe('utils.js', () => {
       acc[index] = item;
       return acc;
     }, {});
-
     const mockFilters = getFilters(mockCasesObject);
     expect(mockFilters).toStrictEqual({
-      measures_implemented: {},
-      typology_of_measures: {},
+      measures_implemented: {
+        'test-measure1': 'test measure 1',
+      },
+      typology_of_measures: {
+        testsector: 'testsector',
+      },
     });
   });
 });

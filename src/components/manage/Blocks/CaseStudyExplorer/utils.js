@@ -46,7 +46,6 @@ export function getFeatures({ cases, ol }) {
         measures_implemented: c.properties.measures,
         typology_of_measures: c.properties.typology_of_measures,
         description: c.properties.description,
-        typology_of_measures: c.properties.typology_of_measures,
         index: index,
         path: c.properties.path,
         color: c.properties.nwrm_type === 'Light' ? '#50B0A4' : '#0083E0',
