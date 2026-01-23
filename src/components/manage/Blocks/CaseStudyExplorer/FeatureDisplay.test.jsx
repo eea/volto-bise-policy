@@ -9,7 +9,7 @@ describe('FeatureDisplay Component', () => {
     const feature = {
       title: 'Sample Feature',
       path: 'https://example.com/sample-feature',
-      nwrms_implemented: [
+      measures_implemented: [
         { path: 'https://example.com/nwrm-1', title: 'NWRM 1' },
         { path: 'https://example.com/nwrm-2', title: 'NWRM 2' },
       ],

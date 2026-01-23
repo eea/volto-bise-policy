@@ -57,7 +57,7 @@ describe('utils.js', () => {
 
   test('filterCases', () => {
     const mockActiveFilters = {
-      nwrms_implemented: ['test measure 1'],
+      measures_implemented: ['test measure 1'],
       sectors: ['testsector'],
     };
     const mockCaseStudiesIds = ['test-case-study'];
@@ -78,7 +78,7 @@ describe('utils.js', () => {
 
     const mockFilters = getFilters(mockCasesObject);
     expect(mockFilters).toStrictEqual({
-      nwrms_implemented: {},
+      measures_implemented: {},
       sectors: {},
     });
   });

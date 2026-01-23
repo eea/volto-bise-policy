@@ -11,9 +11,9 @@ export default function FeatureDisplay({ feature }) {
         </strong>
       </h3>
       {/* <div>
-        <h4>NWRMs implemented</h4>
+        <h4>Measures implemented</h4>
         <ul>
-          {feature.nwrms_implemented.map((item, index) => {
+          {feature.measures_implemented.map((item, index) => {
             return (
               <li key={index}>
                 <a

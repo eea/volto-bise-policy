@@ -43,7 +43,8 @@ export function getFeatures({ cases, ol }) {
         title: c.properties.title,
         image: c.properties.image,
         nwrm_type: c.properties.nwrm_type,
-        nwrms_implemented: c.properties.measures,
+        measures_implemented: c.properties.measures,
+        typology_of_measures: c.properties.typology_of_measures,
         description: c.properties.description,
         sectors: c.properties.sectors,
         index: index,
@@ -77,15 +78,15 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
       }
     }
 
-    if (!activeFilters.nwrms_implemented.length) {
+    if (!activeFilters.measures_implemented.length) {
       flag_implemented = true;
     } else {
-      let nwrms_implemented = _case.properties.measures?.map((item) => {
+      let measures_implemented = _case.properties.measures?.map((item) => {
         return item['id'].toString();
       });
 
-      activeFilters.nwrms_implemented.forEach((filter) => {
-        if (nwrms_implemented?.includes(filter)) flag_implemented = true;
+      activeFilters.measures_implemented.forEach((filter) => {
+        if (measures_implemented?.includes(filter)) flag_implemented = true;
       });
     }
 
@@ -111,28 +112,28 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
 
 export function getFilters(cases) {
   let _filters = {
-    nwrms_implemented: {},
+    measures_implemented: {},
     sectors: {},
   };
 
-  // for (let key of Object.keys(cases)) {
-  //   const _case = cases[key];
-  //   let nwrms_implemented = _case.properties.measures;
-  //   nwrms_implemented.map((item) => {
-  //     if (!_filters.nwrms_implemented.hasOwnProperty(item['id'])) {
-  //       _filters.nwrms_implemented[item['id']] = item['title'];
-  //     }
-  //     return [];
-  //   });
+  for (let key of Object.keys(cases)) {
+    const _case = cases[key];
+    let measures_implemented = _case.properties.measures;
+    measures_implemented.map((item) => {
+      if (!_filters.measures_implemented.hasOwnProperty(item['id'])) {
+        _filters.measures_implemented[item['id']] = item['title'];
+      }
+      return [];
+    });
 
-  //   let sectors = _case.properties.sectors;
-  //   sectors.map((item) => {
-  //     if (!_filters.sectors.hasOwnProperty(item)) {
-  //       _filters.sectors[item] = item;
-  //     }
-  //     return [];
-  //   });
-  // }
+    //   let sectors = _case.properties.sectors;
+    //   sectors.map((item) => {
+    //     if (!_filters.sectors.hasOwnProperty(item)) {
+    //       _filters.sectors[item] = item;
+    //     }
+    //     return [];
+    //   });
+  }
 
   return _filters;
 }

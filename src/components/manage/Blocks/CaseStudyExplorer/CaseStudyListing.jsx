@@ -101,9 +101,9 @@ function CaseStudyList(props) {
                     </div> */}
                     {/* <div className="result-info">
                       <span className="result-info-title">
-                        NWRMs implemented:
+                        Measures implemented:
                       </span>
-                      {selectedCase.nwrms_implemented.map((measure, index) => {
+                      {selectedCase.measures_implemented.map((measure, index) => {
                         return (
                           <span>
                             <a
@@ -113,7 +113,7 @@ function CaseStudyList(props) {
                             >
                               {measure.title}
                               {index !==
-                              selectedCase.nwrms_implemented.length - 1
+                              selectedCase.measures_implemented.length - 1
                                 ? ', '
                                 : ''}
                             </a>
@@ -183,10 +183,10 @@ function CaseStudyList(props) {
                         </div> */}
                         {/* <div className="result-info">
                           <span className="result-info-title">
-                            NWRMs implemented:
+                            Measures implemented:
                           </span>
 
-                          {item.values_.nwrms_implemented.map(
+                          {item.values_.measures_implemented.map(
                             (measure, index) => {
                               return (
                                 <span key={index}>
@@ -197,7 +197,7 @@ function CaseStudyList(props) {
                                   >
                                     {measure.title}
                                     {index !==
-                                    item.values_.nwrms_implemented.length - 1
+                                    item.values_.measures_implemented.length - 1
                                       ? ', '
                                       : ''}
                                   </a>

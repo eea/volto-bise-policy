@@ -50,7 +50,7 @@ const mockPointsSource = {
         path: '/feature1',
         description: 'Description 1',
         sectors: ['SectorA'],
-        nwrms_implemented: [{ title: 'M1', path: '/m1' }],
+        measures_implemented: [{ title: 'M1', path: '/m1' }],
         geometry: { flatCoordinates: [0, 0] },
       },
     },
@@ -62,7 +62,7 @@ const selectedCase = {
   path: '/selected',
   description: 'Selected description',
   sectors: ['S1', 'S2'],
-  nwrms_implemented: [{ title: 'M1', path: '/m1' }],
+  measures_implemented: [{ title: 'M1', path: '/m1' }],
 };
 
 describe('CaseStudyList', () => {

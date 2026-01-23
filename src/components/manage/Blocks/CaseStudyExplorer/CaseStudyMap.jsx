@@ -122,7 +122,7 @@ function CaseStudyMap(props) {
   // console.log('render');
 
   return features.length > 0 ? (
-    <div id="ol-map-container">
+    <div id="ol-map-container" className="nrr-case-study-map-container">
       <MapWithSelection
         view={{
           center: ol.proj.fromLonLat([10, 49]),

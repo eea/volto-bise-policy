@@ -103,7 +103,7 @@ export function CaseStudyFilter(props) {
 }
 
 function CaseStudyFiltersComponent(props) {
-  // const { filters, activeFilters, setActiveFilters, map, ol } = props;
+  const { filters, activeFilters, setActiveFilters, map, ol } = props;
 
   React.useEffect(() => {
     window.addEventListener('click', (event) => {
@@ -119,9 +119,9 @@ function CaseStudyFiltersComponent(props) {
 
   return (
     <>
-      {/* <CaseStudyFilter
-        filterTitle="Sectors"
-        filterName="sectors"
+      <CaseStudyFilter
+        filterTitle="Measures"
+        filterName="measures_implemented"
         filters={filters}
         activeFilters={activeFilters}
         setActiveFilters={setActiveFilters}
@@ -130,14 +130,14 @@ function CaseStudyFiltersComponent(props) {
       />
 
       <CaseStudyFilter
-        filterTitle="NWRMs implemented"
-        filterName="nwrms_implemented"
+        filterTitle="Typology of measure"
+        filterName="typology_of_measures"
         filters={filters}
         activeFilters={activeFilters}
         setActiveFilters={setActiveFilters}
         map={map}
         ol={ol}
-      /> */}
+      />
     </>
   );
 }
@@ -239,7 +239,7 @@ function ActiveFiltersComponent(props) {
     for (let i = 0; i < filterInputs.length; i++) {
       filterInputs[i].checked = false;
     }
-    setActiveFilters({ nwrms_implemented: [], sectors: [] });
+    setActiveFilters({ measures_implemented: [], sectors: [] });
     scrollToElement('search-input');
   };
 
@@ -276,11 +276,11 @@ function ActiveFiltersComponent(props) {
       </div>
       <div className="filter-list-content">
         <div className="filter">
-          {activeFilters.nwrms_implemented.length > 0 ? (
+          {activeFilters.measures_implemented.length > 0 ? (
             <div className="filter-wrapper">
-              <div className="filter-label">NWRMs implemented:</div>
-              {activeFilters.nwrms_implemented.map((filterCode) => {
-                const filterLabel = filters.nwrms_implemented[filterCode];
+              <div className="filter-label">Measures implemented:</div>
+              {activeFilters.measures_implemented.map((filterCode) => {
+                const filterLabel = filters.measures_implemented[filterCode];
                 return (
                   <div className="ui basic label filter-value">
                     <span>{filterLabel}</span>
@@ -288,7 +288,7 @@ function ActiveFiltersComponent(props) {
                       tabIndex="0"
                       onKeyPress={() => {}}
                       onClick={() => {
-                        removeFilter('nwrms_implemented', filterCode);
+                        removeFilter('measures_implemented', filterCode);
                         scrollToElement('search-input');
                       }}
                       role="button"

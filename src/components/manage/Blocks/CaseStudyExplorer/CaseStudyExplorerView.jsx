@@ -13,7 +13,6 @@ import './styles.less';
 
 export default function CaseStudyExplorerView(props) {
   const cases_url = '/@@case-studies-map.arcgis.json';
-
   let cases = useCases(addAppURL(cases_url));
   const { caseStudiesIds } = props; // case studies from measure view
   const [selectedCase, onSelectedCase] = React.useState(null);
@@ -21,7 +20,7 @@ export default function CaseStudyExplorerView(props) {
   const hideFilters = caseStudiesIds ? true : false;
 
   const [activeFilters, setActiveFilters] = React.useState({
-    nwrms_implemented: [],
+    measures_implemented: [],
     sectors: [],
   });
 
@@ -34,7 +33,7 @@ export default function CaseStudyExplorerView(props) {
     setFilters(_filters);
   }, [
     cases,
-    activeFilters.nwrms_implemented,
+    activeFilters.measures_implemented,
     activeFilters.sectors,
     activeItems.length,
   ]);
