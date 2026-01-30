@@ -21,8 +21,8 @@ export const NRRTypologyOfMeasuresView = ({ value }) => {
         <b>Related typology of measures: </b>
       </span>
       <ul>
-        {items.map((item) => (
-          <li key={item['@id']}>
+        {items.map((item, index) => (
+          <li key={item['@id'] ?? index}>
             <p>{item.title}</p>
           </li>
         ))}
