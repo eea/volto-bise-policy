@@ -30,6 +30,8 @@ import {
   NRRTypologyOfMeasuresView,
   NRREcosystemTypologyView,
   NRRArticleView,
+  NRRrelatedCaseStudiesView,
+  NRRMeasuresImplementedView,
 } from './components/Widgets/NRRWidgets';
 
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
@@ -285,7 +287,8 @@ const applyConfig = (config) => {
   config.widgets.views.id.eunis_msfd_relevant_classification_json =
     EUNISMSFDView;
   config.widgets.views.id.eunis_code = EUNISCodeView;
-
+  config.widgets.views.id.related_case_studies = NRRrelatedCaseStudiesView;
+  config.widgets.views.id.nrr_measures_implemented = NRRMeasuresImplementedView;
   return config;
 };
 

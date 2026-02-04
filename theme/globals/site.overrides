@@ -367,3 +367,10 @@ p.has--clear--both:empty {
     }
   }
 }
+
+
+//fix Sidebar menu vertical scroll
+
+div[role="navigation"] .toolbar-content.show {
+  max-height: 100vh !important;
+}
