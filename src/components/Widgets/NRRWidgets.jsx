@@ -1,5 +1,5 @@
 import { UniversalLink } from '@plone/volto/components';
-import { Button, Popup } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 export const NRRTypologyOfMeasuresView = ({ value }) => {
   let parsedValue = value;
 
