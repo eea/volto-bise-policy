@@ -33,6 +33,7 @@ import {
   NRRrelatedCaseStudiesView,
   NRRMeasuresImplementedView,
 } from './components/Widgets/NRRWidgets';
+import RichTextWidget from './components/Widgets/RichTextWidget';
 
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
@@ -289,6 +290,7 @@ const applyConfig = (config) => {
   config.widgets.views.id.eunis_code = EUNISCodeView;
   config.widgets.views.id.related_case_studies = NRRrelatedCaseStudiesView;
   config.widgets.views.id.nrr_measures_implemented = NRRMeasuresImplementedView;
+  config.widgets.views.widget.richtext = RichTextWidget;
   return config;
 };
 
