@@ -374,3 +374,7 @@ p.has--clear--both:empty {
 div[role="navigation"] .toolbar-content.show {
   max-height: 100vh !important;
 }
+
+#toolbar .toolbar-content {
+  z-index: 2000 !important;
+}

@@ -7,6 +7,11 @@ const config = (config) => {
     '#00A390', // secondary color
     '#3D5265', // tertiary color
     '#FAC50D', // brand color
+    // EEA brand colors
+    '#F9F9F9',
+    '#004B7F',
+    '#007B6C',
+    '#3D5265',
     '#B83230', // error state
     '#FF9933', // warning state
     '#007B6C', // success state
