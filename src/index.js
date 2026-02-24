@@ -291,6 +291,7 @@ const applyConfig = (config) => {
   config.widgets.views.id.related_case_studies = NRRrelatedCaseStudiesView;
   config.widgets.views.id.nrr_measures_implemented = NRRMeasuresImplementedView;
   config.widgets.views.widget.richtext = RichTextWidget;
+
   return config;
 };
 
