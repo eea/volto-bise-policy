@@ -1,0 +1,193 @@
+import React, { useMemo } from 'react';
+import { Container, Icon, Button, Grid } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
+import { formatDate } from '@plone/volto/helpers/Utils/Date';
+import cx from 'classnames';
+import config from '@plone/volto/registry';
+import { Image } from '@plone/volto/components';
+import { Helmet } from '@plone/volto/helpers';
+
+Banner.propTypes = {
+  title: PropTypes.string,
+};
+
+const socialPlatforms = {
+  facebook: {
+    shareLink: (url) => `https://facebook.com/sharer.php?u=${url}`,
+  },
+  twitter: {
+    shareLink: (url) => `https://www.twitter.com/share?url=${url}`,
+  },
+  linkedin: {
+    shareLink: (url) =>
+      `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+  },
+  reddit: {
+    shareLink: (url, title) => `https://reddit.com/submit?url=${url}`,
+  },
+};
+
+export const getImageSource = (image) => {
+  if (image?.data && image?.encoding === 'base64') {
+    return `data:${image.contentType};base64,${image.data}`;
+  }
+  if (image?.scales?.huge) return flattenToAppURL(image.scales.huge.download);
+  if (image?.scales?.great) return flattenToAppURL(image.scales.great.download);
+  if (image?.scales?.large) return flattenToAppURL(image.scales.large.download);
+  return null;
+};
+
+export const sharePage = (url, platform) => {
+  if (!socialPlatforms[platform]) return;
+  const link = document.createElement('a');
+  link.setAttribute('href', socialPlatforms[platform].shareLink(url));
+  link.setAttribute('target', '_blank');
+  link.setAttribute('rel', 'noreferrer');
+  link.click();
+};
+
+const mapImagePosition = {
+  'has--bg--top': 'top',
+  'has--bg--center': 'center',
+  'has--bg--bottom': 'bottom',
+};
+
+function Banner({ image, metadata, properties, children, styles, ...rest }) {
+  const { bg = 'center' } = styles || {};
+
+  const imageStyle = useMemo(() => {
+    return {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      objectPosition: mapImagePosition[bg],
+      zIndex: -1,
+    };
+  }, [bg]);
+
+  if (image) {
+    //extract Lead image from page content.
+    const content = metadata || properties;
+    const imageUrl = getImageSource(content['image']) ?? image;
+
+    return (
+      <>
+        <Helmet>
+          <link rel="preload" href={imageUrl} as="image" />
+        </Helmet>
+        <div className="eea banner">
+          <div
+            className={cx(
+              imageUrl ? 'image' : '',
+              ...Object.values(styles || {}),
+            )}
+            style={{
+              position: 'relative',
+              zIndex: 0,
+            }}
+          >
+            {imageUrl && <Image src={imageUrl} alt="" style={imageStyle} />}
+            <div className="gradient">
+              <Container>{children}</Container>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+  return (
+    <div className="eea banner">
+      <div className="gradient">
+        <Container>{children}</Container>
+      </div>
+    </div>
+  );
+}
+
+Banner.Action = React.forwardRef(function (
+  { title, titleClass, icon, onClick, className, color, ...rest },
+  ref,
+) {
+  return (
+    <div className="action" ref={ref}>
+      <Button
+        className={className}
+        basic
+        icon
+        inverted
+        onClick={onClick}
+        {...rest}
+      >
+        <Icon className={icon} color={color} title={title}></Icon>
+        <span className={titleClass || 'mobile-sr-only'}>{title}</span>
+      </Button>
+    </div>
+  );
+});
+
+Banner.Content = ({ children, actions }) => {
+  // actions can be a single child or an array of children
+  // when we disable actions we get an array of false or undefined
+  const actionsWithChildren = actions
+    ? React.Children.toArray(actions.props?.children).some(Boolean)
+    : false;
+
+  return (
+    <div className="content">
+      <Grid>
+        {actionsWithChildren ? (
+          <>
+            <Grid.Column mobile={10} tablet={9} computer={9}>
+              {children}
+            </Grid.Column>
+            <Grid.Column mobile={2} tablet={3} computer={3} className="actions">
+              {actions}
+            </Grid.Column>
+          </>
+        ) : (
+          <Grid.Column mobile={12} tablet={12} computer={12}>
+            {children}
+          </Grid.Column>
+        )}
+      </Grid>
+    </div>
+  );
+};
+
+Banner.Title = ({ children }) => {
+  return <h1 className="documentFirstHeading title">{children}</h1>;
+};
+Banner.Subtitle = ({ children }) => <p className="subtitle">{children}</p>;
+Banner.Metadata = ({ children }) => <p className="metadata">{children}</p>;
+
+Banner.MetadataField = ({ hidden, type = 'text', label, value }) => {
+  const locale = config.settings.dateLocale || 'en-gb';
+  if (hidden || !value) return '';
+  if (type === 'date' && value)
+    return (
+      <time className={`field ${type}`} dateTime={value}>
+        {label}{' '}
+        {formatDate({
+          date: value,
+          format: {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+          },
+          locale: locale,
+        })}
+      </time>
+    );
+  return (
+    <span className={`field ${type}`}>
+      {label && <>{label}: </>}
+      {value}
+    </span>
+  );
+};
+
+export default Banner;
