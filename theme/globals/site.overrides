@@ -83,10 +83,6 @@ body {
   src: url('../fonts/Rajdhani-Bold.ttf') format('truetype');
 }
 
-.eea.header {
-  z-index: 1001;
-}
-
 a {
   color: @linkColor;
 
@@ -368,13 +364,12 @@ p.has--clear--both:empty {
   }
 }
 
+.species-banner-details{
+  z-index:-1;
+}
 
 //fix Sidebar menu vertical scroll
 
 div[role="navigation"] .toolbar-content.show {
   max-height: 100vh !important;
-}
-
-#toolbar .toolbar-content {
-  z-index: 2000 !important;
 }
