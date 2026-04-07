@@ -364,10 +364,6 @@ p.has--clear--both:empty {
   }
 }
 
-// .species-banner-details{
-//   z-index:-1;
-// }
-
 //fix Sidebar menu vertical scroll
 
 div[role="navigation"] .toolbar-content.show {
