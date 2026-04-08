@@ -165,6 +165,14 @@ p.has--clear--both:empty {
   }
 }
 
+.subsite.subsite-natura2000 {
+  .eea.banner,
+  .breadcrumbs,
+  .block-editor-title {
+    display: none;
+  }
+}
+
 .subsite.subsite-natura2000.with-n2k-navigation {
   &.grey-bg {
     .content-area {
@@ -176,12 +184,6 @@ p.has--clear--both:empty {
       padding-bottom: 4rem !important;
       background-color: #f8f8f8 !important;
     }
-  }
-
-  .eea.banner,
-  .breadcrumbs,
-  .block-editor-title {
-    display: none;
   }
 
   &:not(.section-edit) {
