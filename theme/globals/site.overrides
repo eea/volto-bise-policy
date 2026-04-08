@@ -23,7 +23,6 @@ body {
   }
 
   @media @mobile {
-
     &.has-toolbar,
     &.has-toolbar-collapsed {
       --toolbar-width: 0px;
@@ -106,7 +105,6 @@ p.has--clear--both:empty {
 
 .contenttype-bise_factsheet {
   #main {
-
     h1,
     h2,
     h3,
@@ -133,7 +131,7 @@ p.has--clear--both:empty {
       display: flex;
       align-items: center;
 
-      >div {
+      > div {
         width: 100%;
       }
     }
@@ -150,7 +148,7 @@ p.has--clear--both:empty {
     .ui.input {
       max-width: unset;
 
-      >input {
+      > input {
         border-radius: 12px;
       }
     }
@@ -167,7 +165,7 @@ p.has--clear--both:empty {
   }
 }
 
-.subsite.subsite-natura2000 {
+.subsite.subsite-natura2000.with-n2k-navigation {
   &.grey-bg {
     .content-area {
       margin-bottom: 0 !important;
@@ -258,7 +256,6 @@ p.has--clear--both:empty {
     }
 
     .light-links {
-
       h1,
       h2,
       h3,
@@ -332,7 +329,7 @@ p.has--clear--both:empty {
   }
 }
 
-#sidebar>.sidebar-container>.tabs-wrapper>.ui.menu {
+#sidebar > .sidebar-container > .tabs-wrapper > .ui.menu {
   flex-wrap: nowrap;
 }
 
@@ -364,12 +361,8 @@ p.has--clear--both:empty {
   }
 }
 
-.species-banner-details{
-  z-index:-1;
-}
-
 //fix Sidebar menu vertical scroll
 
-div[role="navigation"] .toolbar-content.show {
+div[role='navigation'] .toolbar-content.show {
   max-height: 100vh !important;
 }

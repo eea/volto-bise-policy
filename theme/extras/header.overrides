@@ -81,8 +81,14 @@
   .main.bar .ui.text.menu {
     gap: 0;
   }
+
+  &.with-n2k-navigation {
+    .eea.header .main.bar {
+      backdrop-filter: blur(2px);
+      background-color: hsla(0, 0%, 100%, 0.8);
+    }
+  }
   .eea.header .main.bar {
-    backdrop-filter: blur(2px);
     background-color: hsla(0, 0%, 100%, 0.8);
   }
   .eea.header .main.bar > .ui.container {
