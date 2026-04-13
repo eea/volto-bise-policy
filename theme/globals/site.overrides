@@ -233,6 +233,12 @@ p.has--clear--both:empty {
       font-weight: 600;
     }
 
+    .site-banner {
+      h2 {
+        color: #fff !important;
+      }
+    }
+
     a {
       color: @secondaryColor;
       font-weight: 600;

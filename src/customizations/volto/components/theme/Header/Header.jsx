@@ -85,7 +85,14 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
 
   const hideExpertView = useMemo(() => {
     return !!matchPath(pathname, {
-      path: ['/natura2000/sites/site_cdda', '/natura2000/sites/emerald'],
+      path: ['/natura2000/sites/site_cdda'],
+      exact: false,
+    });
+  }, [pathname]);
+
+  const isEmeraldSite = useMemo(() => {
+    return !!matchPath(pathname, {
+      path: '/natura2000/sites/emerald',
       exact: false,
     });
   }, [pathname]);
@@ -354,7 +361,7 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
                   {
                     title: 'GO TO EXPERT VIEW',
                     url: params.site_code
-                      ? `https://natura2000.eea.europa.eu/Natura2000/SDF.aspx?site=${params.site_code}`
+                      ? `https://natura2000.eea.europa.eu/${isEmeraldSite ? 'Emerald' : 'Natura2000'}/SDF.aspx?site=${params.site_code}`
                       : '#',
                     items: [],
                     className: 'deep-dive',
