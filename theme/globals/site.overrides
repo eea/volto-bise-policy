@@ -171,6 +171,10 @@ p.has--clear--both:empty {
   .block-editor-title {
     display: none;
   }
+
+  .block.flat-list-view-block .breadcrumbs {
+    display: block;
+  }
 }
 
 .subsite.subsite-natura2000.with-n2k-navigation {
