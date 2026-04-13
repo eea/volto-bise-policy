@@ -361,7 +361,9 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
                   {
                     title: 'GO TO EXPERT VIEW',
                     url: params.site_code
-                      ? `https://natura2000.eea.europa.eu/${isEmeraldSite ? 'Emerald' : 'Natura2000'}/SDF.aspx?site=${params.site_code}`
+                      ? `https://natura2000.eea.europa.eu/${
+                          isEmeraldSite ? 'Emerald' : 'Natura2000'
+                        }/SDF.aspx?site=${params.site_code}`
                       : '#',
                     items: [],
                     className: 'deep-dive',
