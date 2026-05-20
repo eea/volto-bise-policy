@@ -370,8 +370,8 @@ const EEAHeader = ({ token, history, subsite, content, screen, ...props }) => {
                     item.title !== 'GO TO EXPERT VIEW' || !hideExpertView,
                 )
               : isSubsite && !subsite.isRoot && !isN2KSpecies && !isN2KHabitat
-              ? getSubsiteItems()
-              : items.filter((item) => item.url !== '/natura2000')
+                ? getSubsiteItems()
+                : items.filter((item) => item.url !== '/natura2000')
           }
           renderGlobalMenuItem={(item, { onClick }) => (
             <a
