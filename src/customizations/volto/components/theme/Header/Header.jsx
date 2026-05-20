@@ -10,21 +10,17 @@ import Cookies from 'universal-cookie';
 
 import { matchPath } from 'react-router';
 import { withRouter, useParams } from 'react-router-dom';
-import { UniversalLink } from '@plone/volto/components';
-import {
-  getBaseUrl,
-  hasApiExpander,
-  flattenToAppURL,
-} from '@plone/volto/helpers';
-import { getNavigation } from '@plone/volto/actions';
+import UniversalLink from '@plone/volto/components/manage/UniversalLink/UniversalLink';
+import { getBaseUrl, flattenToAppURL } from '@plone/volto/helpers/Url/Url';
+import { getNavigation } from '@plone/volto/actions/navigation/navigation';
 import { Header, Logo } from '@eeacms/volto-eea-design-system/ui';
 import { usePrevious } from '@eeacms/volto-eea-design-system/helpers';
 import globeIcon from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/global-line.svg';
 import eeaFlag from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/eea.png';
-
+import hasApiExpander from '@plone/volto/helpers/Utils/Utils';
 import config from '@plone/volto/registry';
 import { compose } from 'recompose';
-import { BodyClass } from '@plone/volto/helpers';
+import BodyClass from '@plone/volto/helpers/BodyClass/BodyClass';
 import { withScreenSize } from '@eeacms/volto-resize-helper/hocs';
 
 import cx from 'classnames';

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Label, Button } from 'semantic-ui-react';
-import config from '@plone/volto/registry';
+import config from '@plone/registry';
 
 import { injectIntl } from 'react-intl';
-import { FormFieldWrapper } from '@plone/volto/components';
+import FormFieldWrapper from '@plone/volto/components/manage/Widgets/FormFieldWrapper';
 import MapContainer from './GeolocationWidgetMapContainer';
 
 const defaultValue = {

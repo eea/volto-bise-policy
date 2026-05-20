@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { compose } from 'redux';
 import cx from 'classnames';
-import { SidebarPortal } from '@plone/volto/components'; // EditBlock
+import SidebarPortal from '@plone/volto/components/manage/Sidebar/SidebarPortal'; // EditBlock
 import InlineForm from '@plone/volto/components/manage/Form/InlineForm';
 
 import maesViewrSchema from './schema';

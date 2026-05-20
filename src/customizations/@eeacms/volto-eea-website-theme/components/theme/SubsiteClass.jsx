@@ -3,7 +3,8 @@ import cx from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 
 import config from '@plone/volto/registry';
-import { BodyClass, flattenToAppURL } from '@plone/volto/helpers';
+import BodyClass from '@plone/volto/helpers/BodyClass/BodyClass';
+import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
 import { isSubsiteRoot } from 'volto-subsites/utils';
 import { setSubsite } from 'volto-subsites/actions';
 
