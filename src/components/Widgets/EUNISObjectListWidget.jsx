@@ -423,11 +423,9 @@ export const EUNISCountryCodeView = ({ value }) => {
 
   if (!items || items.length === 0) return null;
 
-  return items.map((country) => (
-    <div>
-      <div key={country['@id']} className="country-item">
-        {country.countryCode?.join(', ')}
-      </div>
+  return items.map((country, index) => (
+    <div key={country['@id'] ?? index}>
+      <div className="country-item">{country.countryCode?.join(', ')}</div>
       <div className="eunis-widget-view">
         {country.national.map((item) => (
           <div key={item['@id']} className="eunis-widget-item">

@@ -279,10 +279,10 @@ function ActiveFiltersComponent(props) {
           {activeFilters.measures_implemented.length > 0 ? (
             <div className="filter-wrapper">
               <div className="filter-label">Measures implemented:</div>
-              {activeFilters.measures_implemented.map((filterCode) => {
+              {activeFilters.measures_implemented.map((filterCode, index) => {
                 const filterLabel = filters.measures_implemented[filterCode];
                 return (
-                  <div className="ui basic label filter-value">
+                  <div className="ui basic label filter-value" key={index}>
                     <span>{filterLabel}</span>
                     <i
                       tabIndex="0"
@@ -304,10 +304,10 @@ function ActiveFiltersComponent(props) {
           {activeFilters.typology_of_measures.length > 0 ? (
             <div className="filter-wrapper">
               <div className="filter-label">Typology of measures:</div>
-              {activeFilters.typology_of_measures.map((filterCode) => {
+              {activeFilters.typology_of_measures.map((filterCode, index) => {
                 const filterLabel = filters.typology_of_measures[filterCode];
                 return (
-                  <div className="ui basic label filter-value">
+                  <div className="ui basic label filter-value" key={index}>
                     <span>{filterLabel}</span>
                     <i
                       tabIndex="0"
