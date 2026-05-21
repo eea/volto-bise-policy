@@ -106,12 +106,11 @@ const View = ({ data, provider_data, id, ...rest }) => {
           </div>
           <div className="maes-viewer-charts">
             {provider_data
-              ? multiCharts.map((chart, index) => {
+              ? multiCharts.map((chart) => {
                   return (
-                    <React.Fragment key={index}>
+                    <React.Fragment key={chart.title}>
                       <div>{chart.title}</div>
                       <LoadablePlot
-                        key={index}
                         data={chart.data}
                         layout={chart.layout}
                         frames={[]}

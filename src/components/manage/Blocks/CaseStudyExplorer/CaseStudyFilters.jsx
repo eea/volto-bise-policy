@@ -72,7 +72,7 @@ export function CaseStudyFilter(props) {
               <label
                 htmlFor={label + index}
                 className="filter-input"
-                key={index}
+                key={value}
               >
                 <input
                   value={value}
@@ -282,7 +282,7 @@ function ActiveFiltersComponent(props) {
               {activeFilters.measures_implemented.map((filterCode, index) => {
                 const filterLabel = filters.measures_implemented[filterCode];
                 return (
-                  <div className="ui basic label filter-value" key={index}>
+                  <div className="ui basic label filter-value" key={filterCode}>
                     <span>{filterLabel}</span>
                     <i
                       tabIndex="0"
@@ -307,7 +307,7 @@ function ActiveFiltersComponent(props) {
               {activeFilters.typology_of_measures.map((filterCode, index) => {
                 const filterLabel = filters.typology_of_measures[filterCode];
                 return (
-                  <div className="ui basic label filter-value" key={index}>
+                  <div className="ui basic label filter-value" key={filterCode}>
                     <span>{filterLabel}</span>
                     <i
                       tabIndex="0"
