@@ -1,4 +1,4 @@
-import config from '@plone/registry';
+import config from '@plone/volto/registry';
 
 const colorSchema = (props) => {
   return {

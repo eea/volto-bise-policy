@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-filename-extension */
+
 import React from 'react';
 import { Transition } from 'semantic-ui-react';
 import { Container, Grid, List, Icon, Accordion } from 'semantic-ui-react';

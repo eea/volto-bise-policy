@@ -11,10 +11,6 @@ import {
   GET_CONTENT,
   GET_NAVIGATION,
 } from '@plone/volto/constants/ActionTypes';
-import {
-  GET_CONTENT,
-  GET_NAVIGATION,
-} from '@plone/volto/constants/ActionTypes';
 
 const initialState = {
   error: null,

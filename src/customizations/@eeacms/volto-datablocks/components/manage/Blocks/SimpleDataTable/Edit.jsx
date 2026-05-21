@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import SidebarPortal from '@plone/volto/components/manage/Sidebar/SidebarPortal'; // EditBlock
 import InlineForm from '@plone/volto/components/manage/Form/InlineForm';
-import config from '@plone/registry';
+import config from '@plone/volto/registry';
 import { VisibilitySensor } from '@eeacms/volto-datablocks/components';
 import { connectToProviderData } from '@eeacms/volto-datablocks/hocs';
 

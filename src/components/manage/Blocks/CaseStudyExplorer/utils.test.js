@@ -1,5 +1,5 @@
 import './mockJsdom';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { getFeatures, filterCases, getFilters } from './utils';
 
 describe('utils.js', () => {

@@ -20,10 +20,8 @@ import { listActions } from '@plone/volto/actions/actions/actions';
 import { getContent } from '@plone/volto/actions/content/content';
 import BodyClass from '@plone/volto/helpers/BodyClass/BodyClass';
 import { getBaseUrl, flattenToAppURL } from '@plone/volto/helpers/Url/Url';
-import {
-  getLayoutFieldname,
-  hasApiExpander,
-} from '@plone/volto/helpers/Utils/Utils';
+import { hasApiExpander } from '@plone/volto/helpers/Utils/Utils';
+import { getLayoutFieldname } from '@plone/volto/helpers/Content/Content';
 
 import config from '@plone/volto/registry';
 

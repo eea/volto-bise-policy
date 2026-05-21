@@ -4,10 +4,8 @@ import { Accordion, Button, Segment } from 'semantic-ui-react';
 import DragDropList from '@plone/volto/components/manage/DragDropList/DragDropList';
 import FormFieldWrapper from '@plone/volto/components/manage/Widgets/FormFieldWrapper';
 import Icon from '@plone/volto/components/theme/Icon/Icon';
-import {
-  applySchemaDefaults,
-  reorderArray,
-} from '@plone/volto/helpers/Utils/Utils';
+import { reorderArray } from '@plone/volto/helpers/Utils/Utils';
+import { applySchemaDefaults } from '@plone/volto/helpers/Blocks/Blocks';
 import ObjectWidget from '@plone/volto/components/manage/Widgets/ObjectWidget';
 
 import upSVG from '@plone/volto/icons/up-key.svg';

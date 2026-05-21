@@ -17,7 +17,7 @@ import { Header, Logo } from '@eeacms/volto-eea-design-system/ui';
 import { usePrevious } from '@eeacms/volto-eea-design-system/helpers';
 import globeIcon from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/global-line.svg';
 import eeaFlag from '@eeacms/volto-eea-design-system/../theme/themes/eea/assets/images/Header/eea.png';
-import hasApiExpander from '@plone/volto/helpers/Utils/Utils';
+import { hasApiExpander } from '@plone/volto/helpers/Utils/Utils';
 import config from '@plone/volto/registry';
 import { compose } from 'recompose';
 import BodyClass from '@plone/volto/helpers/BodyClass/BodyClass';

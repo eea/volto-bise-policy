@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
-import config from '@plone/registry';
+import config from '@plone/volto/registry';
 import { DefaultView } from '@eeacms/volto-datablocks/components/manage/Blocks/SimpleDataTable/templates/default';
 import { VisibilitySensor } from '@eeacms/volto-datablocks/components';
 import { connectToProviderData } from '@eeacms/volto-datablocks/hocs';
