@@ -75,7 +75,7 @@ function CaseStudyMap(props) {
   }, [activeItems, pointsSource, ol]);
 
   React.useEffect(() => {
-    if (!map) return null;
+    if (!map) return;
 
     const moveendListener = (e) => {
       // console.log('map.getView()', map.getView());
