@@ -56,11 +56,7 @@ export const createMockOl = (additionalProps = {}) => ({
   },
   interaction: {
     Select: jest.fn(() => ({
-      on: jest.fn((evt, cb) => {
-        if (evt === 'select') {
-          mockSelectCb = cb;
-        }
-      }),
+      on: jest.fn(),
     })),
   },
   condition: {
