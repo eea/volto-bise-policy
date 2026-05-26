@@ -94,7 +94,11 @@ describe('InfoOverlay', () => {
   it('click handler hides tooltip when no features found', () => {
     const onFeatureSelect = jest.fn();
     render(
-      <InfoOverlay {...defaultProps} selectedFeature={{}} onFeatureSelect={onFeatureSelect} />,
+      <InfoOverlay
+        {...defaultProps}
+        selectedFeature={{}}
+        onFeatureSelect={onFeatureSelect}
+      />,
     );
 
     const handler = onMap.mock.calls.find(([event]) => event === 'click')[1];
@@ -113,7 +117,11 @@ describe('InfoOverlay', () => {
   it('ignores click when target is a link (A tag)', () => {
     const onFeatureSelect = jest.fn();
     render(
-      <InfoOverlay {...defaultProps} selectedFeature={{}} onFeatureSelect={onFeatureSelect} />,
+      <InfoOverlay
+        {...defaultProps}
+        selectedFeature={{}}
+        onFeatureSelect={onFeatureSelect}
+      />,
     );
 
     const handler = onMap.mock.calls.find(([event]) => event === 'click')[1];
