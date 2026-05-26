@@ -7,6 +7,7 @@ import {
   scrollToElement,
   zoomMapToFeatures,
 } from './utils';
+import { createMockMap, createMockPointsSource } from './testUtils';
 
 jest.mock('@eeacms/volto-openlayers-map', () => ({
   withOpenLayers: (Component) => Component,
@@ -18,44 +19,19 @@ jest.mock('./utils', () => ({
   zoomMapToFeatures: jest.fn(),
 }));
 
-const mockMap = {
-  getInteractions: () => ({
-    array_: [
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {
-        getFeatures: () => ({
-          clear: jest.fn(),
-          push: jest.fn(),
-        }),
-      },
-    ],
-  }),
-  getPixelFromCoordinate: jest.fn(() => [100, 200]),
-  getFeaturesAtPixel: jest.fn(() => ['mockFeature']),
-};
-
-const mockPointsSource = {
-  getFeatures: () => [
-    {
-      values_: {
-        title: 'Feature 1',
-        path: '/feature1',
-        description: 'Description 1',
-        typology_of_measures: ['SectorA'],
-        measures_implemented: [{ title: 'M1', path: '/m1' }],
-        geometry: { flatCoordinates: [0, 0] },
-      },
+const mockMap = createMockMap();
+const mockPointsSource = createMockPointsSource([
+  {
+    values_: {
+      title: 'Feature 1',
+      path: '/feature1',
+      description: 'Description 1',
+      typology_of_measures: ['SectorA'],
+      measures_implemented: [{ title: 'M1', path: '/m1' }],
+      geometry: { flatCoordinates: [0, 0] },
     },
-  ],
-};
+  },
+]);
 
 const selectedCase = {
   title: 'Selected Title',

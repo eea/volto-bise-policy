@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import FeatureInteraction from './FeatureInteraction';
 import { scrollToElement, zoomMapToFeatures } from './utils';
+import { createMockOl } from './testUtils';
 
 jest.mock('@eeacms/volto-openlayers-map', () => ({
   withOpenLayers: (Comp) => Comp,
@@ -25,15 +26,8 @@ jest.mock('./utils', () => ({
   zoomMapToFeatures: jest.fn(),
 }));
 
-const mockOl = {
-  style: {
-    Style: jest.fn(() => ({
-      image_: { getFill: () => ({ setColor: jest.fn() }) },
-    })),
-    Circle: jest.fn(() => ({})),
-    Fill: jest.fn(() => ({})),
-    Stroke: jest.fn(() => ({})),
-  },
+let mockSelectCb;
+const mockOl = createMockOl({
   interaction: {
     Select: jest.fn(() => ({
       on: jest.fn((evt, cb) => {
@@ -43,12 +37,8 @@ const mockOl = {
       }),
     })),
   },
-  condition: {
-    click: jest.fn(),
-  },
-};
+});
 
-let mockSelectCb;
 const mockMap = {
   addInteraction,
   removeInteraction,

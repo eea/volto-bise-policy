@@ -1,4 +1,4 @@
-import { Icon } from '@plone/volto/components';
+import Icon from '@plone/volto/components/theme/Icon/Icon';
 import contentBoxSVG from '@eeacms/volto-bise-policy/icons/content-box.svg';
 
 const config = (config) => {

@@ -1,4 +1,4 @@
-import { getBlocks } from '@plone/volto/helpers';
+import { getBlocks } from '@plone/volto/helpers/Blocks/Blocks';
 import installLink from '@plone/volto-slate/editor/plugins/AdvancedLink';
 import { addStylingFieldsetSchemaEnhancer } from '@eeacms/volto-bise-policy/components/manage/Blocks/schema';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react'; // Dropdown,
-import { addAppURL } from '@plone/volto/helpers';
+import { addAppURL } from '@plone/volto/helpers/Url/Url';
 // import config from '@plone/volto/registry';
 import CaseStudyMap from './CaseStudyMap';
 import { ActiveFilters, CaseStudyFilters, SearchBox } from './CaseStudyFilters';

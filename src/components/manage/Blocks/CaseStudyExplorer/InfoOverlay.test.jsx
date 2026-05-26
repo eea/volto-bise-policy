@@ -45,6 +45,13 @@ jest.mock('@plone/volto/helpers/Utils/usePrevious', () => ({
   usePrevious: (val) => undefined,
 }));
 
+const defaultProps = {
+  layerId: 'layer1',
+  hideFilters: false,
+  ol: mockOl,
+  onFeatureSelect: jest.fn(),
+};
+
 describe('InfoOverlay', () => {
   let overlayElement;
   beforeEach(() => {
@@ -60,39 +67,21 @@ describe('InfoOverlay', () => {
 
   it('renders FeatureDisplay when selectedFeature is provided', () => {
     const { getByTestId } = render(
-      <InfoOverlay
-        selectedFeature={{ id: 1 }}
-        onFeatureSelect={jest.fn()}
-        layerId="layer1"
-        hideFilters={false}
-        ol={mockOl}
-      />,
+      <InfoOverlay {...defaultProps} selectedFeature={{ id: 1 }} />,
     );
     expect(getByTestId('feature-display')).toBeInTheDocument();
   });
 
   it('does not render FeatureDisplay when selectedFeature is null', () => {
     const { queryByTestId } = render(
-      <InfoOverlay
-        selectedFeature={null}
-        onFeatureSelect={jest.fn()}
-        layerId="layer1"
-        hideFilters={false}
-        ol={mockOl}
-      />,
+      <InfoOverlay {...defaultProps} selectedFeature={null} />,
     );
     expect(queryByTestId('feature-display')).toBeNull();
   });
 
   it('attaches and detaches click handler on map', () => {
     const { unmount } = render(
-      <InfoOverlay
-        selectedFeature={null}
-        onFeatureSelect={jest.fn()}
-        layerId="layer1"
-        hideFilters={false}
-        ol={mockOl}
-      />,
+      <InfoOverlay {...defaultProps} selectedFeature={null} />,
     );
     expect(addOverlay).toHaveBeenCalled();
     expect(onMap).toHaveBeenCalledWith('click', expect.any(Function));
@@ -106,11 +95,9 @@ describe('InfoOverlay', () => {
     const onFeatureSelect = jest.fn();
     render(
       <InfoOverlay
+        {...defaultProps}
         selectedFeature={{}}
         onFeatureSelect={onFeatureSelect}
-        layerId="layer1"
-        hideFilters={false}
-        ol={mockOl}
       />,
     );
 
@@ -131,11 +118,9 @@ describe('InfoOverlay', () => {
     const onFeatureSelect = jest.fn();
     render(
       <InfoOverlay
+        {...defaultProps}
         selectedFeature={{}}
         onFeatureSelect={onFeatureSelect}
-        layerId="layer1"
-        hideFilters={false}
-        ol={mockOl}
       />,
     );
 

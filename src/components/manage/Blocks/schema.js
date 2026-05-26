@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import imageFitSVG from '@plone/volto/icons/image-fit.svg';
 import imageWideSVG from '@plone/volto/icons/image-wide.svg';
 import imageFullSVG from '@plone/volto/icons/image-full.svg';

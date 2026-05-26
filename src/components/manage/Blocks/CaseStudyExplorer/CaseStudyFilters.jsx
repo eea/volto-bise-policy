@@ -72,7 +72,7 @@ export function CaseStudyFilter(props) {
               <label
                 htmlFor={label + index}
                 className="filter-input"
-                key={index}
+                key={value}
               >
                 <input
                   value={value}
@@ -221,15 +221,42 @@ function SearchBoxComponent(props) {
   );
 }
 
+function FilterGroup({
+  filterName,
+  filterLabel,
+  activeFilterCodes,
+  filters,
+  onRemoveFilter,
+}) {
+  return activeFilterCodes.length > 0 ? (
+    <div className="filter-wrapper">
+      <div className="filter-label">{filterLabel}</div>
+      {activeFilterCodes.map((filterCode) => {
+        const label = filters[filterName][filterCode];
+        return (
+          <div className="ui basic label filter-value" key={filterCode}>
+            <span>{label}</span>
+            <i
+              tabIndex="0"
+              onKeyPress={() => {}}
+              onClick={() => {
+                onRemoveFilter(filterName, filterCode);
+                scrollToElement('search-input');
+              }}
+              role="button"
+              className="close icon"
+            ></i>
+          </div>
+        );
+      })}
+    </div>
+  ) : null;
+}
+
 function ActiveFiltersComponent(props) {
   const { filters, activeFilters, setActiveFilters } = props;
   const hasActiveFilters = Object.entries(activeFilters).some(
-    ([filterName, filterList]) => {
-      if (filterList.length > 0) {
-        return true;
-      }
-      return false;
-    },
+    ([_, filterList]) => filterList.length > 0,
   );
 
   const clearFilters = () => {
@@ -245,10 +272,7 @@ function ActiveFiltersComponent(props) {
 
   const removeFilter = (filterName, filterCode) => {
     const temp = JSON.parse(JSON.stringify(activeFilters));
-    temp[filterName] = temp[filterName].filter((value) => {
-      if (value !== filterCode) return value;
-      return null;
-    });
+    temp[filterName] = temp[filterName].filter((value) => value !== filterCode);
 
     const filterInputs = document.querySelectorAll(
       '#cse-filter .filter-input input',
@@ -276,62 +300,24 @@ function ActiveFiltersComponent(props) {
       </div>
       <div className="filter-list-content">
         <div className="filter">
-          {activeFilters.measures_implemented.length > 0 ? (
-            <div className="filter-wrapper">
-              <div className="filter-label">Measures implemented:</div>
-              {activeFilters.measures_implemented.map((filterCode) => {
-                const filterLabel = filters.measures_implemented[filterCode];
-                return (
-                  <div className="ui basic label filter-value">
-                    <span>{filterLabel}</span>
-                    <i
-                      tabIndex="0"
-                      onKeyPress={() => {}}
-                      onClick={() => {
-                        removeFilter('measures_implemented', filterCode);
-                        scrollToElement('search-input');
-                      }}
-                      role="button"
-                      className="close icon"
-                    ></i>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            ''
-          )}
-          {activeFilters.typology_of_measures.length > 0 ? (
-            <div className="filter-wrapper">
-              <div className="filter-label">Typology of measures:</div>
-              {activeFilters.typology_of_measures.map((filterCode) => {
-                const filterLabel = filters.typology_of_measures[filterCode];
-                return (
-                  <div className="ui basic label filter-value">
-                    <span>{filterLabel}</span>
-                    <i
-                      tabIndex="0"
-                      onKeyPress={() => {}}
-                      onClick={() => {
-                        removeFilter('typology_of_measures', filterCode);
-                        scrollToElement('search-input');
-                      }}
-                      role="button"
-                      className="close icon"
-                    ></i>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            ''
-          )}
+          <FilterGroup
+            filterName="measures_implemented"
+            filterLabel="Measures implemented:"
+            activeFilterCodes={activeFilters.measures_implemented}
+            filters={filters}
+            onRemoveFilter={removeFilter}
+          />
+          <FilterGroup
+            filterName="typology_of_measures"
+            filterLabel="Typology of measures:"
+            activeFilterCodes={activeFilters.typology_of_measures}
+            filters={filters}
+            onRemoveFilter={removeFilter}
+          />
         </div>
       </div>
     </div>
-  ) : (
-    ''
-  );
+  ) : null;
 }
 
 export const CaseStudyFilters = withOpenLayers(CaseStudyFiltersComponent);
