@@ -9,6 +9,7 @@ import {
   SearchBox,
   CaseStudyFilter,
 } from './CaseStudyFilters';
+import { createMockFilters } from './testUtils';
 
 jest.mock('@eeacms/volto-openlayers-map', () => ({
   openlayers: {
@@ -28,41 +29,32 @@ jest.mock('@eeacms/volto-openlayers-map', () => ({
   ),
 }));
 
+window.URL.createObjectURL = function () {};
+global.URL.createObjectURL = jest.fn();
+
+const mockFilters = createMockFilters();
+const mockSetActiveFilters = jest.fn();
+
 describe('CaseStudyFilters', () => {
-  const mockSetActiveFilters = jest.fn();
-  window.URL.createObjectURL = function () {};
-  global.URL.createObjectURL = jest.fn();
-
-  const mockFilters = {
-    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
-  };
-
   it('renders without crashing', () => {
     const { container } = render(
       <CaseStudyFilters
         filters={mockFilters}
-        activeFilters={{ typology_of_measures: [] }}
+        activeFilters={{ measures_implemented: [], typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
       />,
     );
 
-    // CaseStudyFilters component returns empty content (commented out filters)
-    // Just verify it renders without error
     expect(container).toBeTruthy();
   });
 });
 
 describe('ActiveFilters', () => {
-  const mockSetActiveFilters = jest.fn();
-  const mockFilters = {
-    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
-  };
-
   it('renders without crashing', () => {
     render(
       <ActiveFilters
         filters={mockFilters}
-        activeFilters={{ typology_of_measures: [] }}
+        activeFilters={{ measures_implemented: [], typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
       />,
     );
@@ -70,41 +62,28 @@ describe('ActiveFilters', () => {
 });
 
 describe('SearchBox', () => {
-  const mockSetActiveFilters = jest.fn();
-  const mockFilters = {
-    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
-  };
-
-  const mockSetSearchInput = jest.fn();
-  const mockSearchInput = 'bise';
-
   it('renders without crashing', () => {
     render(
       <SearchBox
         filters={mockFilters}
-        activeFilters={{ typology_of_measures: [] }}
+        activeFilters={{ measures_implemented: [], typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
-        searchInput={mockSearchInput}
-        setSearchInput={mockSetSearchInput}
+        searchInput="bise"
+        setSearchInput={jest.fn()}
       />,
     );
   });
 });
 
 describe('CaseStudyFilter', () => {
-  const mockSetActiveFilters = jest.fn();
-  const mockFilters = {
-    typology_of_measures: { sector1: 'Sector 1', sector2: 'Sector 2' },
-  };
-
   it('renders without crashing', () => {
     render(
       <CaseStudyFilter
-        filterTitle={'Case study filter'}
+        filterTitle="Case study filter"
         filters={mockFilters}
-        activeFilters={{ typology_of_measures: [] }}
+        activeFilters={{ measures_implemented: [], typology_of_measures: [] }}
         setActiveFilters={mockSetActiveFilters}
-        filterName={'Filter name'}
+        filterName="measures_implemented"
       />,
     );
   });
