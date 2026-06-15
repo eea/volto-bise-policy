@@ -378,3 +378,7 @@ p.has--clear--both:empty {
 div[role='navigation'] .toolbar-content.show {
   max-height: 100vh !important;
 }
+
+.content-box[class*="ary"] .power-user-menu {
+  --text-color-inactive: #3d5265;
+}
