@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CaseStudyMap from './CaseStudyMap';
 import { getFeatures, centerAndResetMapZoom, scrollToElement } from './utils';
+import { createMockMap, createMockOl } from './testUtils';
 
 jest.mock('@eeacms/volto-openlayers-map', () => ({
   withOpenLayers: (Comp) => Comp,
@@ -34,57 +35,8 @@ jest.mock('./utils', () => ({
   scrollToElement: jest.fn(),
 }));
 
-const mockOl = {
-  source: {
-    TileWMS: jest.fn(() => ({ type: 'TileWMS' })),
-    Vector: jest.fn(() => ({
-      clear: jest.fn(),
-      addFeatures: jest.fn(),
-    })),
-    Cluster: jest.fn(() => ({})),
-  },
-  style: {
-    Style: jest.fn(() => ({})),
-    Circle: jest.fn(() => ({})),
-    Stroke: jest.fn(() => ({})),
-    Fill: jest.fn(() => ({})),
-    Text: jest.fn(() => ({})),
-  },
-  proj: {
-    transform: jest.fn(() => [111, 222]),
-    fromLonLat: jest.fn(() => [333, 444]),
-  },
-};
-
-const mockMap = {
-  on: jest.fn(),
-  un: jest.fn(),
-  getView: jest.fn(() => ({
-    getZoom: () => 4,
-    getCenter: () => [111, 222],
-  })),
-  getInteractions: jest.fn(() => ({
-    array_: [
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {
-        getFeatures: jest.fn(() => ({
-          clear: jest.fn(),
-          push: jest.fn(),
-        })),
-      },
-    ],
-  })),
-  getPixelFromCoordinate: jest.fn(() => [10, 20]),
-  getFeaturesAtPixel: jest.fn(() => ['f']),
-};
+const mockOl = createMockOl();
+const mockMap = createMockMap();
 
 describe('CaseStudyMap', () => {
   beforeEach(() => {

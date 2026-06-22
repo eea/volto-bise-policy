@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
-import { SidebarPortal } from '@plone/volto/components'; // EditBlock
+import SidebarPortal from '@plone/volto/components/manage/Sidebar/SidebarPortal'; // EditBlock
 import InlineForm from '@plone/volto/components/manage/Form/InlineForm';
 import config from '@plone/volto/registry';
 import { VisibilitySensor } from '@eeacms/volto-datablocks/components';

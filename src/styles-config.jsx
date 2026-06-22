@@ -1,8 +1,8 @@
-import { Icon } from '@plone/volto/components';
+import Icon from '@plone/volto/components/theme/Icon/Icon';
 import contentBoxSVG from '@eeacms/volto-bise-policy/icons/content-box.svg';
 
 const config = (config) => {
-  config.settings.available_colors = [
+  const colors = [
     '#005248', // primary color
     '#00A390', // secondary color
     '#3D5265', // tertiary color
@@ -11,68 +11,57 @@ const config = (config) => {
     '#F9F9F9',
     '#004B7F',
     '#007B6C',
-    '#3D5265',
     '#B83230', // error state
     '#FF9933', // warning state
-    '#007B6C', // success state
-    '#004B7F', // info state
-    '#005248', // green shade
-    '#007B6C', // green shade
-    '#00A390', // green shade
-    '#00CCB4', // green shade
-    '#00F5D8', // green shade
-    '#85FFF1', // green shade
-    '#C8FFF8', // green shade
-    '#FFFFFF', // white
-    '#2E3E4C', // blue grey
-    '#3D5265', // blue grey
-    '#4C677F', // blue grey
-    '#6989A5', // blue grey
-    '#8EA6C2', // blue grey
-    '#ACCAE5', // blue grey
-    '#DAE8F4', // blue grey
-    '#FFFFFF', // white
-    '#C35527', // yellow shade
-    '#FF9933', // yellow shade
-    '#FDAF20', // yellow shade
-    '#FAC50D', // yellow shade
-    '#FAD936', // yellow shade
-    '#FBEC9B', // yellow shade
-    '#FEF6CD', // yellow shade
-    '#FFFFFF', // white
-    '#5C1918', // red shade
-    '#B83230', // red shade
-    '#C65B59', // red shade
-    '#D78890', // red shade
-    '#E7B2C0', // red shade
-    '#F6DDF0', // red shade
-    '#FBEEF8', // red shade
-    '#FFFFFF', // white
-    '#003052', // blue shade
-    '#004B7F', // blue shade
-    '#006BB8', // blue shade
-    '#0083E0', // blue shade
-    '#0A99FF', // blue shade
-    '#47B3FF', // blue shade
-    '#A0D7FF', // blue shade
-    '#FFFFFF', // white
-    '#000000', // grey shade
-    '#323232', // grey shade
-    '#747678', // grey shade
-    '#BCBEC0', // grey shade
-    '#E6E7E8', // grey shade
-    '#F9F9F9', // grey shade
-    '#FEFEFE', // white
-    '#FFFFFF', // white
+    // green shade
+    '#00CCB4',
+    '#00F5D8',
+    '#85FFF1',
+    '#C8FFF8',
+    // blue grey
+    '#2E3E4C',
+    '#4C677F',
+    '#6989A5',
+    '#8EA6C2',
+    '#ACCAE5',
+    '#DAE8F4',
+    // yellow shade
+    '#C35527',
+    '#FDAF20',
+    '#FAD936',
+    '#FBEC9B',
+    '#FEF6CD',
+    // red shade
+    '#5C1918',
+    '#C65B59',
+    '#D78890',
+    '#E7B2C0',
+    '#F6DDF0',
+    '#FBEEF8',
+    // blue shade
+    '#003052',
+    '#006BB8',
+    '#0083E0',
+    '#0A99FF',
+    '#47B3FF',
+    '#A0D7FF',
+    // grey shade
+    '#000000',
+    '#323232',
+    '#747678',
+    '#BCBEC0',
+    '#E6E7E8',
+    '#FEFEFE',
     // Habitat group colors
-    '#FEF6CD', // group 1
-    '#CDE6F7', // group 2
-    '#DCEED6', // group 3
-    '#FEE2D5', // group 4
-    '#D6D7D9', // group 5
-    '#E8A7C1', // group 6
-    '#6989A5', // group 7
+    '#CDE6F7',
+    '#DCEED6',
+    '#FEE2D5',
+    '#D6D7D9',
+    '#E8A7C1',
+    // white
+    '#FFFFFF',
   ];
+  config.settings.available_colors = [...new Set(colors)];
 
   config.blocks.blocksConfig.columnsBlock =
     config.blocks.blocksConfig.columnsBlock || {};

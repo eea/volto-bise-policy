@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { Menu } from 'semantic-ui-react';
-import { UniversalLink } from '@plone/volto/components';
-import { flattenToAppURL } from '@plone/volto/helpers';
+import UniversalLink from '@plone/volto/components/manage/UniversalLink/UniversalLink';
+import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
 import { getFieldURL } from '@eeacms/volto-bise-policy/helpers';
 
 import './styles.less';

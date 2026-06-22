@@ -1,4 +1,4 @@
-import { TextareaWidget } from '@plone/volto/components';
+import TextareaWidget from '@plone/volto/components/manage/Widgets/TextareaWidget';
 
 const CustomJSBlockEdit = ({ data, onChangeBlock, block }) => {
   return (

@@ -1,8 +1,11 @@
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Accordion, Button, Segment } from 'semantic-ui-react';
-import { DragDropList, FormFieldWrapper, Icon } from '@plone/volto/components';
-import { applySchemaDefaults, reorderArray } from '@plone/volto/helpers';
+import DragDropList from '@plone/volto/components/manage/DragDropList/DragDropList';
+import FormFieldWrapper from '@plone/volto/components/manage/Widgets/FormFieldWrapper';
+import Icon from '@plone/volto/components/theme/Icon/Icon';
+import { reorderArray } from '@plone/volto/helpers/Utils/Utils';
+import { applySchemaDefaults } from '@plone/volto/helpers/Blocks/Blocks';
 import ObjectWidget from '@plone/volto/components/manage/Widgets/ObjectWidget';
 
 import upSVG from '@plone/volto/icons/up-key.svg';
@@ -420,11 +423,9 @@ export const EUNISCountryCodeView = ({ value }) => {
 
   if (!items || items.length === 0) return null;
 
-  return items.map((country) => (
-    <div>
-      <div key={country['@id']} className="country-item">
-        {country.countryCode?.join(', ')}
-      </div>
+  return items.map((country, index) => (
+    <div key={country['@id'] ?? index}>
+      <div className="country-item">{country.countryCode?.join(', ')}</div>
       <div className="eunis-widget-view">
         {country.national.map((item) => (
           <div key={item['@id']} className="eunis-widget-item">

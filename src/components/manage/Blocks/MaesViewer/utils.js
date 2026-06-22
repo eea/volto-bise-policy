@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import uniq from 'lodash/uniq';
+import keys from 'lodash/keys';
+import fromPairs from 'lodash/fromPairs';
+import map from 'lodash/map';
 import { defaultHoverTemplate } from './constants';
 
 export const colorscale = [
@@ -59,7 +62,7 @@ class ProviderData {
   }
 
   getUniqueColumnData(name) {
-    return _.uniq(this.data[name]);
+    return uniq(this.data[name]);
   }
 
   getEcosystems() {
@@ -95,7 +98,7 @@ class ProviderData {
   }
 
   getColumnNames() {
-    return _.keys(this.data);
+    return keys(this.data);
   }
 
   getCellValue(columnName, rowIndex) {
@@ -136,7 +139,7 @@ class ProviderData {
 export function mapByLevel(provider_data) {
   const pd = new ProviderData(provider_data);
 
-  const byLevel = _.fromPairs(pd.getEcosystems().map((l) => [l, {}]));
+  const byLevel = fromPairs(pd.getEcosystems().map((l) => [l, {}]));
 
   pd.forEachCountryAndLevel((country, level) => {
     const filters = [
@@ -168,8 +171,8 @@ export function mapToAllEU(provider_data, byLevel) {
     totalArea += EUByLevel[level];
   });
 
-  const EUByLevelPercents = _.fromPairs(
-    _.map(Array.from(level2), (l) => {
+  const EUByLevelPercents = fromPairs(
+    map(Array.from(level2), (l) => {
       return [l, (EUByLevel[l] / totalArea) * 100];
     }),
   );
@@ -198,7 +201,7 @@ export function makeTrace(
   // first element: country name
   // second element: square kilometers (km2)
   // third element: square megameters (Mm2)
-  const hovertext = _.map(data, (x) => [x[0], x[1] / 100, x[1] / 10000]);
+  const hovertext = map(data, (x) => [x[0], x[1] / 100, x[1] / 10000]);
 
   const text = [
     ...data.slice(0, data.length - 1).map((_) => null),
@@ -335,8 +338,8 @@ export function makeChartTiles(
   const byLevel = mapByLevel(provider_data);
   const { EUByLevel, EUByLevelPercents } = mapToAllEU(provider_data, byLevel);
 
-  const ecosystems = _.uniq(provider_data['Ecosystem_level2']);
-  const countries = _.uniq(provider_data['Country_name']);
+  const ecosystems = uniq(provider_data['Ecosystem_level2']);
+  const countries = uniq(provider_data['Country_name']);
 
   const byArea = Object.fromEntries(ecosystems.map((l) => [l, {}]));
   ecosystems.forEach((level) => {
