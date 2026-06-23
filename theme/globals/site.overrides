@@ -373,12 +373,18 @@ p.has--clear--both:empty {
   }
 }
 
+#page-header .styled-group.has--useAsPageHeader--true {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
 //fix Sidebar menu vertical scroll
 
 div[role='navigation'] .toolbar-content.show {
   max-height: 100vh !important;
 }
 
-.content-box[class*="ary"] .power-user-menu {
+.content-box[class*='ary'] .power-user-menu {
   --text-color-inactive: #3d5265;
 }
