@@ -9,6 +9,7 @@ import {
 } from '@eeacms/volto-openlayers-map/api';
 import React, { useState } from 'react';
 import { useMapContext } from '@eeacms/volto-openlayers-map/hocs';
+import { GISCO_OSM_ATTRIBUTION } from '@eeacms/volto-bise-policy/constants';
 
 function PinInteraction({ longitude, latitude, onChange, ol }) {
   const mapContext = useMapContext();
@@ -77,6 +78,7 @@ const TileSetLoader = (props) => {
     setTileWMSSources([
       new ol.source.TileWMS({
         url: 'https://gisco-services.ec.europa.eu/maps/service',
+        attributions: GISCO_OSM_ATTRIBUTION,
         params: {
           LAYERS: 'OSMBlossomComposite',
           TILED: true,
@@ -102,10 +104,13 @@ const MapContainer = (props) => {
         zoom: 15,
       }}
       pixelRatio={1}
-      controls={ol.control.defaults({ attribution: false })}
     >
       <Layers>
-        <Controls attribution={false} zoom={false} />
+        <Controls
+          attribution={true}
+          attributionOptions={{ collapsible: false }}
+          zoom={false}
+        />
         <PinInteraction
           ol={ol}
           latitude={latitude}
