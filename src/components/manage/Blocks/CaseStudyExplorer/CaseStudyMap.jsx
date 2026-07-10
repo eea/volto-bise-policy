@@ -10,6 +10,7 @@ import {
   useMapContext,
 } from '@eeacms/volto-openlayers-map/api';
 import { withOpenLayers } from '@eeacms/volto-openlayers-map';
+import { GISCO_OSM_ATTRIBUTION } from '@eeacms/volto-bise-policy/constants';
 
 import InfoOverlay from './InfoOverlay';
 import FeatureInteraction from './FeatureInteraction';
@@ -45,6 +46,7 @@ function CaseStudyMap(props) {
   const [tileWMSSources] = React.useState([
     new ol.source.TileWMS({
       url: 'https://gisco-services.ec.europa.eu/maps/service',
+      attributions: GISCO_OSM_ATTRIBUTION,
       params: {
         // LAYERS: 'OSMBlossomComposite', OSMCartoComposite, OSMPositronComposite
         LAYERS: 'OSMPositronComposite',
@@ -130,9 +132,11 @@ function CaseStudyMap(props) {
           zoom: 4,
         }}
         pixelRatio={1}
-        // controls={ol.control.defaults({ attribution: false })}
       >
-        <Controls attribution={false} />
+        <Controls
+          attribution={true}
+          attributionOptions={{ collapsible: false }}
+        />
         <Layers>
           {hideFilters ? null : (
             <button
