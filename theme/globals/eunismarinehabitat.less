@@ -22,23 +22,40 @@
   box-shadow: none;
 }
 
-.contenttype-marine_eunis_habitat .help.slate_wysiwyg p.help {
-  white-space: break-spaces;
+.is-adding-contenttype-marine_eunis_habitat {
+  .slate_wysiwyg_box {
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #c7d5d8;
+  }
 }
 
-.contenttype-marine_eunis_habitat .bise-objectlist-widget p.help {
-  white-space: break-spaces;
+.contenttype-marine_eunis_habitat,
+.is-adding-contenttype-marine_eunis_habitat {
+  .help.slate_wysiwyg p.help {
+    white-space: break-spaces;
+  }
 }
 
-.contenttype-marine_eunis_habitat .eea.banner .gradient {
-  background: none;
+.is-adding-contenttype-marine_eunis_habitat,
+.contenttype-marine_eunis_habitat {
+  .bise-objectlist-widget p.help {
+    white-space: break-spaces;
+  }
+}
+
+.is-adding-contenttype-marine_eunis_habitat,
+.contenttype-marine_eunis_habitat {
+  .eea.banner .gradient {
+    background: none;
+  }
 }
 
 .contenttype-nrr_measure .eea.banner .gradient {
   background: none;
 }
 
-.bise-objectlist-widget .inline.field > .ui.grid {
+.bise-objectlist-widget .inline.field>.ui.grid {
   margin: 0;
 }
 
@@ -46,7 +63,6 @@
   color: var(--text-color-secondary, #289588);
 }
 
-.contenttype-nrr_measure
-  .top.aligned.four.wide.computer.twelve.wide.mobile.four.wide.column {
+.contenttype-nrr_measure .top.aligned.four.wide.computer.twelve.wide.mobile.four.wide.column {
   background-color: #f9f9f9;
 }
