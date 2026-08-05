@@ -14,6 +14,7 @@ import deleteSVG from '@plone/volto/icons/delete.svg';
 import addSVG from '@plone/volto/icons/add.svg';
 import dragSVG from '@plone/volto/icons/drag.svg';
 import { v4 as uuid } from 'uuid';
+import { useSelector } from 'react-redux';
 
 import { EuropeanRedListVocab, countryCodesVocab } from './vocabularies';
 import './styles.less';
@@ -254,16 +255,17 @@ export const EUNISMSFDView = ({ value }) => {
   );
 };
 
-export const EUNISCodeView = ({ value }) => {
+export const EUNISCodeView = ({ value, content }) => {
+  const storeData = useSelector((state) => state.content?.data);
   if (!value) return value;
+
+  const contentData = content ?? storeData;
+  const altUrl = contentData?.['eunis_code_alt_url']?.trim();
+  const href = altUrl || `/habitats_eunis_revised/EUNISrev_${value}`;
 
   return (
     <span>
-      <a
-        href={`/habitats_eunis_revised/EUNISrev_${value}`}
-        target="_blank"
-        rel="noopener"
-      >
+      <a href={href} target="_blank" rel="noopener">
         {value}
       </a>
     </span>
