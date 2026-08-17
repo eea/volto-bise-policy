@@ -16,7 +16,12 @@ import InfoOverlay from './InfoOverlay';
 import FeatureInteraction from './FeatureInteraction';
 import CaseStudyList from './CaseStudyListing';
 
-import { centerAndResetMapZoom, getFeatures, scrollToElement } from './utils';
+import {
+  centerAndResetMapZoom,
+  CLUSTER_COLOR,
+  getFeatures,
+  scrollToElement,
+} from './utils';
 
 const styleCache = {};
 const MapContextGateway = ({ setMap }) => {
@@ -176,14 +181,35 @@ function CaseStudyMap(props) {
         </Layers>
       </MapWithSelection>
       {hideFilters ? null : (
-        <CaseStudyList
-          map={map}
-          activeItems={activeItems}
-          selectedCase={selectedCase}
-          onSelectedCase={onSelectedCase}
-          pointsSource={pointsSource}
-          searchInput={searchInput}
-        />
+        <>
+          <div
+            className="case-study-status-legend"
+            aria-label="Case study status legend"
+          >
+            <span className="legend-title">Current status</span>
+            {[
+              ['planned', '#1976D2'],
+              ['ongoing', '#F57C00'],
+              ['completed', '#388E3C'],
+            ].map(([status, color]) => (
+              <span className="legend-item" key={status}>
+                <span
+                  className="legend-dot"
+                  style={{ backgroundColor: color }}
+                />
+                {status}
+              </span>
+            ))}
+          </div>
+          <CaseStudyList
+            map={map}
+            activeItems={activeItems}
+            selectedCase={selectedCase}
+            onSelectedCase={onSelectedCase}
+            pointsSource={pointsSource}
+            searchInput={searchInput}
+          />
+        </>
       )}
     </div>
   ) : null;
@@ -202,7 +228,7 @@ const selectedClusterStyle = ({ selectedFeature, ol }) => {
             color: '#fff',
           }),
           fill: new ol.style.Fill({
-            color: '#007B6C', // #006BB8 #309ebc
+            color: CLUSTER_COLOR,
           }),
         }),
         text: new ol.style.Text({
@@ -216,8 +242,7 @@ const selectedClusterStyle = ({ selectedFeature, ol }) => {
     }
 
     if (size === 1) {
-      // let color = feature.values_.features[0].values_['color'];
-      let color = '#289588'; // #0083E0 #50B0A4
+      const color = feature.values_.features[0].get('color');
 
       return new ol.style.Style({
         image: new ol.style.Circle({

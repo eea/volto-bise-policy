@@ -24,6 +24,7 @@ export function CaseStudyFilter(props) {
     map,
     ol,
   } = props;
+  const filterEntries = Object.entries(filters?.[filterName] || {});
 
   const showInputs = (event) => {
     event.currentTarget.parentElement.classList.add('active');
@@ -33,6 +34,7 @@ export function CaseStudyFilter(props) {
     <div className="filter-wrapper">
       <button
         className="ui basic button facet-btn"
+        disabled={!filterEntries.length}
         onClick={(e) => showInputs(e)}
       >
         <span>
@@ -41,7 +43,9 @@ export function CaseStudyFilter(props) {
         </span>
       </button>
       <div className="filter-inputs-wrapper">
-        {Object.entries(filters?.[filterName] || {}).length > 7 ? (
+        {!filterEntries.length ? (
+          <div className="filter-empty">No options available</div>
+        ) : filterEntries.length > 7 ? (
           <input
             type="text"
             className="filterInputText"
@@ -66,7 +70,7 @@ export function CaseStudyFilter(props) {
         )}
 
         <div className="filter-inputs">
-          {Object.entries(filters?.[filterName] || {})
+          {filterEntries
             .sort((item1, item2) => item1[1].localeCompare(item2[1]))
             .map(([value, label], index) => (
               <label
@@ -137,6 +141,27 @@ function CaseStudyFiltersComponent(props) {
         setActiveFilters={setActiveFilters}
         map={map}
         ol={ol}
+      />
+
+      <CaseStudyFilter
+        filterTitle="Current status"
+        filterName="current_status"
+        {...props}
+      />
+      <CaseStudyFilter
+        filterTitle="Habitat/ecosystem type"
+        filterName="habitat_ecosystem_type"
+        {...props}
+      />
+      <CaseStudyFilter
+        filterTitle="NRR Article"
+        filterName="nrr_article"
+        {...props}
+      />
+      <CaseStudyFilter
+        filterTitle="Scale of Planning"
+        filterName="scale_of_planning"
+        {...props}
       />
     </>
   );
@@ -266,7 +291,9 @@ function ActiveFiltersComponent(props) {
     for (let i = 0; i < filterInputs.length; i++) {
       filterInputs[i].checked = false;
     }
-    setActiveFilters({ measures_implemented: [], typology_of_measures: [] });
+    setActiveFilters(
+      Object.fromEntries(Object.keys(activeFilters).map((key) => [key, []])),
+    );
     scrollToElement('search-input');
   };
 
@@ -311,6 +338,34 @@ function ActiveFiltersComponent(props) {
             filterName="typology_of_measures"
             filterLabel="Typology of measures:"
             activeFilterCodes={activeFilters.typology_of_measures}
+            filters={filters}
+            onRemoveFilter={removeFilter}
+          />
+          <FilterGroup
+            filterName="current_status"
+            filterLabel="Current status:"
+            activeFilterCodes={activeFilters.current_status}
+            filters={filters}
+            onRemoveFilter={removeFilter}
+          />
+          <FilterGroup
+            filterName="habitat_ecosystem_type"
+            filterLabel="Habitat/ecosystem type:"
+            activeFilterCodes={activeFilters.habitat_ecosystem_type}
+            filters={filters}
+            onRemoveFilter={removeFilter}
+          />
+          <FilterGroup
+            filterName="nrr_article"
+            filterLabel="NRR Article:"
+            activeFilterCodes={activeFilters.nrr_article}
+            filters={filters}
+            onRemoveFilter={removeFilter}
+          />
+          <FilterGroup
+            filterName="scale_of_planning"
+            filterLabel="Scale of Planning:"
+            activeFilterCodes={activeFilters.scale_of_planning}
             filters={filters}
             onRemoveFilter={removeFilter}
           />

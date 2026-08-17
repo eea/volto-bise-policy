@@ -22,6 +22,10 @@ export default function CaseStudyExplorerView(props) {
   const [activeFilters, setActiveFilters] = React.useState({
     measures_implemented: [],
     typology_of_measures: [],
+    current_status: [],
+    habitat_ecosystem_type: [],
+    nrr_article: [],
+    scale_of_planning: [],
   });
 
   const [activeItems, setActiveItems] = React.useState(cases);
@@ -31,12 +35,7 @@ export default function CaseStudyExplorerView(props) {
   React.useEffect(() => {
     const _filters = getFilters(cases);
     setFilters(_filters);
-  }, [
-    cases,
-    activeFilters.measures_implemented,
-    activeFilters.typology_of_measures,
-    activeItems.length,
-  ]);
+  }, [cases, activeFilters, activeItems.length]);
 
   React.useEffect(() => {
     let activeItems = filterCases(
