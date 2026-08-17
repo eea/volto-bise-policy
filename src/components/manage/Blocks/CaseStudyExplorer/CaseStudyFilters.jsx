@@ -3,16 +3,7 @@ import React from 'react';
 import { centerAndResetMapZoom, scrollToElement } from './utils';
 import { withOpenLayers } from '@eeacms/volto-openlayers-map';
 
-const normalizeSearchInput = (searchInput) => {
-  let normInput = searchInput
-    .toLowerCase()
-    .replace('(', '')
-    .replace(')', '')
-    .replace('?', '.')
-    .replace('*', '[^\\s]+');
-
-  return '\\b' + normInput + '\\b';
-};
+const normalizeSearchInput = (searchInput) => searchInput.trim().toLowerCase();
 
 export function CaseStudyFilter(props) {
   const {

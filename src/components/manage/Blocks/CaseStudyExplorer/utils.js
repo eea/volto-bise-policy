@@ -107,6 +107,31 @@ export function getFeatures({ cases, ol }) {
   });
 }
 
+// Escape a string so it can be embedded in a RegExp pattern as a literal.
+// Prevents user-provided input from being interpreted as regex syntax
+// (avoids ReDoS via crafted patterns and SyntaxError from malformed ones).
+export function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const WORD_CHAR = /[A-Za-z0-9_]/;
+
+// Case-insensitive whole-word substring match implemented without regular
+// expressions, so the needle is always treated as literal text. Equivalent
+// to /\bneedle\b/i but runs in linear time (indexOf) and is immune to
+// catastrophic backtracking.
+function hasWholeWord(text, needle) {
+  let index = text.indexOf(needle);
+  while (index !== -1) {
+    const before = index === 0 ? '' : text[index - 1];
+    const after =
+      index + needle.length >= text.length ? '' : text[index + needle.length];
+    if (!WORD_CHAR.test(before) && !WORD_CHAR.test(after)) return true;
+    index = text.indexOf(needle, index + 1);
+  }
+  return false;
+}
+
 const FILTER_FIELDS = [
   'measures_implemented',
   'typology_of_measures',
@@ -126,7 +151,8 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
       properties.description || ''
     }`;
     const flagSearch =
-      !searchInput || searchable.toLowerCase().match(searchInput);
+      !searchInput ||
+      hasWholeWord(searchable.toLowerCase(), searchInput.toLowerCase());
 
     const matchesFilters = FILTER_FIELDS.every((filterName) => {
       const selected = activeFilters[filterName] || [];

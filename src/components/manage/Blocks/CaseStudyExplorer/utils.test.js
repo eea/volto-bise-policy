@@ -84,6 +84,39 @@ describe('utils.js', () => {
     expect(mockCasesFiltered).toStrictEqual([]);
   });
 
+  test('filterCases treats search input as literal text (ReDoS-safe)', () => {
+    const cases = [
+      {
+        geometry: { coordinates: [0, 0] },
+        properties: {
+          title: 'the river project (R1)',
+          description: 'a aaa aaaa aaaaa b',
+          url: '/the-river-project-r1',
+        },
+      },
+    ];
+    const noFilters = {
+      measures_implemented: [],
+      typology_of_measures: [],
+      current_status: [],
+      habitat_ecosystem_type: [],
+      nrr_article: [],
+      scale_of_planning: [],
+    };
+
+    // Malformed regex input must not throw (previously: SyntaxError)
+    expect(() => filterCases(cases, noFilters, null, '(')).not.toThrow();
+    // Regex metacharacters are matched literally, not interpreted
+    expect(() => filterCases(cases, noFilters, null, '(a+)+$')).not.toThrow();
+    expect(filterCases(cases, noFilters, null, '(a+)+$')).toHaveLength(0);
+    expect(filterCases(cases, noFilters, null, '(r1')).toHaveLength(1);
+    // Whole-word semantics are preserved
+    expect(filterCases(cases, noFilters, null, 'rive')).toHaveLength(0);
+    expect(filterCases(cases, noFilters, null, 'river')).toHaveLength(1);
+    // Case-insensitive
+    expect(filterCases(cases, noFilters, null, 'R1')).toHaveLength(1);
+  });
+
   test('filters new scalar and multi-value fields', () => {
     const cases = [
       {

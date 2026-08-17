@@ -1,8 +1,10 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
 import { withOpenLayers } from '@eeacms/volto-openlayers-map';
 
 import {
   centerAndResetMapZoom,
+  escapeRegExp,
   scrollToElement,
   zoomMapToFeatures,
 } from './utils';
@@ -33,7 +35,9 @@ const showPageNr = (pageNr, currentPage, numberOfPages) => {
 function CaseStudyList(props) {
   const { selectedCase, onSelectedCase, pointsSource, map, searchInput, ol } =
     props;
-  const reSearch = new RegExp(`\\b(${searchInput})\\b`, 'gi');
+  const reSearch = searchInput
+    ? new RegExp(`\\b(${escapeRegExp(searchInput)})\\b`, 'gi')
+    : null;
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const features = pointsSource
@@ -167,12 +171,17 @@ function CaseStudyList(props) {
                     <p
                       className="listing-description"
                       dangerouslySetInnerHTML={{
-                        __html: searchInput
-                          ? item.values_.description.replaceAll(
-                              reSearch,
-                              '<b>$1</b>',
-                            )
-                          : item.values_.description,
+                        // description is server data and may contain HTML;
+                        // sanitize the highlighted result so no scripts or
+                        // event handlers can reach the DOM
+                        __html: DOMPurify.sanitize(
+                          searchInput && reSearch && item.values_.description
+                            ? item.values_.description.replaceAll(
+                                reSearch,
+                                '<b>$1</b>',
+                              )
+                            : item.values_.description || '',
+                        ),
                       }}
                     ></p>
                     <div className="slot-bottom">
