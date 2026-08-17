@@ -141,8 +141,23 @@ const FILTER_FIELDS = [
   'scale_of_planning',
 ];
 
-export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
-  return cases.filter((_case) => {
+export function filterCasesByPath(cases, filterPath) {
+  const path = filterPath?.trim();
+  if (!path) return cases;
+
+  return cases.filter((_case) =>
+    String(_case.properties?.path || '').includes(path),
+  );
+}
+
+export function filterCases(
+  cases,
+  activeFilters,
+  caseStudiesIds,
+  searchInput,
+  filterPath,
+) {
+  return filterCasesByPath(cases, filterPath).filter((_case) => {
     const properties = _case.properties || {};
     const flagCase = caseStudiesIds
       ? caseStudiesIds.includes(properties.url?.split('/').pop())
@@ -161,12 +176,12 @@ export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
         filterName === 'measures_implemented'
           ? asValues(properties.measures).map((item) => valueCode(item))
           : filterName === 'typology_of_measures'
-            ? asValues(properties.typology_of_measures).map((item) =>
-                valueCode(item),
-              )
-            : asValues(getCaseProperty(properties, filterName)).map((item) =>
-                valueCode(item),
-              );
+          ? asValues(properties.typology_of_measures).map((item) =>
+              valueCode(item),
+            )
+          : asValues(getCaseProperty(properties, filterName)).map((item) =>
+              valueCode(item),
+            );
       return selected.some((filter) => values.includes(String(filter)));
     });
 
@@ -184,8 +199,8 @@ export function getFilters(cases) {
         field === 'measures_implemented'
           ? properties.measures
           : field === 'typology_of_measures'
-            ? properties.typology_of_measures
-            : getCaseProperty(properties, field);
+          ? properties.typology_of_measures
+          : getCaseProperty(properties, field);
       asValues(source).forEach((item) => {
         const code = valueCode(item);
         if (!filters[field][code]) filters[field][code] = valueLabel(item);

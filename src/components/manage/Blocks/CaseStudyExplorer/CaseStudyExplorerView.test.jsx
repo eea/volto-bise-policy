@@ -31,6 +31,7 @@ jest.mock('./CaseStudyFilters', () => ({
 
 jest.mock('./utils', () => ({
   filterCases: jest.fn(() => [{ id: 1, title: 'Filtered Case' }]),
+  filterCasesByPath: jest.fn((cases) => cases),
   getFilters: jest.fn(() => ['filter1', 'filter2']),
 }));
 

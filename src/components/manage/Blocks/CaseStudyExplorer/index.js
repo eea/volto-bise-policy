@@ -1,6 +1,7 @@
 import worldSVG from '@plone/volto/icons/world.svg';
 import CaseStudyExplorerEdit from './CaseStudyExplorerEdit';
 import CaseStudyExplorerView from './CaseStudyExplorerView';
+import schema from './schema';
 
 export default function installCaseStudyExplorerBlock(config) {
   config.blocks.blocksConfig.caseStudyExplorer = {
@@ -10,6 +11,7 @@ export default function installCaseStudyExplorerBlock(config) {
     group: 'custom_blocks',
     edit: CaseStudyExplorerEdit,
     view: CaseStudyExplorerView,
+    schema,
   };
 
   return config;
