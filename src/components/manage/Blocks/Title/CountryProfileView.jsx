@@ -14,7 +14,9 @@ const CountryProfileView = (props) => {
     ? {
         ...(props.banner || {}),
         title: {
-          view: <CountryFlagView {...props} path={props.path || props.pathname} />,
+          view: (
+            <CountryFlagView {...props} path={props.path || props.pathname} />
+          ),
         },
       }
     : props.banner;
