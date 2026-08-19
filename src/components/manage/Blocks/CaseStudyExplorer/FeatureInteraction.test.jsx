@@ -35,6 +35,7 @@ const mockOl = createMockOl({
           mockSelectCb = cb;
         }
       }),
+      un: jest.fn(),
     })),
   },
 });
@@ -43,6 +44,7 @@ const mockMap = {
   addInteraction,
   removeInteraction,
   on: onMap,
+  un: jest.fn(),
   getEventPixel,
   hasFeatureAtPixel,
   getViewport,
@@ -64,6 +66,43 @@ describe('FeatureInteraction', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockSelectCb = null;
+  });
+
+  it('configures the selection style when filters are visible', () => {
+    render(
+      <FeatureInteraction
+        onFeatureSelect={jest.fn()}
+        hideFilters={false}
+        selectedCase={null}
+        ol={mockOl}
+      />,
+    );
+
+    const options = mockOl.interaction.Select.mock.calls[0][0];
+    expect(options.style).toEqual(expect.any(Function));
+  });
+
+  it('keeps one Select interaction across rerenders', () => {
+    const { rerender } = render(
+      <FeatureInteraction
+        onFeatureSelect={jest.fn()}
+        hideFilters={false}
+        selectedCase={null}
+        ol={mockOl}
+      />,
+    );
+
+    rerender(
+      <FeatureInteraction
+        onFeatureSelect={jest.fn()}
+        hideFilters={false}
+        selectedCase={{ path: '/selected' }}
+        ol={{ ...mockOl }}
+      />,
+    );
+
+    expect(mockOl.interaction.Select).toHaveBeenCalledTimes(1);
+    expect(addInteraction).toHaveBeenCalledTimes(1);
   });
 
   it('selects a single feature and calls onFeatureSelect + scrollToElement (hideFilters=false)', () => {

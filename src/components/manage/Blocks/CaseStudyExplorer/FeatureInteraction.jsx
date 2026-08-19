@@ -18,79 +18,81 @@ export const useStyles = ({ ol }) => {
           }),
         }),
       }),
-    [ol],
+    [ol.style],
   );
 
-  const selectStyle = React.useCallback(
-    (feature) => {
-      // const color = feature.values_.features[0].values_['color'] || '#ccc';
-      const color = '#0A99FF'; // #004B7F #309ebc #0A99FF
-      // console.log(color);
-      selected.image_.getFill().setColor(color);
-      return selected;
-    },
-    [selected],
-  );
+  const selectStyle = React.useCallback(() => {
+    selected.image_.getFill().setColor('#0A99FF');
+    return selected;
+  }, [selected]);
 
   return { selected, selectStyle };
 };
 
-function FeatureInteraction({
-  onFeatureSelect,
-  hideFilters,
-  selectedCase,
-  ol,
-}) {
-  // console.log('featureinteraction', selectedCase);
+function FeatureInteraction({ onFeatureSelect, hideFilters, ol }) {
   const { map } = useMapContext();
   const { selectStyle } = useStyles({ ol });
 
-  const select = new ol.interaction.Select({
-    condition: ol.condition.click,
-    style: hideFilters ? null : selectStyle,
-  });
+  // Keep callbacks current without recreating the OpenLayers interaction.
+  const onFeatureSelectRef = React.useRef(onFeatureSelect);
+  onFeatureSelectRef.current = onFeatureSelect;
+  const hideFiltersRef = React.useRef(hideFilters);
+  hideFiltersRef.current = hideFilters;
+  const olRef = React.useRef(ol);
+  olRef.current = ol;
+
+  // Select stores the selected rendered cluster feature and applies its style
+  // directly to that feature. Recreating it after selectedCase changes clears
+  // that collection and restores the feature's original style.
+  const selectRef = React.useRef(null);
+  if (!selectRef.current) {
+    selectRef.current = new ol.interaction.Select({
+      condition: ol.condition.click,
+      style: hideFilters ? null : selectStyle,
+    });
+  }
+  const select = selectRef.current;
 
   React.useEffect(() => {
     if (!map) return;
 
-    select.on('select', function (e) {
+    const onSelect = (e) => {
       const features = e.target.getFeatures().getArray();
 
       features.forEach((feature) => {
         const subfeatures = feature.values_.features;
         if (subfeatures.length === 1) {
           const selectedFeature = subfeatures[0].values_;
-          if (hideFilters) {
+          if (hideFiltersRef.current) {
             const url = window.location.origin + selectedFeature.path;
             // window.open(url);
             window.location.href = url;
           }
-          onFeatureSelect(selectedFeature);
+          onFeatureSelectRef.current(selectedFeature);
           scrollToElement('ol-map-container');
-          // map.getView().animate({
-          //   duration: 10,
-          //   center: selectedFeature.geometry.flatCoordinates,
-          // });
         } else {
-          onFeatureSelect(null);
-          zoomMapToFeatures({ map, features: subfeatures, ol });
+          onFeatureSelectRef.current(null);
+          zoomMapToFeatures({ map, features: subfeatures, ol: olRef.current });
         }
       });
+    };
 
-      return null;
-    });
-
+    select.on('select', onSelect);
     map.addInteraction(select);
 
-    map.on('pointermove', (e) => {
+    const onPointerMove = (e) => {
       const pixel = map.getEventPixel(e.originalEvent);
       const hit = map.hasFeatureAtPixel(pixel);
       map.getViewport().style.cursor = hit ? 'pointer' : '';
-    });
+    };
+    map.on('pointermove', onPointerMove);
 
-    return () => map.removeInteraction(select);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, selectStyle, onFeatureSelect, hideFilters]);
+    return () => {
+      select.un('select', onSelect);
+      map.un('pointermove', onPointerMove);
+      map.removeInteraction(select);
+    };
+  }, [map, select]);
 
   return null;
 }

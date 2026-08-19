@@ -31,6 +31,7 @@ jest.mock('./CaseStudyListing', () => () => (
 
 jest.mock('./utils', () => ({
   getFeatures: jest.fn(),
+  getSelectInteraction: jest.fn(() => null),
   centerAndResetMapZoom: jest.fn(),
   scrollToElement: jest.fn(),
 }));

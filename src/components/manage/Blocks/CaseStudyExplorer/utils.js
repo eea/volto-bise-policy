@@ -58,6 +58,16 @@ export function scrollToElement(elementId) {
   element?.scrollIntoView({ behavior: 'smooth' });
 }
 
+export function getSelectInteraction(map) {
+  const interactions = map?.getInteractions?.();
+  const interactionArray =
+    interactions?.getArray?.() || interactions?.array_ || [];
+
+  return interactionArray.find(
+    (interaction) => typeof interaction?.getFeatures === 'function',
+  );
+}
+
 export function getExtentOfFeatures({ features, ol }) {
   const points = features.map((f) => f.getGeometry().flatCoordinates);
   const point = new ol.geom.MultiPoint(points);
@@ -176,12 +186,12 @@ export function filterCases(
         filterName === 'measures_implemented'
           ? asValues(properties.measures).map((item) => valueCode(item))
           : filterName === 'typology_of_measures'
-            ? asValues(properties.typology_of_measures).map((item) =>
-                valueCode(item),
-              )
-            : asValues(getCaseProperty(properties, filterName)).map((item) =>
-                valueCode(item),
-              );
+          ? asValues(properties.typology_of_measures).map((item) =>
+              valueCode(item),
+            )
+          : asValues(getCaseProperty(properties, filterName)).map((item) =>
+              valueCode(item),
+            );
       return selected.some((filter) => values.includes(String(filter)));
     });
 
@@ -199,8 +209,8 @@ export function getFilters(cases) {
         field === 'measures_implemented'
           ? properties.measures
           : field === 'typology_of_measures'
-            ? properties.typology_of_measures
-            : getCaseProperty(properties, field);
+          ? properties.typology_of_measures
+          : getCaseProperty(properties, field);
       asValues(source).forEach((item) => {
         const code = valueCode(item);
         if (!filters[field][code]) filters[field][code] = valueLabel(item);
