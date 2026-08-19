@@ -196,9 +196,9 @@ function CaseStudyMap(props) {
           >
             <span className="legend-title">Current status</span>
             {[
-              ['planned', '#1976D2'],
-              ['ongoing', '#F57C00'],
-              ['completed', '#388E3C'],
+              ['planned', '#006bb8'],
+              ['ongoing', '#ff9933'],
+              ['completed', '#00a390'],
             ].map(([status, color]) => (
               <span className="legend-item" key={status}>
                 <span

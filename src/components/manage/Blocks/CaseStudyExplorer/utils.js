@@ -1,7 +1,7 @@
 export const STATUS_COLORS = {
-  planned: '#1976D2',
-  ongoing: '#F57C00',
-  completed: '#388E3C',
+  planned: '#006bb8',
+  ongoing: '#ff9933',
+  completed: '#00a390',
 };
 
 export const FALLBACK_STATUS_COLOR = '#6B7280';
@@ -186,12 +186,12 @@ export function filterCases(
         filterName === 'measures_implemented'
           ? asValues(properties.measures).map((item) => valueCode(item))
           : filterName === 'typology_of_measures'
-            ? asValues(properties.typology_of_measures).map((item) =>
-                valueCode(item),
-              )
-            : asValues(getCaseProperty(properties, filterName)).map((item) =>
-                valueCode(item),
-              );
+          ? asValues(properties.typology_of_measures).map((item) =>
+              valueCode(item),
+            )
+          : asValues(getCaseProperty(properties, filterName)).map((item) =>
+              valueCode(item),
+            );
       return selected.some((filter) => values.includes(String(filter)));
     });
 
@@ -209,8 +209,8 @@ export function getFilters(cases) {
         field === 'measures_implemented'
           ? properties.measures
           : field === 'typology_of_measures'
-            ? properties.typology_of_measures
-            : getCaseProperty(properties, field);
+          ? properties.typology_of_measures
+          : getCaseProperty(properties, field);
       asValues(source).forEach((item) => {
         const code = valueCode(item);
         if (!filters[field][code]) filters[field][code] = valueLabel(item);
