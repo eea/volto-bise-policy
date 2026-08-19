@@ -86,6 +86,42 @@ describe('CaseStudyMap', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('does not refresh the points source when only the ol wrapper identity changes', () => {
+    getFeatures.mockReturnValue([{ id: 1 }]);
+    const activeItems = [{ id: 1 }];
+
+    const { rerender } = render(
+      <CaseStudyMap
+        items={[{ id: 1 }]}
+        activeItems={activeItems}
+        ol={mockOl}
+        setMap={jest.fn()}
+        map={mockMap}
+        onSelectedCase={jest.fn()}
+      />,
+    );
+
+    const pointsSource = mockOl.source.Vector.mock.results[0].value;
+    const clearCount = pointsSource.clear.mock.calls.length;
+    expect(clearCount).toBeGreaterThan(0);
+
+    // withOpenLayers builds a fresh `ol` object literal on every render;
+    // refreshing the points source would regenerate the cluster features and
+    // drop the currently selected feature from the rendered set.
+    rerender(
+      <CaseStudyMap
+        items={[{ id: 1 }]}
+        activeItems={activeItems}
+        ol={{ ...mockOl }}
+        setMap={jest.fn()}
+        map={mockMap}
+        onSelectedCase={jest.fn()}
+      />,
+    );
+
+    expect(pointsSource.clear.mock.calls.length).toBe(clearCount);
+  });
+
   it('clicking Reset map calls utils and clears features', () => {
     getFeatures.mockReturnValueOnce([{ id: 1 }]);
     const onSelectedCase = jest.fn();

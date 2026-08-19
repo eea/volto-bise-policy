@@ -75,12 +75,21 @@ function CaseStudyMap(props) {
     }),
   );
 
+  // `ol` is a fresh object literal on every render (see withOpenLayers); keep
+  // the latest reference in a ref so effects can depend only on values that
+  // actually change. Refreshing the points source regenerates the cluster
+  // features, which drops the currently selected feature from the rendered set.
+  const olRef = React.useRef(ol);
+  olRef.current = ol;
+
   React.useEffect(() => {
     if (activeItems) {
       pointsSource.clear();
-      pointsSource.addFeatures(getFeatures({ cases: activeItems, ol }));
+      pointsSource.addFeatures(
+        getFeatures({ cases: activeItems, ol: olRef.current }),
+      );
     }
-  }, [activeItems, pointsSource, ol]);
+  }, [activeItems, pointsSource]);
 
   React.useEffect(() => {
     if (!map) return;
