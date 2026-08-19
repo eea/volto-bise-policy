@@ -14,6 +14,7 @@ jest.mock('@eeacms/volto-openlayers-map', () => ({
 }));
 
 jest.mock('./utils', () => ({
+  ...jest.requireActual('./utils'),
   centerAndResetMapZoom: jest.fn(),
   scrollToElement: jest.fn(),
   zoomMapToFeatures: jest.fn(),
@@ -117,6 +118,59 @@ describe('CaseStudyList', () => {
 
     expect(getByText('Feature 1')).toBeInTheDocument();
     expect(getByText('Feature 1').getAttribute('href')).toBe('/feature1');
+  });
+
+  it('does not crash on regex metacharacters in search input', () => {
+    const { getByText } = render(
+      <CaseStudyList
+        selectedCase={null}
+        onSelectedCase={jest.fn()}
+        pointsSource={mockPointsSource}
+        map={mockMap}
+        searchInput="("
+        ol={{}}
+      />,
+    );
+
+    // must not throw (previously: SyntaxError from invalid RegExp)
+    expect(getByText('Feature 1')).toBeInTheDocument();
+    expect(getByText('Description 1')).toBeInTheDocument();
+  });
+
+  it('sanitizes description HTML and keeps search highlights', () => {
+    const evilPointsSource = createMockPointsSource([
+      {
+        values_: {
+          title: 'Evil Case',
+          path: '/evil',
+          description:
+            '<img src=x onerror=alert(1)> <script>alert(2)</script> a river bed',
+          typology_of_measures: ['SectorA'],
+          measures_implemented: [{ title: 'M1', path: '/m1' }],
+          geometry: { flatCoordinates: [0, 0] },
+        },
+      },
+    ]);
+
+    const { container } = render(
+      <CaseStudyList
+        selectedCase={null}
+        onSelectedCase={jest.fn()}
+        pointsSource={evilPointsSource}
+        map={mockMap}
+        searchInput="river"
+        ol={{}}
+      />,
+    );
+
+    // XSS payloads must not survive into the DOM
+    expect(container.querySelector('img[onerror]')).toBeNull();
+    expect(container.querySelector('script')).toBeNull();
+    // harmless text still renders and the highlight survives sanitization
+    expect(container.textContent).toContain('a river bed');
+    const highlight = container.querySelector('b');
+    expect(highlight).not.toBeNull();
+    expect(highlight.textContent).toBe('river');
   });
 
   it('calls zoomMapToFeatures and onSelectedCase when clicking Show on map', async () => {

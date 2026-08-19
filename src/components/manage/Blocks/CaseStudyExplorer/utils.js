@@ -1,3 +1,50 @@
+export const STATUS_COLORS = {
+  planned: '#006bb8',
+  ongoing: '#ff9933',
+  completed: '#00a390',
+};
+
+export const FALLBACK_STATUS_COLOR = '#6B7280';
+export const CLUSTER_COLOR = '#007B6C';
+
+const FIELD_ALIASES = {
+  habitat_ecosystem_type: ['habitat_ecosystem_type', 'ecosystem_typology'],
+};
+
+export function getCaseProperty(properties, fieldName) {
+  if (properties?.[fieldName] !== undefined) return properties[fieldName];
+  return (FIELD_ALIASES[fieldName] || [])
+    .map((field) => properties?.[field])
+    .find((value) => value !== undefined);
+}
+
+export function asValues(value) {
+  if (value === undefined || value === null || value === '') return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+export function valueCode(value) {
+  if (value && typeof value === 'object') {
+    return String(
+      value.id ?? value.value ?? value.token ?? value.title ?? value,
+    );
+  }
+  return String(value);
+}
+
+export function valueLabel(value) {
+  if (value && typeof value === 'object') {
+    return String(
+      value.title ?? value.name ?? value.label ?? value.value ?? value.id,
+    );
+  }
+  return String(value);
+}
+
+export function getStatusColor(status) {
+  return STATUS_COLORS[status] || FALLBACK_STATUS_COLOR;
+}
+
 export function centerAndResetMapZoom({ map, ol }) {
   map.getView().animate({
     zoom: 4,
@@ -8,9 +55,17 @@ export function centerAndResetMapZoom({ map, ol }) {
 
 export function scrollToElement(elementId) {
   const element = document.getElementById(elementId);
-  element.scrollIntoView({
-    behavior: 'smooth',
-  });
+  element?.scrollIntoView({ behavior: 'smooth' });
+}
+
+export function getSelectInteraction(map) {
+  const interactions = map?.getInteractions?.();
+  const interactionArray =
+    interactions?.getArray?.() || interactions?.array_ || [];
+
+  return interactionArray.find(
+    (interaction) => typeof interaction?.getFeatures === 'function',
+  );
 }
 
 export function getExtentOfFeatures({ features, ol }) {
@@ -31,24 +86,30 @@ export function getFeatures({ cases, ol }) {
   const Feature = ol.ol.Feature;
 
   return cases.map((c, index) => {
-    const {
-      geometry: { coordinates },
-    } = c;
     const point = new Feature(
-      new ol.geom.Point(ol.proj.fromLonLat(coordinates)),
+      new ol.geom.Point(ol.proj.fromLonLat(c.geometry.coordinates)),
     );
+    const properties = c.properties || {};
+    const status = properties.current_status;
     point.setId(index);
     point.setProperties(
       {
-        title: c.properties.title,
-        image: c.properties.image,
-        nwrm_type: c.properties.nwrm_type,
-        measures_implemented: c.properties.measures,
-        typology_of_measures: c.properties.typology_of_measures,
-        description: c.properties.description,
-        index: index,
-        path: c.properties.path,
-        color: c.properties.nwrm_type === 'Light' ? '#50B0A4' : '#0083E0',
+        title: properties.title,
+        image: properties.image,
+        nwrm_type: properties.nwrm_type,
+        measures_implemented: properties.measures,
+        typology_of_measures: properties.typology_of_measures,
+        current_status: status,
+        habitat_ecosystem_type: getCaseProperty(
+          properties,
+          'habitat_ecosystem_type',
+        ),
+        nrr_article: properties.nrr_article,
+        scale_of_planning: properties.scale_of_planning,
+        description: properties.description,
+        index,
+        path: properties.path,
+        color: getStatusColor(status),
       },
       false,
     );
@@ -56,89 +117,106 @@ export function getFeatures({ cases, ol }) {
   });
 }
 
-export function filterCases(cases, activeFilters, caseStudiesIds, searchInput) {
-  const data = cases.filter((_case) => {
-    let flag_searchInput = false;
-    let flag_implemented = false;
-    let flag_typology_of_measures = false;
-    let flag_case = caseStudiesIds
-      ? caseStudiesIds.includes(_case.properties.url.split('/').pop())
+// Escape a string so it can be embedded in a RegExp pattern as a literal.
+// Prevents user-provided input from being interpreted as regex syntax
+// (avoids ReDoS via crafted patterns and SyntaxError from malformed ones).
+export function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const WORD_CHAR = /[A-Za-z0-9_]/;
+
+// Case-insensitive whole-word substring match implemented without regular
+// expressions, so the needle is always treated as literal text. Equivalent
+// to /\bneedle\b/i but runs in linear time (indexOf) and is immune to
+// catastrophic backtracking.
+function hasWholeWord(text, needle) {
+  let index = text.indexOf(needle);
+  while (index !== -1) {
+    const before = index === 0 ? '' : text[index - 1];
+    const after =
+      index + needle.length >= text.length ? '' : text[index + needle.length];
+    if (!WORD_CHAR.test(before) && !WORD_CHAR.test(after)) return true;
+    index = text.indexOf(needle, index + 1);
+  }
+  return false;
+}
+
+const FILTER_FIELDS = [
+  'measures_implemented',
+  'typology_of_measures',
+  'current_status',
+  'habitat_ecosystem_type',
+  'nrr_article',
+  'scale_of_planning',
+];
+
+export function filterCasesByPath(cases, filterPath) {
+  const path = filterPath?.trim();
+  if (!path) return cases;
+
+  return cases.filter((_case) =>
+    String(_case.properties?.path || '').includes(path),
+  );
+}
+
+export function filterCases(
+  cases,
+  activeFilters,
+  caseStudiesIds,
+  searchInput,
+  filterPath,
+) {
+  return filterCasesByPath(cases, filterPath).filter((_case) => {
+    const properties = _case.properties || {};
+    const flagCase = caseStudiesIds
+      ? caseStudiesIds.includes(properties.url?.split('/').pop())
       : true;
+    const searchable = `${properties.title || ''} ${
+      properties.description || ''
+    }`;
+    const flagSearch =
+      !searchInput ||
+      hasWholeWord(searchable.toLowerCase(), searchInput.toLowerCase());
 
-    if (!searchInput) {
-      flag_searchInput = true;
-    } else {
-      if (_case.properties.title.toLowerCase().match(searchInput)) {
-        flag_searchInput = true;
-      } else if (
-        _case.properties.description.toLowerCase().match(searchInput)
-      ) {
-        flag_searchInput = true;
-      }
-    }
+    const matchesFilters = FILTER_FIELDS.every((filterName) => {
+      const selected = activeFilters[filterName] || [];
+      if (!selected.length) return true;
+      const values =
+        filterName === 'measures_implemented'
+          ? asValues(properties.measures).map((item) => valueCode(item))
+          : filterName === 'typology_of_measures'
+            ? asValues(properties.typology_of_measures).map((item) =>
+                valueCode(item),
+              )
+            : asValues(getCaseProperty(properties, filterName)).map((item) =>
+                valueCode(item),
+              );
+      return selected.some((filter) => values.includes(String(filter)));
+    });
 
-    if (!activeFilters.measures_implemented.length) {
-      flag_implemented = true;
-    } else {
-      let measures_implemented = _case.properties.measures?.map((item) => {
-        return item['id'].toString();
-      });
-
-      activeFilters.measures_implemented.forEach((filter) => {
-        if (measures_implemented?.includes(filter)) flag_implemented = true;
-      });
-    }
-
-    if (!activeFilters.typology_of_measures.length) {
-      flag_typology_of_measures = true;
-    } else {
-      let typology_of_measures = _case.properties.typology_of_measures?.map(
-        (item) => {
-          return item.toString();
-        },
-      );
-
-      activeFilters.typology_of_measures.forEach((filter) => {
-        if (typology_of_measures?.includes(filter))
-          flag_typology_of_measures = true;
-      });
-    }
-
-    return flag_case &&
-      flag_implemented &&
-      flag_typology_of_measures &&
-      flag_searchInput
-      ? _case
-      : false;
+    return flagCase && flagSearch && matchesFilters;
   });
-
-  return data;
 }
 
 export function getFilters(cases) {
-  let _filters = {
-    measures_implemented: {},
-    typology_of_measures: {},
-  };
+  const filters = Object.fromEntries(FILTER_FIELDS.map((field) => [field, {}]));
 
-  for (let key of Object.keys(cases)) {
-    const _case = cases[key];
-    let measures_implemented = _case.properties.measures;
-    measures_implemented.map((item) => {
-      if (!_filters.measures_implemented.hasOwnProperty(item['id'])) {
-        _filters.measures_implemented[item['id']] = item['title'];
-      }
-      return [];
+  Object.values(cases || {}).forEach((_case) => {
+    const properties = _case.properties || {};
+    FILTER_FIELDS.forEach((field) => {
+      const source =
+        field === 'measures_implemented'
+          ? properties.measures
+          : field === 'typology_of_measures'
+            ? properties.typology_of_measures
+            : getCaseProperty(properties, field);
+      asValues(source).forEach((item) => {
+        const code = valueCode(item);
+        if (!filters[field][code]) filters[field][code] = valueLabel(item);
+      });
     });
+  });
 
-    let typology_of_measures = _case.properties.typology_of_measures;
-    typology_of_measures.map((item) => {
-      if (!_filters.typology_of_measures.hasOwnProperty(item)) {
-        _filters.typology_of_measures[item] = item;
-      }
-      return [];
-    });
-  }
-
-  return _filters;
+  return filters;
 }

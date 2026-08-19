@@ -1,8 +1,22 @@
 import './mockJsdom';
 import '@testing-library/jest-dom';
-import { getFeatures, filterCases, getFilters } from './utils';
+import {
+  FALLBACK_STATUS_COLOR,
+  getFeatures,
+  getStatusColor,
+  filterCases,
+  getFilters,
+} from './utils';
 
 describe('utils.js', () => {
+  test('maps exact statuses and unknown statuses to colors', () => {
+    expect(getStatusColor('planned')).toBe('#006bb8');
+    expect(getStatusColor('ongoing')).toBe('#ff9933');
+    expect(getStatusColor('completed')).toBe('#00a390');
+    expect(getStatusColor('Planned')).toBe(FALLBACK_STATUS_COLOR);
+    expect(getStatusColor('future')).toBe(FALLBACK_STATUS_COLOR);
+  });
+
   const mockCases = [
     {
       geometry: { coordinates: [0, 0] },
@@ -70,6 +84,83 @@ describe('utils.js', () => {
     expect(mockCasesFiltered).toStrictEqual([]);
   });
 
+  test('filterCases treats search input as literal text (ReDoS-safe)', () => {
+    const cases = [
+      {
+        geometry: { coordinates: [0, 0] },
+        properties: {
+          title: 'the river project (R1)',
+          description: 'a aaa aaaa aaaaa b',
+          url: '/the-river-project-r1',
+        },
+      },
+    ];
+    const noFilters = {
+      measures_implemented: [],
+      typology_of_measures: [],
+      current_status: [],
+      habitat_ecosystem_type: [],
+      nrr_article: [],
+      scale_of_planning: [],
+    };
+
+    // Malformed regex input must not throw (previously: SyntaxError)
+    expect(() => filterCases(cases, noFilters, null, '(')).not.toThrow();
+    // Regex metacharacters are matched literally, not interpreted
+    expect(() => filterCases(cases, noFilters, null, '(a+)+$')).not.toThrow();
+    expect(filterCases(cases, noFilters, null, '(a+)+$')).toHaveLength(0);
+    expect(filterCases(cases, noFilters, null, '(r1')).toHaveLength(1);
+    // Whole-word semantics are preserved
+    expect(filterCases(cases, noFilters, null, 'rive')).toHaveLength(0);
+    expect(filterCases(cases, noFilters, null, 'river')).toHaveLength(1);
+    // Case-insensitive
+    expect(filterCases(cases, noFilters, null, 'R1')).toHaveLength(1);
+  });
+
+  test('filters new scalar and multi-value fields', () => {
+    const cases = [
+      {
+        geometry: { coordinates: [0, 0] },
+        properties: {
+          title: 'planned river case',
+          description: '',
+          url: '/planned-river-case',
+          current_status: 'planned',
+          ecosystem_typology: ['River', 'Wetland'],
+          nrr_article: [{ id: 'article-1', title: 'Article 1' }],
+          scale_of_planning: 'Regional',
+        },
+      },
+      {
+        geometry: { coordinates: [0, 0] },
+        properties: {
+          title: 'future case',
+          description: '',
+          url: '/future-case',
+          current_status: 'Future',
+          ecosystem_typology: ['Forest'],
+          nrr_article: ['article-2'],
+          scale_of_planning: 'National',
+        },
+      },
+    ];
+
+    expect(
+      filterCases(cases, {
+        measures_implemented: [],
+        typology_of_measures: [],
+        current_status: ['planned'],
+        habitat_ecosystem_type: ['River'],
+        nrr_article: ['article-1'],
+        scale_of_planning: ['Regional'],
+      }),
+    ).toHaveLength(1);
+    expect(getFilters(cases).nrr_article).toEqual({
+      'article-1': 'Article 1',
+      'article-2': 'article-2',
+    });
+  });
+
   test('getFilters', () => {
     const mockCasesObject = mockCases.reduce((acc, item, index) => {
       acc[index] = item;
@@ -83,6 +174,10 @@ describe('utils.js', () => {
       typology_of_measures: {
         testsector: 'testsector',
       },
+      current_status: {},
+      habitat_ecosystem_type: {},
+      nrr_article: {},
+      scale_of_planning: {},
     });
   });
 });

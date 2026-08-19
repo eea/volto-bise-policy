@@ -1,8 +1,11 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
 import { withOpenLayers } from '@eeacms/volto-openlayers-map';
 
 import {
   centerAndResetMapZoom,
+  escapeRegExp,
+  getSelectInteraction,
   scrollToElement,
   zoomMapToFeatures,
 } from './utils';
@@ -33,7 +36,9 @@ const showPageNr = (pageNr, currentPage, numberOfPages) => {
 function CaseStudyList(props) {
   const { selectedCase, onSelectedCase, pointsSource, map, searchInput, ol } =
     props;
-  const reSearch = new RegExp(`\\b(${searchInput})\\b`, 'gi');
+  const reSearch = searchInput
+    ? new RegExp(`\\b(${escapeRegExp(searchInput)})\\b`, 'gi')
+    : null;
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const features = pointsSource
@@ -132,7 +137,7 @@ function CaseStudyList(props) {
                         // reset map zoom
                         onSelectedCase(null);
                         centerAndResetMapZoom({ map, ol });
-                        map.getInteractions().array_[9].getFeatures().clear();
+                        getSelectInteraction(map)?.getFeatures().clear();
                       }}
                     >
                       <span
@@ -167,12 +172,17 @@ function CaseStudyList(props) {
                     <p
                       className="listing-description"
                       dangerouslySetInnerHTML={{
-                        __html: searchInput
-                          ? item.values_.description.replaceAll(
-                              reSearch,
-                              '<b>$1</b>',
-                            )
-                          : item.values_.description,
+                        // description is server data and may contain HTML;
+                        // sanitize the highlighted result so no scripts or
+                        // event handlers can reach the DOM
+                        __html: DOMPurify.sanitize(
+                          searchInput && reSearch && item.values_.description
+                            ? item.values_.description.replaceAll(
+                                reSearch,
+                                '<b>$1</b>',
+                              )
+                            : item.values_.description || '',
+                        ),
                       }}
                     ></p>
                     <div className="slot-bottom">
@@ -212,10 +222,9 @@ function CaseStudyList(props) {
                           role="button"
                           onKeyDown={() => {}}
                           onClick={() => {
-                            map
-                              .getInteractions()
-                              .array_[9].getFeatures()
-                              .clear();
+                            const selectInteraction = getSelectInteraction(map);
+                            selectInteraction?.getFeatures().clear();
+
                             // scroll to the map
                             scrollToElement('ol-map-container');
 
@@ -231,10 +240,13 @@ function CaseStudyList(props) {
                               const coords =
                                 item.values_.geometry.flatCoordinates;
                               const pixel = map.getPixelFromCoordinate(coords);
-                              map
-                                .getInteractions()
-                                .array_[9].getFeatures()
-                                .push(map.getFeaturesAtPixel(pixel)[0]);
+                              const selectedFeature =
+                                map.getFeaturesAtPixel(pixel)[0];
+                              if (selectedFeature) {
+                                selectInteraction
+                                  ?.getFeatures()
+                                  .push(selectedFeature);
+                              }
                             }, 1100);
                           }}
                         >

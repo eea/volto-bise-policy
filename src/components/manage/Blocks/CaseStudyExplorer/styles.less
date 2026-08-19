@@ -2,6 +2,39 @@
   padding-top: 2em;
 }
 
+.nrr-case-study-map-container .case-study-status-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+  gap: 0.75rem;
+}
+
+.nrr-case-study-map-container .legend-title {
+  font-weight: 600;
+}
+
+.nrr-case-study-map-container .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-transform: capitalize;
+}
+
+.nrr-case-study-map-container .legend-dot {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+}
+
+.nrr-case-study-map-container .filter-wrapper .facet-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 #csepopup > span {
   display: 'block';
   margin-bottom: '10px';
