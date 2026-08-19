@@ -10,9 +10,9 @@ import {
 
 describe('utils.js', () => {
   test('maps exact statuses and unknown statuses to colors', () => {
-    expect(getStatusColor('planned')).toBe('#1976D2');
-    expect(getStatusColor('ongoing')).toBe('#F57C00');
-    expect(getStatusColor('completed')).toBe('#388E3C');
+    expect(getStatusColor('planned')).toBe('#006bb8');
+    expect(getStatusColor('ongoing')).toBe('#ff9933');
+    expect(getStatusColor('completed')).toBe('#00a390');
     expect(getStatusColor('Planned')).toBe(FALLBACK_STATUS_COLOR);
     expect(getStatusColor('future')).toBe(FALLBACK_STATUS_COLOR);
   });
