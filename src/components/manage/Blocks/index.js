@@ -7,6 +7,7 @@ import installKeyFacts from './KeyFacts';
 import installMaesViewer from './MaesViewer';
 import installNavigation from './Navigation';
 import installCaseStudyExplorer from './CaseStudyExplorer';
+import installTitleVariations from './Title';
 
 const config = (config) => {
   return [
@@ -19,6 +20,7 @@ const config = (config) => {
     installMaesViewer,
     installNavigation,
     installCaseStudyExplorer,
+    installTitleVariations,
   ].reduce((acc, apply) => apply(acc), config);
 };
 
