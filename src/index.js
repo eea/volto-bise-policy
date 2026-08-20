@@ -110,6 +110,17 @@ const applyConfig = (config) => {
     'nominatim.openstreetmap.org',
   ];
 
+  // Needed by the CountryFlag block to fall back to sibling items when it
+  // has no listing/query results (e.g. Title block's Country Profile
+  // variation).
+  config.settings.apiExpanders = [
+    ...(config.settings.apiExpanders || []),
+    {
+      match: '',
+      GET_CONTENT: ['siblings'],
+    },
+  ];
+
   // EEA customizations
   config.settings.eea = {
     ...(config.settings.eea || {}),
