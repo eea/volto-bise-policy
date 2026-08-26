@@ -32,6 +32,9 @@ import {
   NRRArticleView,
   NRRrelatedCaseStudiesView,
   NRRMeasuresImplementedView,
+  NRRHabitatEcosystemTypeView,
+  NRRScaleOfPlanningView,
+  NRRCurrentStatusView,
 } from './components/Widgets/NRRWidgets';
 import RichTextWidget from './components/Widgets/RichTextWidget';
 
@@ -272,7 +275,11 @@ const applyConfig = (config) => {
   config.widgets.id.geolocation = GeolocationWidget;
   config.widgets.views.id.nrr_typology_of_measures = NRRTypologyOfMeasuresView;
   config.widgets.views.id.nrr_ecosystem_typology = NRREcosystemTypologyView;
+  config.widgets.views.id.nrr_habitat_ecosystem_type =
+    NRRHabitatEcosystemTypeView;
+  config.widgets.views.id.nrr_scale_of_planning = NRRScaleOfPlanningView;
   config.widgets.views.id.nrr_article = NRRArticleView;
+  config.widgets.views.id.nrr_current_status = NRRCurrentStatusView;
   // EUNIS Widgets
   config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;
   config.widgets.views.id.eunis_national_json = EUNISCountryCodeView;

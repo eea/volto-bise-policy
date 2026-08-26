@@ -1,5 +1,6 @@
 import UniversalLink from '@plone/volto/components/manage/UniversalLink/UniversalLink';
 import { Popup } from 'semantic-ui-react';
+
 export const NRRTypologyOfMeasuresView = ({ value }) => {
   let parsedValue = value;
 
@@ -18,8 +19,8 @@ export const NRRTypologyOfMeasuresView = ({ value }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-view">
-      <span>
+    <p>
+      <span className="secondary">
         <b>Related typology of measures: </b>
       </span>
       <ul>
@@ -33,7 +34,7 @@ export const NRRTypologyOfMeasuresView = ({ value }) => {
           );
         })}
       </ul>
-    </div>
+    </p>
   );
 };
 
@@ -55,8 +56,8 @@ export const NRRArticleView = ({ value }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-viewZ">
-      <span>
+    <p>
+      <span className="secondary">
         <b>NRR Article: </b>
       </span>
       {items.map((item) => (
@@ -65,7 +66,7 @@ export const NRRArticleView = ({ value }) => {
           {items.indexOf(item) < items.length - 1 ? ', ' : ''}
         </span>
       ))}
-    </div>
+    </p>
   );
 };
 
@@ -87,7 +88,7 @@ export const NRRrelatedCaseStudiesView = ({ value }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-viewZ">
+    <p>
       <span>
         <b>Related Case Studies: </b>
       </span>
@@ -98,7 +99,7 @@ export const NRRrelatedCaseStudiesView = ({ value }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </p>
   );
 };
 
@@ -120,7 +121,7 @@ export const NRRMeasuresImplementedView = ({ value }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-viewZ">
+    <p>
       <ul>
         {items.map((item, index) => (
           <li key={item['@id'] ?? index}>
@@ -128,7 +129,7 @@ export const NRRMeasuresImplementedView = ({ value }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </p>
   );
 };
 
@@ -150,7 +151,7 @@ export const NRREcosystemTypologyView = ({ value }) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-view">
+    <p>
       <span>
         <b>Ecosystem type: </b>
       </span>
@@ -160,6 +161,101 @@ export const NRREcosystemTypologyView = ({ value }) => {
           {items.indexOf(item) < items.length - 1 ? ', ' : ''}
         </span>
       ))}
-    </div>
+    </p>
+  );
+};
+
+export const NRRHabitatEcosystemTypeView = ({ value }) => {
+  let parsedValue = value;
+
+  if (typeof value === 'string') {
+    try {
+      parsedValue = JSON.parse(value);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  const items = Array.isArray(parsedValue)
+    ? parsedValue
+    : parsedValue?.value || [];
+
+  if (!items || items.length === 0) return null;
+
+  return (
+    <p>
+      <span className="secondary">
+        <b>Habitat/Ecosystem type: </b>
+      </span>
+      {items.map((item) => (
+        <span key={item['@id']}>
+          {item.title}
+          {items.indexOf(item) < items.length - 1 ? ', ' : ''}
+        </span>
+      ))}
+    </p>
+  );
+};
+
+export const NRRScaleOfPlanningView = ({ value }) => {
+  let parsedValue = value;
+
+  if (typeof value === 'string') {
+    try {
+      parsedValue = JSON.parse(value);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  const items = Array.isArray(parsedValue)
+    ? parsedValue
+    : parsedValue?.value || [];
+
+  if (!items || items.length === 0) return null;
+
+  return (
+    <p>
+      <span className="secondary">
+        <b>Scale of planning: </b>
+      </span>
+      {items.map((item) => (
+        <span key={item['@id']}>
+          {item.title}
+          {items.indexOf(item) < items.length - 1 ? ', ' : ''}
+        </span>
+      ))}
+    </p>
+  );
+};
+
+export const NRRCurrentStatusView = ({ value }) => {
+  let parsedValue = value;
+
+  if (typeof value === 'string') {
+    try {
+      parsedValue = JSON.parse(value);
+    } catch (e) {
+      // Not JSON — keep the raw string value.
+    }
+  }
+
+  // Choice field: value is a single token, not an array.
+  if (!parsedValue) return null;
+
+  const text =
+    typeof parsedValue === 'string'
+      ? parsedValue
+      : parsedValue?.title || parsedValue?.token || parsedValue?.value;
+
+  if (!text) return null;
+
+  return (
+    <p>
+      <span className="secondary">
+        <b>Current status: </b>
+      </span>
+      {text}
+    </p>
   );
 };
