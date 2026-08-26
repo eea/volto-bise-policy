@@ -57,6 +57,21 @@ jest.mock('@plone/volto/components/theme/Icon/Icon', () => ({
   default: () => <span data-testid="icon" />,
 }));
 
+// Mock the volto helpers too: the real `Blocks.js` requires `uuid`, which
+// cannot always be resolved from within node_modules in the jest environment
+// (and the repository already mocks @plone/volto/helpers in other suites).
+// The schemas used here have no `default`s, so `applySchemaDefaults` is
+// faithfully reproduced by returning the input data.
+jest.mock('@plone/volto/helpers/Blocks/Blocks', () => ({
+  __esModule: true,
+  applySchemaDefaults: jest.fn(({ data }) => data),
+}));
+
+jest.mock('@plone/volto/helpers/Utils/Utils', () => ({
+  __esModule: true,
+  reorderArray: jest.fn((array) => array),
+}));
+
 // EUNISCodeView reads the current content data from the Redux store. Expose a
 // mutable slice so each test can control what useSelector returns.
 let mockContentData = {};
