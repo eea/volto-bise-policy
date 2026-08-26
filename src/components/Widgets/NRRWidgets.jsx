@@ -1,165 +1,185 @@
 import UniversalLink from '@plone/volto/components/manage/UniversalLink/UniversalLink';
 import { Popup } from 'semantic-ui-react';
-export const NRRTypologyOfMeasuresView = ({ value }) => {
+
+/**
+ * Normalize a relation/array field value into a plain array.
+ * Handles a JSON-encoded string, a raw array, or an object with a `value` array.
+ * Returns [] when the value can't be parsed or is empty.
+ */
+const parseItems = (value) => {
   let parsedValue = value;
 
   if (typeof value === 'string') {
     try {
       parsedValue = JSON.parse(value);
     } catch (e) {
-      return null;
+      return [];
     }
   }
 
-  const items = Array.isArray(parsedValue)
-    ? parsedValue
-    : parsedValue?.value || [];
+  return Array.isArray(parsedValue) ? parsedValue : parsedValue?.value || [];
+};
 
-  if (!items || items.length === 0) return null;
+const Label = ({ label, secondary = false }) =>
+  label ? (
+    <span className={secondary ? 'secondary' : undefined}>
+      <b>{label}: </b>
+    </span>
+  ) : null;
+
+/** Renders a labeled list of items separated by commas. */
+const InlineList = ({ label, secondary, items, render }) => (
+  <p>
+    <Label label={label} secondary={secondary} />
+    {items.map((item, index) => (
+      <span key={item['@id'] ?? index}>
+        {render(item)}
+        {index < items.length - 1 ? ', ' : ''}
+      </span>
+    ))}
+  </p>
+);
+
+/** Renders a labeled <ul> of items. */
+const LinkedList = ({ label, secondary, items, render }) => (
+  <div className="nrr-linked-list">
+    <Label label={label} secondary={secondary} />
+    <ul>
+      {items.map((item, index) => (
+        <li key={item['@id'] ?? index}>{render(item)}</li>
+      ))}
+    </ul>
+  </div>
+);
+
+export const NRRTypologyOfMeasuresView = ({ value }) => {
+  const items = parseItems(value);
+  if (items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-view">
-      <span>
-        <b>Related typology of measures: </b>
-      </span>
-      <ul>
-        {items.map((item) => {
-          const description = item.title.split(' - ')?.pop();
-          const code = item.title.split(' - ').slice(0, 2).join(' - ');
-          return (
-            <li key={item['@id']}>
-              <Popup content={description} trigger={<b>{code}</b>} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <LinkedList
+      label="Related typology of measures"
+      secondary
+      items={items}
+      render={(item) => {
+        const parts = item.title.split(' - ');
+        const code = parts.slice(0, 2).join(' - ');
+        const description = parts[parts.length - 1];
+        return <Popup content={description} trigger={<b>{code}</b>} />;
+      }}
+    />
   );
 };
 
 export const NRRArticleView = ({ value }) => {
-  let parsedValue = value;
-
-  if (typeof value === 'string') {
-    try {
-      parsedValue = JSON.parse(value);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  const items = Array.isArray(parsedValue)
-    ? parsedValue
-    : parsedValue?.value || [];
-
-  if (!items || items.length === 0) return null;
+  const items = parseItems(value);
+  if (items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-viewZ">
-      <span>
-        <b>NRR Article: </b>
-      </span>
-      {items.map((item) => (
-        <span key={item['@id']}>
-          {item.title.split(' - ')[0].split(' ')[1]}
-          {items.indexOf(item) < items.length - 1 ? ', ' : ''}
-        </span>
-      ))}
-    </div>
+    <InlineList
+      label="NRR Article"
+      secondary
+      items={items}
+      render={(item) => item.title.split(' - ')[0].split(' ')[1]}
+    />
   );
 };
 
 export const NRRrelatedCaseStudiesView = ({ value }) => {
-  let parsedValue = value;
-
-  if (typeof value === 'string') {
-    try {
-      parsedValue = JSON.parse(value);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  const items = Array.isArray(parsedValue)
-    ? parsedValue
-    : parsedValue?.value || [];
-
-  if (!items || items.length === 0) return null;
+  const items = parseItems(value);
+  if (items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-viewZ">
-      <span>
-        <b>Related Case Studies: </b>
-      </span>
-      <ul>
-        {items.map((item, index) => (
-          <li key={item['@id'] ?? index}>
-            <UniversalLink href={item['@id']}>{item.title}</UniversalLink>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <LinkedList
+      label="Related Case Studies"
+      items={items}
+      render={(item) => (
+        <UniversalLink href={item['@id']}>{item.title}</UniversalLink>
+      )}
+    />
   );
 };
 
 export const NRRMeasuresImplementedView = ({ value }) => {
-  let parsedValue = value;
-
-  if (typeof value === 'string') {
-    try {
-      parsedValue = JSON.parse(value);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  const items = Array.isArray(parsedValue)
-    ? parsedValue
-    : parsedValue?.value || [];
-
-  if (!items || items.length === 0) return null;
+  const items = parseItems(value);
+  if (items.length === 0) return null;
 
   return (
-    <div className="eunis-widget-viewZ">
-      <ul>
-        {items.map((item, index) => (
-          <li key={item['@id'] ?? index}>
-            <UniversalLink href={item['@id']}>{item.title}</UniversalLink>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <LinkedList
+      items={items}
+      render={(item) => (
+        <UniversalLink href={item['@id']}>{item.title}</UniversalLink>
+      )}
+    />
   );
 };
 
 export const NRREcosystemTypologyView = ({ value }) => {
+  const items = parseItems(value);
+  if (items.length === 0) return null;
+
+  return (
+    <InlineList
+      label="Ecosystem type"
+      items={items}
+      render={(item) => item.title}
+    />
+  );
+};
+
+export const NRRHabitatEcosystemTypeView = ({ value }) => {
+  const items = parseItems(value);
+  if (items.length === 0) return null;
+
+  return (
+    <InlineList
+      label="Habitat/Ecosystem type"
+      secondary
+      items={items}
+      render={(item) => item.title}
+    />
+  );
+};
+
+export const NRRScaleOfPlanningView = ({ value }) => {
+  const items = parseItems(value);
+  if (items.length === 0) return null;
+
+  return (
+    <InlineList
+      label="Scale of planning"
+      secondary
+      items={items}
+      render={(item) => item.title}
+    />
+  );
+};
+
+export const NRRCurrentStatusView = ({ value }) => {
   let parsedValue = value;
 
   if (typeof value === 'string') {
     try {
       parsedValue = JSON.parse(value);
     } catch (e) {
-      return null;
+      // Not JSON — keep the raw string value.
     }
   }
 
-  const items = Array.isArray(parsedValue)
-    ? parsedValue
-    : parsedValue?.value || [];
+  // Choice field: value is a single token, not an array.
+  if (!parsedValue) return null;
 
-  if (!items || items.length === 0) return null;
+  const text =
+    typeof parsedValue === 'string'
+      ? parsedValue
+      : parsedValue?.title || parsedValue?.token || parsedValue?.value;
+
+  if (!text) return null;
 
   return (
-    <div className="eunis-widget-view">
-      <span>
-        <b>Ecosystem type: </b>
-      </span>
-      {items.map((item) => (
-        <span key={item['@id']}>
-          {item.title}
-          {items.indexOf(item) < items.length - 1 ? ', ' : ''}
-        </span>
-      ))}
-    </div>
+    <p>
+      <Label label="Current status" secondary />
+      {text}
+    </p>
   );
 };
