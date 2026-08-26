@@ -72,6 +72,21 @@ jest.mock('@plone/volto/helpers/Utils/Utils', () => ({
   reorderArray: jest.fn((array) => array),
 }));
 
+// `uuid` is imported (and used) by the widget module directly. In some jest
+// environments it cannot be resolved from the add-on source, so use a virtual
+// mock to bypass module resolution entirely and return unique, deterministic ids
+// (same pattern as volto-freshwater-policy's NWRMObjectListWidget test).
+jest.mock(
+  'uuid',
+  () => {
+    let value = 0;
+    return {
+      v4: jest.fn(() => `uuid-${value++}`),
+    };
+  },
+  { virtual: true },
+);
+
 // EUNISCodeView reads the current content data from the Redux store. Expose a
 // mutable slice so each test can control what useSelector returns.
 let mockContentData = {};
