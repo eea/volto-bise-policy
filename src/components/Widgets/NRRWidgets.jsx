@@ -92,6 +92,7 @@ export const NRRrelatedCaseStudiesView = ({ value }) => {
   return (
     <LinkedList
       label="Related Case Studies"
+      secondary
       items={items}
       render={(item) => (
         <UniversalLink href={item['@id']}>{item.title}</UniversalLink>
@@ -106,7 +107,9 @@ export const NRRMeasuresImplementedView = ({ value }) => {
 
   return (
     <LinkedList
+      label="Measures Implemented"
       items={items}
+      secondary
       render={(item) => (
         <UniversalLink href={item['@id']}>{item.title}</UniversalLink>
       )}
@@ -121,6 +124,7 @@ export const NRREcosystemTypologyView = ({ value }) => {
   return (
     <InlineList
       label="Ecosystem type"
+      secondary
       items={items}
       render={(item) => item.title}
     />
