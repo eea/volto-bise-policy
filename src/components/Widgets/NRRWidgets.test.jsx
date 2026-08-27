@@ -137,7 +137,7 @@ describe('NRRMeasuresImplementedView', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders measures as links without a leading label', () => {
+  it('renders measures as links with a leading label', () => {
     const value = [
       { '@id': '/m1', title: 'Measure One' },
       { '@id': '/m2', title: 'Measure Two' },
@@ -148,8 +148,8 @@ describe('NRRMeasuresImplementedView', () => {
     const list = container.querySelector('.nrr-linked-list');
     expect(list).toBeInTheDocument();
 
-    // no label rendered for this view
-    expect(list.querySelector('b')).toBeNull();
+    // labeled like the other linked-list views
+    expect(list.querySelector('b')).toHaveTextContent('Measures Implemented:');
 
     const links = list.querySelectorAll('a');
     expect(links).toHaveLength(2);
