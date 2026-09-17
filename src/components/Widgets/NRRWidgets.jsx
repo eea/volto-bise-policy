@@ -85,6 +85,34 @@ export const NRRArticleView = ({ value }) => {
   );
 };
 
+export const NRRLegislationView = ({ value }) => {
+  const items = parseItems(value);
+  if (items.length === 0) return null;
+
+  return (
+    <InlineList
+      label="NRR Legislation"
+      secondary
+      items={items}
+      render={(item) => item.title}
+    />
+  );
+};
+
+export const NRRBiogeographicalRegionView = ({ value }) => {
+  const items = parseItems(value);
+  if (items.length === 0) return null;
+
+  return (
+    <InlineList
+      label="Biogeographical region"
+      secondary
+      items={items}
+      render={(item) => item.title}
+    />
+  );
+};
+
 export const NRRrelatedCaseStudiesView = ({ value }) => {
   const items = parseItems(value);
   if (items.length === 0) return null;

@@ -30,6 +30,8 @@ import {
   NRRTypologyOfMeasuresView,
   NRREcosystemTypologyView,
   NRRArticleView,
+  NRRLegislationView,
+  NRRBiogeographicalRegionView,
   NRRrelatedCaseStudiesView,
   NRRMeasuresImplementedView,
   NRRHabitatEcosystemTypeView,
@@ -290,6 +292,9 @@ const applyConfig = (config) => {
     NRRHabitatEcosystemTypeView;
   config.widgets.views.id.nrr_scale_of_planning = NRRScaleOfPlanningView;
   config.widgets.views.id.nrr_article = NRRArticleView;
+  config.widgets.views.id.nrr_legislation = NRRLegislationView;
+  config.widgets.views.id.nrr_biogeographical_region =
+    NRRBiogeographicalRegionView;
   config.widgets.views.id.nrr_current_status = NRRCurrentStatusView;
   // EUNIS Widgets
   config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;

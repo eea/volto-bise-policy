@@ -104,7 +104,8 @@ export function getFeatures({ cases, ol }) {
           properties,
           'habitat_ecosystem_type',
         ),
-        nrr_article: properties.nrr_article,
+        nrr_legislation: properties.nrr_legislation,
+        nrr_biogeographical_region: properties.nrr_biogeographical_region,
         scale_of_planning: properties.scale_of_planning,
         description: properties.description,
         index,
@@ -143,11 +144,12 @@ function hasWholeWord(text, needle) {
 }
 
 const FILTER_FIELDS = [
+  'nrr_legislation',
+  'nrr_biogeographical_region',
   'measures_implemented',
   'typology_of_measures',
   'current_status',
   'habitat_ecosystem_type',
-  'nrr_article',
   'scale_of_planning',
 ];
 
