@@ -21,11 +21,12 @@ export default function CaseStudyExplorerView(props) {
   const hideFilters = caseStudiesIds ? true : false;
 
   const [activeFilters, setActiveFilters] = React.useState({
+    nrr_legislation: [],
+    nrr_biogeographical_region: [],
     measures_implemented: [],
     typology_of_measures: [],
     current_status: [],
     habitat_ecosystem_type: [],
-    nrr_article: [],
     scale_of_planning: [],
   });
 

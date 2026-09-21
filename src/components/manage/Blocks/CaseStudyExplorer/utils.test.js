@@ -96,11 +96,12 @@ describe('utils.js', () => {
       },
     ];
     const noFilters = {
+      nrr_legislation: [],
+      nrr_biogeographical_region: [],
       measures_implemented: [],
       typology_of_measures: [],
       current_status: [],
       habitat_ecosystem_type: [],
-      nrr_article: [],
       scale_of_planning: [],
     };
 
@@ -127,7 +128,8 @@ describe('utils.js', () => {
           url: '/planned-river-case',
           current_status: 'planned',
           ecosystem_typology: ['River', 'Wetland'],
-          nrr_article: [{ id: 'article-1', title: 'Article 1' }],
+          nrr_legislation: [{ id: 'article-1', title: 'Article 1' }],
+          nrr_biogeographical_region: [{ id: 'region-1', title: 'Alpine' }],
           scale_of_planning: 'Regional',
         },
       },
@@ -139,7 +141,8 @@ describe('utils.js', () => {
           url: '/future-case',
           current_status: 'Future',
           ecosystem_typology: ['Forest'],
-          nrr_article: ['article-2'],
+          nrr_legislation: ['article-2'],
+          nrr_biogeographical_region: ['region-2'],
           scale_of_planning: 'National',
         },
       },
@@ -147,17 +150,22 @@ describe('utils.js', () => {
 
     expect(
       filterCases(cases, {
+        nrr_legislation: ['article-1'],
+        nrr_biogeographical_region: ['region-1'],
         measures_implemented: [],
         typology_of_measures: [],
         current_status: ['planned'],
         habitat_ecosystem_type: ['River'],
-        nrr_article: ['article-1'],
         scale_of_planning: ['Regional'],
       }),
     ).toHaveLength(1);
-    expect(getFilters(cases).nrr_article).toEqual({
+    expect(getFilters(cases).nrr_legislation).toEqual({
       'article-1': 'Article 1',
       'article-2': 'article-2',
+    });
+    expect(getFilters(cases).nrr_biogeographical_region).toEqual({
+      'region-1': 'Alpine',
+      'region-2': 'region-2',
     });
   });
 
@@ -176,7 +184,8 @@ describe('utils.js', () => {
       },
       current_status: {},
       habitat_ecosystem_type: {},
-      nrr_article: {},
+      nrr_legislation: {},
+      nrr_biogeographical_region: {},
       scale_of_planning: {},
     });
   });

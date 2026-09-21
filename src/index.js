@@ -30,6 +30,8 @@ import {
   NRRTypologyOfMeasuresView,
   NRREcosystemTypologyView,
   NRRArticleView,
+  NRRLegislationView,
+  NRRBiogeographicalRegionView,
   NRRrelatedCaseStudiesView,
   NRRMeasuresImplementedView,
   NRRHabitatEcosystemTypeView,
@@ -284,14 +286,23 @@ const applyConfig = (config) => {
   }
 
   config.widgets.id.geolocation = GeolocationWidget;
+  // NRR Measure widgets
   config.widgets.views.id.nrr_typology_of_measures = NRRTypologyOfMeasuresView;
   config.widgets.views.id.nrr_ecosystem_typology = NRREcosystemTypologyView;
+  config.widgets.views.id.nrr_article = NRRArticleView;
+  config.widgets.views.id.related_case_studies = NRRrelatedCaseStudiesView;
+  // NRR Case study widgets
+  config.widgets.views.id.nrr_measures_implemented = NRRMeasuresImplementedView;
   config.widgets.views.id.nrr_habitat_ecosystem_type =
     NRRHabitatEcosystemTypeView;
   config.widgets.views.id.nrr_scale_of_planning = NRRScaleOfPlanningView;
-  config.widgets.views.id.nrr_article = NRRArticleView;
+  config.widgets.views.id.nrr_legislation = NRRLegislationView;
+  config.widgets.views.id.nrr_biogeographical_region =
+    NRRBiogeographicalRegionView;
   config.widgets.views.id.nrr_current_status = NRRCurrentStatusView;
-  // EUNIS Widgets
+  config.widgets.id.nrr_habitat_directive = EUNISHDWidget;
+  config.widgets.views.id.nrr_habitat_directive = EUNISHDView;
+  // Marine EUNIS habitat Widgets
   config.widgets.id.eunis_national_json = EUNISCountryCodeWidget;
   config.widgets.views.id.eunis_national_json = EUNISCountryCodeView;
   config.widgets.id.eunis_regional_sea_convention_value_json =
@@ -311,8 +322,7 @@ const applyConfig = (config) => {
   config.widgets.views.id.eunis_msfd_relevant_classification_json =
     EUNISMSFDView;
   config.widgets.views.id.eunis_code = EUNISCodeView;
-  config.widgets.views.id.related_case_studies = NRRrelatedCaseStudiesView;
-  config.widgets.views.id.nrr_measures_implemented = NRRMeasuresImplementedView;
+
   config.widgets.views.widget.richtext = RichTextWidget;
 
   return config;

@@ -115,6 +115,16 @@ function CaseStudyFiltersComponent(props) {
   return (
     <>
       <CaseStudyFilter
+        filterTitle="Legislation"
+        filterName="nrr_legislation"
+        {...props}
+      />
+      <CaseStudyFilter
+        filterTitle="Biogeographical region"
+        filterName="nrr_biogeographical_region"
+        {...props}
+      />
+      <CaseStudyFilter
         filterTitle="Measures"
         filterName="measures_implemented"
         filters={filters}
@@ -142,11 +152,6 @@ function CaseStudyFiltersComponent(props) {
       <CaseStudyFilter
         filterTitle="Habitat/ecosystem type"
         filterName="habitat_ecosystem_type"
-        {...props}
-      />
-      <CaseStudyFilter
-        filterTitle="NRR Article"
-        filterName="nrr_article"
         {...props}
       />
       <CaseStudyFilter
@@ -347,9 +352,16 @@ function ActiveFiltersComponent(props) {
             onRemoveFilter={removeFilter}
           />
           <FilterGroup
-            filterName="nrr_article"
-            filterLabel="NRR Article:"
-            activeFilterCodes={activeFilters.nrr_article}
+            filterName="nrr_legislation"
+            filterLabel="Legislation:"
+            activeFilterCodes={activeFilters.nrr_legislation}
+            filters={filters}
+            onRemoveFilter={removeFilter}
+          />
+          <FilterGroup
+            filterName="nrr_biogeographical_region"
+            filterLabel="Biogeographical region:"
+            activeFilterCodes={activeFilters.nrr_biogeographical_region}
             filters={filters}
             onRemoveFilter={removeFilter}
           />

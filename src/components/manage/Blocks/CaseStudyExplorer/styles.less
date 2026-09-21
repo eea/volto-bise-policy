@@ -35,6 +35,14 @@
   opacity: 0.55;
 }
 
+.ol-overlaycontainer {
+  z-index: 1 !important;
+}
+
+.ol-viewport {
+  overflow: visible !important;
+}
+
 #csepopup > span {
   display: 'block';
   margin-bottom: '10px';
@@ -42,21 +50,30 @@
 }
 
 #csepopup {
-  // width: 300px;
-  width: 100%;
+  width: 300px;
   // height: 100%;
   padding: 1em;
+  background-color: #f9f9f9;
   // border: 1px solid black;
-  // font-size: 14px;
   // line-height: initial;
   font-size: 1rem;
+
+  .csepopup-image {
+    display: block;
+    width: 100%;
+    max-width: 260px;
+    max-height: 160px;
+    margin-bottom: 10px;
+    object-fit: cover;
+  }
 
   a:hover {
     color: #289588;
   }
 
   h3 {
-    font-size: 1.4rem;
+    margin: 0px;
+    font-size: 1rem;
   }
 
   h4 {
@@ -95,6 +112,10 @@
     img {
       max-height: 133px;
     }
+  }
+
+  .ri-external-link-line {
+    margin-left: 0.25rem;
   }
 }
 
