@@ -31,6 +31,7 @@ jest.mock('ol/Overlay', () => {
 const mockOl = {
   Overlay: jest.fn((config) => ({
     element: config.element,
+    setPosition: jest.fn(),
   })),
 };
 
@@ -111,7 +112,8 @@ describe('InfoOverlay', () => {
     handler(evt);
 
     expect(onFeatureSelect).toHaveBeenCalledWith(null);
-    expect(document.getElementById('popup-overlay').style.display).toBe('none');
+    const overlay = mockOl.Overlay.mock.results[0].value;
+    expect(overlay.element.style.display).toBe('none');
   });
 
   it('ignores click when target is a link (A tag)', () => {
@@ -134,5 +136,24 @@ describe('InfoOverlay', () => {
     handler(evt);
 
     expect(onFeatureSelect).not.toHaveBeenCalled();
+  });
+
+  it('positions the overlay over the selected feature', () => {
+    render(
+      <InfoOverlay
+        {...defaultProps}
+        selectedFeature={{ geometry: { flatCoordinates: [10, 20] } }}
+      />,
+    );
+
+    const overlay = mockOl.Overlay.mock.results[0].value;
+    expect(overlay.setPosition).toHaveBeenCalledWith([10, 20]);
+  });
+
+  it('clears the overlay position when no feature is selected', () => {
+    render(<InfoOverlay {...defaultProps} selectedFeature={null} />);
+
+    const overlay = mockOl.Overlay.mock.results[0].value;
+    expect(overlay.setPosition).toHaveBeenCalledWith(undefined);
   });
 });
