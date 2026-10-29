@@ -1,8 +1,4 @@
-.styled.protected-habitats
-  > .tabs-block.default
-  > .styled
-  > .tabs.default
-  > .ui.menu {
+.styled.protected-habitats>.tabs-block.default>.styled>.tabs.default>.ui.menu {
   border-bottom: 2px solid #dadada;
   margin-bottom: 1rem;
   border-radius: 0;
@@ -54,18 +50,19 @@
 
 .is-n2k-site {
   .eea.header .main.bar {
+
     .ui.grid,
     .main-menu,
-    .main-menu > ul,
-    .main-menu > ul > li {
+    .main-menu>ul,
+    .main-menu>ul>li {
       height: 100%;
     }
   }
 
-  .eea.header .main.bar .main-menu > ul > li {
+  .eea.header .main.bar .main-menu>ul>li {
     padding: 0 0.5rem !important;
 
-    > a {
+    >a {
       align-self: center;
     }
   }
@@ -79,7 +76,7 @@
       padding-bottom: 0;
     }
 
-    .ui.accordion > button > a {
+    .ui.accordion>button>a {
       color: #fff !important;
     }
   }
@@ -127,6 +124,7 @@
       @media only screen and (min-width: 992px) {
         > :first-child:not(:last-child) {
           flex: 1;
+
           img {
             object-fit: fill;
           }
@@ -173,5 +171,51 @@
         display: none;
       }
     }
+  }
+}
+
+// Habitats
+.section-habitats.section-habitats_rl,
+.section-habitats.section-habitats_eunis2012,
+.section-habitats.section-habitats_res4,
+.section-habitats.section-habitat,
+.section-habitats.section-habitats_eunis_revised {
+  h2 {
+    margin-top: 14px;
+  }
+
+  .light-gray-background {
+    background-color: #f9f9f9;
+    padding: 1em;
+  }
+
+  .column-blocks-wrapper {
+    margin-bottom: 0;
+  }
+
+  .table-of-contents .list {
+    border-left: 3px solid #bbbdbf;
+  }
+
+  .table-of-contents .list li:before {
+    content: none !important;
+  }
+
+  .table-of-contents h2 {
+    font-size: 1.25rem;
+  }
+
+  .white-background {
+    background-color: white;
+    border: 1px solid #efefef;
+    text-align: center;
+    padding: 10px 0px;
+    width: 26% !important;
+  }
+
+  .white-criteria>span {
+    background-color: white;
+    padding: 3px 5px;
+    border: 1px solid #efefef;
   }
 }
