@@ -1,165 +1,180 @@
+import './mockJsdom';
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { IntlProvider } from 'react-intl';
+
 import CaseStudyMap from './CaseStudyMap';
-import { getFeatures, centerAndResetMapZoom, scrollToElement } from './utils';
+import { centerAndResetMapZoom, getFeatures } from './utils';
 import { createMockMap, createMockOl } from './testUtils';
 
 jest.mock('@eeacms/volto-openlayers-map', () => ({
-  withOpenLayers: (Comp) => Comp,
+  withOpenLayers: (Component) => Component,
 }));
+
+const mockMap = createMockMap();
 
 jest.mock('@eeacms/volto-openlayers-map/api', () => ({
   Map: ({ children }) => <div data-testid="mock-map">{children}</div>,
   Layer: {
-    Tile: ({ source }) => <div data-testid="mock-tile-layer" />,
-    Vector: ({ source }) => <div data-testid="mock-vector-layer" />,
+    Tile: () => <div data-testid="mock-tile-layer" />,
+    Vector: () => <div data-testid="mock-vector-layer" />,
   },
   Layers: ({ children }) => <div data-testid="mock-layers">{children}</div>,
   Controls: () => <div data-testid="mock-controls" />,
   useMapContext: () => ({ map: mockMap }),
 }));
 
-// Mock child components so we don't render full DOM
-jest.mock('./InfoOverlay', () => () => <div data-testid="mock-info-overlay" />);
-jest.mock('./FeatureInteraction', () => () => (
-  <div data-testid="mock-feature-interaction" />
-));
-jest.mock('./CaseStudyListing', () => () => (
-  <div data-testid="mock-case-study-list" />
-));
-
 jest.mock('./utils', () => ({
-  getFeatures: jest.fn(),
-  getSelectInteraction: jest.fn(() => null),
+  ...jest.requireActual('./utils'),
   centerAndResetMapZoom: jest.fn(),
-  scrollToElement: jest.fn(),
+  getFeatures: jest.fn(),
 }));
 
-const mockOl = createMockOl();
-const mockMap = createMockMap();
+const mockOl = {
+  ...createMockOl(),
+  extent: {
+    createEmpty: () => [Infinity, Infinity, -Infinity, -Infinity],
+    extend: jest.fn(),
+  },
+};
+
+const items = [
+  {
+    geometry: { type: 'Point', coordinates: [14.4, 50.1] },
+    properties: {
+      title: 'Peatlands',
+      path: '/case-peatlands',
+      current_status: 'ongoing',
+    },
+  },
+  {
+    geometry: { type: 'Point', coordinates: [10.4, 51.1] },
+    properties: {
+      title: 'Rivers',
+      path: '/case-rivers',
+      current_status: 'completed',
+    },
+  },
+];
+
+const renderMap = (props = {}) =>
+  render(
+    <IntlProvider locale="en">
+      <CaseStudyMap
+        items={items}
+        setMap={jest.fn()}
+        map={mockMap}
+        ol={mockOl}
+        onSelect={jest.fn()}
+        {...props}
+      />
+    </IntlProvider>,
+  );
+
+const mapClickHandler = () => {
+  const calls = mockMap.on.mock.calls.filter(([event]) => event === 'click');
+  return calls[calls.length - 1][1];
+};
 
 describe('CaseStudyMap', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    getFeatures.mockReturnValue([{ id: 1 }]);
   });
 
-  it('renders nothing when no features', () => {
+  test('renders nothing without features', () => {
     getFeatures.mockReturnValueOnce([]);
-    const { container } = render(
-      <CaseStudyMap items={[]} ol={mockOl} setMap={jest.fn()} />,
-    );
+    const { container } = renderMap({ items: [] });
+
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders map and layers when features exist', () => {
-    getFeatures.mockReturnValueOnce([{ id: 1 }]);
-    render(
-      <CaseStudyMap
-        items={[{ id: 1 }]}
-        ol={mockOl}
-        setMap={jest.fn()}
-        map={mockMap}
-        onSelectedCase={jest.fn()}
-      />,
-    );
+  test('renders the map, layers and the status legend', () => {
+    renderMap();
+
     expect(screen.getByTestId('mock-map')).toBeInTheDocument();
     expect(screen.getByTestId('mock-tile-layer')).toBeInTheDocument();
     expect(screen.getByTestId('mock-vector-layer')).toBeInTheDocument();
-    expect(screen.getByTestId('mock-case-study-list')).toBeInTheDocument();
+    expect(screen.getByText('Planned')).toBeInTheDocument();
+    expect(screen.getByText('Ongoing')).toBeInTheDocument();
+    expect(screen.getByText('Completed')).toBeInTheDocument();
   });
 
-  it('does not render CaseStudyList when hideFilters is true', () => {
-    getFeatures.mockReturnValueOnce([{ id: 1 }]);
-    render(
-      <CaseStudyMap
-        items={[{ id: 1 }]}
-        ol={mockOl}
-        hideFilters
-        setMap={jest.fn()}
-        map={mockMap}
-        onSelectedCase={jest.fn()}
-      />,
-    );
-    expect(
-      screen.queryByTestId('mock-case-study-list'),
-    ).not.toBeInTheDocument();
+  test('selects a case study when its pin is clicked', () => {
+    const onSelect = jest.fn();
+    renderMap({ onSelect });
+
+    const member = {
+      get: (key) => (key === 'path' ? '/case-peatlands' : null),
+    };
+    const cluster = { get: (key) => (key === 'features' ? [member] : null) };
+    mockMap.forEachFeatureAtPixel = jest.fn(() => cluster);
+
+    mapClickHandler()({ pixel: [10, 20] });
+
+    expect(onSelect).toHaveBeenCalledWith('/case-peatlands');
   });
 
-  it('does not refresh the points source when only the ol wrapper identity changes', () => {
-    getFeatures.mockReturnValue([{ id: 1 }]);
-    const activeItems = [{ id: 1 }];
+  test('zooms instead of guessing when a cluster is clicked', () => {
+    const onSelect = jest.fn();
+    renderMap({ onSelect });
 
-    const { rerender } = render(
-      <CaseStudyMap
-        items={[{ id: 1 }]}
-        activeItems={activeItems}
-        ol={mockOl}
-        setMap={jest.fn()}
-        map={mockMap}
-        onSelectedCase={jest.fn()}
-      />,
-    );
+    const member = {
+      getGeometry: () => ({ getExtent: () => [0, 0, 1, 1] }),
+    };
+    const cluster = {
+      get: (key) => (key === 'features' ? [member, member] : null),
+    };
+    mockMap.forEachFeatureAtPixel = jest.fn(() => cluster);
 
-    const pointsSource = mockOl.source.Vector.mock.results[0].value;
-    const clearCount = pointsSource.clear.mock.calls.length;
-    expect(clearCount).toBeGreaterThan(0);
+    mapClickHandler()({ pixel: [10, 20] });
 
-    // withOpenLayers builds a fresh `ol` object literal on every render;
-    // refreshing the points source would regenerate the cluster features and
-    // drop the currently selected feature from the rendered set.
-    rerender(
-      <CaseStudyMap
-        items={[{ id: 1 }]}
-        activeItems={activeItems}
-        ol={{ ...mockOl }}
-        setMap={jest.fn()}
-        map={mockMap}
-        onSelectedCase={jest.fn()}
-      />,
-    );
-
-    expect(pointsSource.clear.mock.calls.length).toBe(clearCount);
+    expect(onSelect).toHaveBeenCalledWith(null);
+    expect(mockMap.getView().fit).toHaveBeenCalled();
   });
 
-  it('clicking Reset map calls utils and clears features', () => {
-    getFeatures.mockReturnValueOnce([{ id: 1 }]);
-    const onSelectedCase = jest.fn();
-    render(
-      <CaseStudyMap
-        items={[{ id: 1 }]}
-        ol={mockOl}
-        setMap={jest.fn()}
-        map={mockMap}
-        onSelectedCase={onSelectedCase}
-      />,
-    );
+  test('clears the selection when empty map space is clicked', () => {
+    const onSelect = jest.fn();
+    renderMap({ onSelect });
 
-    fireEvent.click(screen.getByText('Reset map'));
-    expect(scrollToElement).toHaveBeenCalledWith('search-input');
-    expect(onSelectedCase).toHaveBeenCalledWith(null);
-    expect(centerAndResetMapZoom).toHaveBeenCalledWith({
-      map: mockMap,
-      ol: mockOl,
-    });
+    mockMap.forEachFeatureAtPixel = jest.fn(() => null);
+    mapClickHandler()({ pixel: [10, 20] });
+
+    expect(onSelect).toHaveBeenCalledWith(null);
   });
 
-  it('map moveend listener toggles resetMapButtonClass', () => {
-    getFeatures.mockReturnValueOnce([{ id: 1 }]);
-    render(
-      <CaseStudyMap
-        items={[{ id: 1 }]}
-        ol={mockOl}
-        setMap={jest.fn()}
-        map={mockMap}
-        onSelectedCase={jest.fn()}
-      />,
-    );
+  test('keeps the loader up until OpenLayers finishes rendering', () => {
+    renderMap();
 
-    const moveendCb = mockMap.on.mock.calls.find((c) => c[0] === 'moveend')[1];
+    expect(screen.getByRole('status')).toHaveTextContent('Loading map');
 
-    moveendCb();
+    const renderComplete = mockMap.on.mock.calls
+      .filter(([event]) => event === 'rendercomplete')
+      .pop()[1];
+    act(() => renderComplete());
 
-    expect(mockMap.getView).toHaveBeenCalled();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
+  test('removes the render listener once the map is ready', () => {
+    renderMap();
+
+    const renderComplete = mockMap.on.mock.calls
+      .filter(([event]) => event === 'rendercomplete')
+      .pop()[1];
+    act(() => renderComplete());
+
+    expect(mockMap.un).toHaveBeenCalledWith('rendercomplete', renderComplete);
+  });
+
+  test('resets the map and clears the selection', () => {
+    const onSelect = jest.fn();
+    renderMap({ onSelect });
+
+    fireEvent.click(screen.getByRole('button', { name: /Reset map/ }));
+
+    expect(onSelect).toHaveBeenCalledWith(null);
+    expect(centerAndResetMapZoom).toHaveBeenCalled();
   });
 });

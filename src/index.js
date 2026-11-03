@@ -1,5 +1,6 @@
 import { getBlocks } from '@plone/volto/helpers/Blocks/Blocks';
 import installLink from '@plone/volto-slate/editor/plugins/AdvancedLink';
+import { clientOnly } from '@eeacms/volto-openlayers-map';
 import { addStylingFieldsetSchemaEnhancer } from '@eeacms/volto-bise-policy/components/manage/Blocks/schema';
 
 import installBlocks from './components/manage/Blocks';
@@ -39,6 +40,40 @@ import {
   NRRCurrentStatusView,
 } from './components/Widgets/NRRWidgets';
 import RichTextWidget from './components/Widgets/RichTextWidget';
+
+// @eeacms/volto-openlayers-map registers one lazy loadable per `ol/*`
+// namespace, which makes webpack emit one async chunk (one script request)
+// for each of them. Point every loadable at the single `./openlayers` chunk
+// instead: see `src/openlayers.js` for the details.
+const OPENLAYERS_BUNDLES = {
+  ol: 'ol',
+  olControl: 'control',
+  olCoordinate: 'coordinate',
+  olExtent: 'extent',
+  olFormat: 'format',
+  olGeom: 'geom',
+  olInteraction: 'interaction',
+  olLayer: 'layer',
+  olLoadingstrategy: 'loadingstrategy',
+  olProj: 'proj',
+  olSource: 'source',
+  olStyle: 'style',
+  olTilegrid: 'tilegrid',
+  olOverlay: 'overlay',
+  olEvents: 'events',
+  olCondition: 'condition',
+  olRender: 'render',
+};
+
+const openlayersLoadables = () =>
+  Object.fromEntries(
+    Object.entries(OPENLAYERS_BUNDLES).map(([name, bundle]) => [
+      name,
+      clientOnly(() =>
+        import('./openlayers').then((module) => module.bundles[bundle]),
+      ),
+    ]),
+  );
 
 const restrictedBlocks = ['imagecards', 'embed_eea_tableau_block'];
 
@@ -84,6 +119,10 @@ const applyConfig = (config) => {
   config.settings = {
     ...config.settings,
     navDepth: 3,
+    loadables: {
+      ...config.settings.loadables,
+      ...openlayersLoadables(),
+    },
   };
 
   // Multi-lingual
