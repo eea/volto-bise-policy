@@ -90,11 +90,11 @@ export default function FacetPopover({
     selectedCount === 1 && singleLabel
       ? singleLabel
       : selectedCount > 1
-      ? intl.formatMessage(messages.selectedCount, {
-          label,
-          count: selectedCount,
-        })
-      : label;
+        ? intl.formatMessage(messages.selectedCount, {
+            label,
+            count: selectedCount,
+          })
+        : label;
 
   const visibleGroups = groups.map((group) => ({
     ...group,

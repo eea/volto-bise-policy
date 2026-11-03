@@ -70,7 +70,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
@@ -491,10 +490,10 @@
   /* Width stays tied to the grid column; the aspect ratio only derives the
      height, which `max-height` then clamps. */
   width: 100%;
-  aspect-ratio: 1 / 1;
-  max-height: 730px;
   /* Fallback for browsers without aspect-ratio support. */
   min-height: 320px;
+  max-height: 730px;
+  aspect-ratio: 1 / 1;
 }
 
 .cse-map {
@@ -521,10 +520,10 @@
 
 .cse-loading {
   display: flex;
+  min-height: 520px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 520px;
   padding: 24px;
   border: 1px solid @cse-border;
   background: @cse-surface-tint;
@@ -664,14 +663,14 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid @cse-border;
   margin-bottom: 4px;
   gap: 16px;
-  border-bottom: 1px solid @cse-border;
 }
 
 .cse-results-count {
-  color: @cse-green-dark;
   margin: 0;
+  color: @cse-green-dark;
   font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
@@ -739,17 +738,17 @@
   position: relative;
   display: grid;
   padding: 16px 16px;
+  // border-top: 1px solid @cse-border;
+  border-bottom: 1px solid @cse-border;
   /* border: 1px solid #e6e7e8; */
   background: #ffffff;
+  border-collapse: collapse;
   gap: 8px;
   grid-template-areas:
     'media content'
     'measures measures';
   grid-template-columns: 140px minmax(0, 1fr);
   scroll-margin-top: 24px;
-  // border-top: 1px solid @cse-border;
-  border-bottom: 1px solid @cse-border;
-  border-collapse: collapse;
 
   &.selected {
     background: @cse-surface-tint;
@@ -792,9 +791,9 @@
   display: flex;
   min-width: 0;
   flex-direction: column;
+  padding: 4px;
   gap: 8px;
   grid-area: content;
-  padding: 4px;
 }
 
 .cse-card-head {
@@ -1036,7 +1035,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .cse-card-measures-panel,
   .cse-card-measures-chevron {
     transition: none;
@@ -1053,9 +1051,9 @@
   gap: 3px;
 
   .icon {
-    font-size: 14px;
     flex: 0 0 auto;
     color: @cse-green;
+    font-size: 14px;
   }
 
   .icon:last-child {
