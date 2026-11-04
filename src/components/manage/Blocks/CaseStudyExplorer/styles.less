@@ -40,11 +40,11 @@
     // color: @cse-link;
     text-decoration: none;
 
-    &:hover,
-    &:focus {
-      // color: @cse-blue;
-      text-decoration: underline;
-    }
+    // &:hover,
+    // &:focus {
+    //   color: @cse-blue;
+    //   text-decoration: underline;
+    // }
 
     &:focus-visible {
       outline: 2px solid @cse-focus;
@@ -735,6 +735,7 @@
 /* --------------------------------------------------------------- cards -- */
 
 .cse-card.selected {
+
   .cse-card-chip,
   .cse-card-chip-more-trigger {
     background: @cse-surface-tint-strong;
@@ -867,6 +868,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin-right: 5px;
 }
 
 .cse-card-status-dot {
@@ -934,6 +936,7 @@
   font-family: inherit;
   cursor: pointer;
   gap: 4px;
+  font-size: 12px !important;
 
   &:hover {
     background: @cse-surface-tint-strong;

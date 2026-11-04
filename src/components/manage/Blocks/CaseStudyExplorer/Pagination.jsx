@@ -27,7 +27,7 @@ export function paginationItems(page, pageCount) {
 
 export default function Pagination({ page, pageCount, onPageChange }) {
   const intl = useIntl();
-  if (pageCount <= 1) return null;
+  if (pageCount < 1) return null;
 
   return (
     <nav

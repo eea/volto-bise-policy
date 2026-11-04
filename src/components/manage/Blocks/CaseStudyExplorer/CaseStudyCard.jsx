@@ -21,15 +21,15 @@ const CHIP_GAP_FALLBACK = 8;
 const useIsomorphicLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 
-const STATUS_LABELS = {
-  planned: messages.statusPlanned,
-  ongoing: messages.statusOngoing,
-  completed: messages.statusCompleted,
-};
+// const STATUS_LABELS = {
+//   planned: messages.statusPlanned,
+//   ongoing: messages.statusOngoing,
+//   completed: messages.statusCompleted,
+// };
 
 function StatusBadge({ status }) {
-  const intl = useIntl();
-  const label = STATUS_LABELS[status];
+  // const intl = useIntl();
+  // const label = STATUS_LABELS[status];
 
   return (
     <span className="cse-card-status">
@@ -38,9 +38,9 @@ function StatusBadge({ status }) {
         style={{ backgroundColor: getStatusColor(status) }}
         aria-hidden="true"
       />
-      <span className="cse-card-status-label">
+      {/* <span className="cse-card-status-label">
         {label ? intl.formatMessage(label) : status}
-      </span>
+      </span> */}
     </span>
   );
 }
@@ -318,6 +318,7 @@ function CaseStudyCard({ item, selected = false, onShowOnMap, onResetMap }) {
       <div className="cse-card-content">
         <div className="cse-card-head">
           <h3 className="cse-card-title">
+            <StatusBadge status={properties.current_status} />
             <a
               href={properties.path}
               target="_blank"

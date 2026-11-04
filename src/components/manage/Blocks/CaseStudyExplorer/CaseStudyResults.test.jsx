@@ -130,10 +130,26 @@ describe('Pagination', () => {
     expect(onPageChange).toHaveBeenCalledWith(3);
   });
 
-  test('renders nothing for a single page', () => {
-    const { container } = render(
+  test('renders a single, current page with both steps disabled', () => {
+    render(
       <IntlProvider locale="en">
         <Pagination page={1} pageCount={1} onPageChange={jest.fn()} />
+      </IntlProvider>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Page 1' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    expect(screen.queryByRole('button', { name: 'Page 2' })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Previous page' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Next page' })).toBeDisabled();
+  });
+
+  test('renders nothing when there are no pages', () => {
+    const { container } = render(
+      <IntlProvider locale="en">
+        <Pagination page={1} pageCount={0} onPageChange={jest.fn()} />
       </IntlProvider>,
     );
 

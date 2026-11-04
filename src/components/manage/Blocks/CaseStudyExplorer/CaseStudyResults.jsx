@@ -116,11 +116,13 @@ export default function CaseStudyResults({
         </ul>
       )}
 
-      <Pagination
-        page={currentPage}
-        pageCount={pageCount}
-        onPageChange={onPageChange}
-      />
+      {visible.length > 0 ? (
+        <Pagination
+          page={currentPage}
+          pageCount={pageCount}
+          onPageChange={onPageChange}
+        />
+      ) : null}
     </div>
   );
 }
