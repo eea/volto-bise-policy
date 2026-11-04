@@ -298,22 +298,23 @@ function CaseStudyCard({ item, selected = false, onShowOnMap, onResetMap }) {
 
   return (
     <article
-      className={cx('cse-card', { selected })}
+      className={cx('cse-card', {
+        selected,
+        'cse-card-no-media': !properties.image,
+      })}
       id={`cse-card-${encodeURIComponent(properties.path || '')}`}
       data-selected={selected ? 'true' : undefined}
     >
-      <a
-        className="cse-card-media"
-        href={properties.path}
-        tabIndex={-1}
-        aria-hidden="true"
-      >
-        {properties.image ? (
+      {properties.image ? (
+        <a
+          className="cse-card-media"
+          href={properties.path}
+          tabIndex={-1}
+          aria-hidden="true"
+        >
           <Image src={properties.image} alt="" loading="lazy" />
-        ) : (
-          <span className="cse-card-media-placeholder" />
-        )}
-      </a>
+        </a>
+      ) : null}
 
       <div className="cse-card-content">
         <div className="cse-card-head">

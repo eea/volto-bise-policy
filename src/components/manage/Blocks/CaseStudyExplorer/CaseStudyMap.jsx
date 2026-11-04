@@ -405,9 +405,9 @@ const clusterStyleFor = ({ ol, selectedPathRef }) => {
       return new ol.style.Style({
         zIndex: 10,
         image: new ol.style.Circle({
-          radius: 9,
+          radius: 11,
           fill: new ol.style.Fill({ color: SELECTED_COLOR }),
-          stroke: new ol.style.Stroke({ color: '#FFFFFF', width: 3 }),
+          stroke: new ol.style.Stroke({ color: '#FFFFFF', width: 1 }),
         }),
       });
     }

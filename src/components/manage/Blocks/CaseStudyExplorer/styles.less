@@ -801,12 +801,27 @@
     background: @cse-surface-tint;
   }
 
+  /* Without an image there is no media column: the content starts at the
+     card's left edge and spans the full width. */
+  &.cse-card-no-media {
+    grid-template-areas:
+      'content'
+      'measures';
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   @media (max-width: 600px) {
     grid-template-areas:
       'media'
       'content'
       'measures';
     grid-template-columns: 1fr;
+
+    &.cse-card-no-media {
+      grid-template-areas:
+        'content'
+        'measures';
+    }
   }
 }
 
@@ -824,14 +839,6 @@
     height: 100%;
     object-fit: cover;
   }
-}
-
-.cse-card-media-placeholder {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 104px;
-  background: @cse-surface-alt;
 }
 
 .cse-card-content {
