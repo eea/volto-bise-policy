@@ -50,6 +50,7 @@ export const createMockOl = (additionalProps = {}) => ({
     Vector: jest.fn(() => ({
       clear: jest.fn(),
       addFeatures: jest.fn(),
+      changed: jest.fn(),
     })),
     Cluster: jest.fn(() => ({})),
   },

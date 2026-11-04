@@ -16,6 +16,7 @@ import { useIntl } from 'react-intl';
 import messages from './messages';
 import {
   CLUSTER_COLOR,
+  SELECTED_COLOR,
   STATUS_COLORS,
   centerAndResetMapZoom,
   getFeatures,
@@ -45,9 +46,9 @@ function getFeaturePath(feature) {
 
 /**
  * Case study map. Pins are coloured by current status and clustered when
- * they overlap; clicking a pin selects its case study (highlight + scroll in
- * the results list), clicking empty map space clears the selection. There is
- * no popup: the card is the detail surface.
+ * they overlap; clicking a pin selects its case study (the pin turns dark
+ * green, a popup shows its title and the results list opens the page holding
+ * its card), clicking empty map space clears the selection.
  */
 function CaseStudyMap({
   items = [],
@@ -68,6 +69,13 @@ function CaseStudyMap({
     React.useState('inactive');
   const [mapReady, setMapReady] = React.useState(false);
   const containerRef = React.useRef(null);
+  const popupRef = React.useRef(null);
+
+  const selectedItem = React.useMemo(
+    () => items.find((item) => item.properties?.path === selectedPath) || null,
+    [items, selectedPath],
+  );
+  const popupTitle = selectedItem?.properties?.title || null;
 
   const [tileWMSSources] = React.useState([
     new ol.source.TileWMS({
@@ -99,7 +107,64 @@ function CaseStudyMap({
     pointsSource.addFeatures(features);
   }, [features, pointsSource]);
 
-  const clusterStyle = React.useMemo(() => clusterStyleFor({ ol }), [ol]);
+  // The add-on's `Layer.Vector` applies the `style` prop only when it creates
+  // the layer: later prop changes go through `layer.set(...)`, which cannot
+  // replace an OpenLayers style. So the style function has to stay stable and
+  // read the current selection from a ref, and the pins have to be redrawn by
+  // hand whenever that selection changes.
+  const selectedPathRef = React.useRef(selectedPath);
+  selectedPathRef.current = selectedPath;
+
+  const clusterStyle = React.useMemo(
+    () => clusterStyleFor({ ol, selectedPathRef }),
+    [ol],
+  );
+
+  React.useEffect(() => {
+    // Dispatches a change on the source, which makes the cluster source
+    // re-cluster and the layer paint again — with the new selection colour.
+    pointsSource.changed();
+  }, [selectedPath, pointsSource]);
+
+  // Keep the title popup over its pin: OpenLayers positions features, not DOM
+  // nodes, so the anchor is moved on every frame the map renders (pan, zoom,
+  // resize) and hidden while the pin is outside the viewport.
+  React.useEffect(() => {
+    if (!map || !selectedItem) return undefined;
+
+    const anchor = popupRef.current;
+    const coordinates = selectedItem.geometry?.coordinates;
+    if (!anchor || !coordinates) return undefined;
+
+    const position = olRef.current.proj.fromLonLat(coordinates);
+    let lastX = null;
+    let lastY = null;
+
+    const place = () => {
+      const pixel = map.getPixelFromCoordinate(position);
+      if (!pixel) return;
+
+      const x = Math.round(pixel[0]);
+      const y = Math.round(pixel[1]);
+      const size = map.getSize?.();
+      const inView =
+        !size || (x >= 0 && y >= 0 && x <= size[0] && y <= size[1]);
+
+      if (x === lastX && y === lastY) return;
+      lastX = x;
+      lastY = y;
+
+      anchor.style.transform = `translate(${x}px, ${y}px)`;
+      anchor.style.visibility = inView ? 'visible' : 'hidden';
+    };
+
+    place();
+    map.on('postrender', place);
+
+    return () => {
+      map.un('postrender', place);
+    };
+  }, [map, selectedItem]);
 
   React.useEffect(() => {
     if (!map) return undefined;
@@ -256,6 +321,12 @@ function CaseStudyMap({
         </Layers>
       </Map>
 
+      {popupTitle && (
+        <div className="cse-map-popup-anchor" ref={popupRef}>
+          <div className="cse-map-popup">{popupTitle}</div>
+        </div>
+      )}
+
       {!mapReady && (
         <div className="cse-map-loading" role="status" aria-live="polite">
           <span className="cse-loading-spinner" aria-hidden="true" />
@@ -300,10 +371,10 @@ function CaseStudyMap({
 }
 
 /**
- * Cluster style: coloured ring per status for a single case study, a numbered
- * bubble for a cluster.
+ * Cluster style: coloured ring per status for a single case study, a dark
+ * green disc for the selected one, a numbered bubble for a cluster.
  */
-const clusterStyleFor = ({ ol }) => {
+const clusterStyleFor = ({ ol, selectedPathRef }) => {
   const styleFor = (size) => {
     if (styleCache[size]) return styleCache[size];
 
@@ -327,13 +398,25 @@ const clusterStyleFor = ({ ol }) => {
 
     if (members.length !== 1) return styleFor(members.length);
 
-    const color = members[0].get('color');
+    const member = members[0];
+    const selectedPath = selectedPathRef.current;
+
+    if (selectedPath && member.get('path') === selectedPath) {
+      return new ol.style.Style({
+        zIndex: 10,
+        image: new ol.style.Circle({
+          radius: 9,
+          fill: new ol.style.Fill({ color: SELECTED_COLOR }),
+          stroke: new ol.style.Stroke({ color: '#FFFFFF', width: 3 }),
+        }),
+      });
+    }
 
     return new ol.style.Style({
       image: new ol.style.Circle({
         radius: 7,
         fill: new ol.style.Fill({ color: '#FFFFFF' }),
-        stroke: new ol.style.Stroke({ color, width: 5 }),
+        stroke: new ol.style.Stroke({ color: member.get('color'), width: 5 }),
       }),
     });
   };

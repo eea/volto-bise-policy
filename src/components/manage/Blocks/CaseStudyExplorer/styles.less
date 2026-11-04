@@ -70,7 +70,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
@@ -95,6 +94,10 @@
 /* ---------------------------------------------------------------- panel -- */
 
 .cse-filter-panel {
+  /* Above the map column (z-index 30) so an open facet menu is not hidden
+     behind the map when it opens downwards over it. */
+  position: relative;
+  z-index: 31;
   padding: 24px;
   border: 1px solid @cse-border;
   margin-bottom: 24px;
@@ -458,6 +461,11 @@
 
 .cse-layout-map {
   position: sticky;
+  /* A sticky element is its own stacking context, so the title popup of a pin
+     near the edge could never paint above the results column from inside it.
+     Lift the whole map column above the cards (their panels go up to 20); the
+     filter panel sits above both (see .cse-filter-panel). */
+  z-index: 30;
   top: 24px;
 }
 
@@ -653,6 +661,38 @@
   border-radius: 50%;
 }
 
+/* Title of the selected case study. The anchor is a zero-sized point placed
+   over the pin by CaseStudyMap (the map itself knows where features are), the
+   bubble hangs above it. Neither the map nor the column clip it, so a pin near
+   an edge still gets a readable bubble. */
+.cse-map-popup-anchor {
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  transform: translate(-1000px, -1000px);
+}
+
+.cse-map-popup {
+  position: absolute;
+  bottom: 26px;
+  left: 0;
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 12px;
+  border: 1px solid @cse-green-dark;
+  background: @cse-surface;
+  color: @cse-green-dark;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
 /* ------------------------------------------------------------- results -- */
 
 .cse-results {
@@ -735,7 +775,6 @@
 /* --------------------------------------------------------------- cards -- */
 
 .cse-card.selected {
-
   .cse-card-chip,
   .cse-card-chip-more-trigger {
     background: @cse-surface-tint-strong;
@@ -1109,7 +1148,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .cse-card-measures-panel,
   .cse-card-measures-chevron {
     transition: none;

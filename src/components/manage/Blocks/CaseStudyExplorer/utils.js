@@ -7,6 +7,8 @@ export const STATUS_COLORS = {
 
 export const FALLBACK_STATUS_COLOR = '#6B7280';
 export const CLUSTER_COLOR = '#007B6C';
+// Design system `@cse-green-dark`: the pin of the selected case study.
+export const SELECTED_COLOR = '#005248';
 
 export function getStatusColor(status) {
   return STATUS_COLORS[status] || FALLBACK_STATUS_COLOR;
