@@ -137,10 +137,10 @@ function RelatedMeasures({ measures }) {
 function CaseStudyCard({ item, selected = false, onShowOnMap, onResetMap }) {
   const intl = useIntl();
   const properties = React.useMemo(() => item?.properties || {}, [item]);
-  const { directives } = React.useMemo(
-    () => getArticleInfo(properties),
-    [properties],
-  );
+  // const { directives } = React.useMemo(
+  //   () => getArticleInfo(properties),
+  //   [properties],
+  // );
   const ecosystems = React.useMemo(
     () => getFacetValues(properties, 'ecosystem').map(valueLabel),
     [properties],

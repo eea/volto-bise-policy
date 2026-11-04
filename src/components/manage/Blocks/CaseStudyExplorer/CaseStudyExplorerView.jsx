@@ -12,7 +12,7 @@ import {
   sortCases,
 } from './filters';
 import { useCases } from './hooks';
-import { prefersReducedMotion } from './utils';
+// import { prefersReducedMotion } from './utils';
 import messages from './messages';
 
 import './styles.less';
