@@ -142,7 +142,9 @@ describe('Pagination', () => {
       'page',
     );
     expect(screen.queryByRole('button', { name: 'Page 2' })).toBeNull();
-    expect(screen.getByRole('button', { name: 'Previous page' })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'Previous page' }),
+    ).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Next page' })).toBeDisabled();
   });
 
