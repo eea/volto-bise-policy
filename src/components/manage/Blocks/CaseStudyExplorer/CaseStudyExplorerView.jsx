@@ -92,18 +92,30 @@ export default function CaseStudyExplorerView(props) {
     setSelectedPath(null);
   }, []);
 
-  const selectCase = React.useCallback((path) => {
-    setSelectedPath(path);
-    if (!path) return;
+  // Selecting a case study on the map also brings its card into view: if it
+  // lives on another page of the results, jump to that page first.
+  const selectCase = React.useCallback(
+    (path) => {
+      setSelectedPath(path);
+      if (!path) return;
 
-    // const card = document.getElementById(
-    //   `cse-card-${encodeURIComponent(path)}`,
-    // );
-    // card?.scrollIntoView({
-    //   behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-    //   block: 'center',
-    // });
-  }, []);
+      const index = narrowedResults.findIndex(
+        (item) => item.properties?.path === path,
+      );
+      if (index === -1) return;
+
+      setPage(Math.floor(index / perPage) + 1);
+
+      // const card = document.getElementById(
+      //   `cse-card-${encodeURIComponent(path)}`,
+      // );
+      // card?.scrollIntoView({
+      //   behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+      //   block: 'center',
+      // });
+    },
+    [narrowedResults, perPage],
+  );
 
   const showOnMap = React.useCallback((item) => {
     const path = item?.properties?.path;

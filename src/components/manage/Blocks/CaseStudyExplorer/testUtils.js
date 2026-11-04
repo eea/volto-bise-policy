@@ -37,6 +37,7 @@ export const createMockMap = (additionalProps = {}) => {
     getViewport: jest.fn(() => ({ style: {} })),
     getPixelFromCoordinate: jest.fn(() => [100, 200]),
     getFeaturesAtPixel: jest.fn(() => ['mockFeature']),
+    updateSize: jest.fn(),
     addOverlay: jest.fn(),
     removeOverlay: jest.fn(),
     ...additionalProps,

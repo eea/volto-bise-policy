@@ -51,10 +51,7 @@ export const useNearViewport = (elementRef, enabled = true) => {
  */
 export default function CaseStudyMapLazy(props) {
   const slotRef = React.useRef(null);
-  const hasItems = (props.items || []).length > 0;
-  const near = useNearViewport(slotRef, hasItems);
-
-  if (!hasItems) return null;
+  const near = useNearViewport(slotRef);
 
   return (
     <div className="cse-map-slot" ref={slotRef}>

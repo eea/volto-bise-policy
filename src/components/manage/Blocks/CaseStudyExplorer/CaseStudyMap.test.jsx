@@ -83,11 +83,12 @@ describe('CaseStudyMap', () => {
     getFeatures.mockReturnValue([{ id: 1 }]);
   });
 
-  test('renders nothing without features', () => {
+  test('still renders the map without features', () => {
     getFeatures.mockReturnValueOnce([]);
-    const { container } = renderMap({ items: [] });
+    renderMap({ items: [] });
 
-    expect(container.firstChild).toBeNull();
+    expect(screen.getByTestId('mock-map')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-tile-layer')).toBeInTheDocument();
   });
 
   test('renders the map, layers and the status legend', () => {

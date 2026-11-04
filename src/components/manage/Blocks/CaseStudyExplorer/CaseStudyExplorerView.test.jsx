@@ -13,8 +13,20 @@ jest.mock('./hooks', () => ({
   useCases: jest.fn(),
 }));
 
-jest.mock('./CaseStudyMapLazy', () => () => (
-  <div data-testid="case-study-map" />
+// The real map needs OpenLayers: stand in for it with one button per item so
+// tests can select a case study the way a map click would.
+jest.mock('./CaseStudyMapLazy', () => ({ items, onSelect }) => (
+  <div data-testid="case-study-map">
+    {items.map((item) => (
+      <button
+        type="button"
+        key={item.properties.path}
+        onClick={() => onSelect(item.properties.path)}
+      >
+        {`Map pin: ${item.properties.title}`}
+      </button>
+    ))}
+  </div>
 ));
 
 const cases = [
@@ -165,6 +177,43 @@ describe('CaseStudyExplorerView', () => {
     expect(
       within(card).getByRole('button', { name: 'Show on map' }),
     ).toBeInTheDocument();
+  });
+
+  test('jumps to the page that holds a case study selected on the map', () => {
+    const withTitle = (title, path) => ({
+      geometry: { type: 'Point', coordinates: [14.4, 50.1] },
+      properties: { title, path, current_status: 'ongoing' },
+    });
+    useCases.mockReturnValue({
+      cases: [
+        withTitle('Alpine meadows', '/case-alpine'),
+        withTitle('Boreal forest', '/case-boreal'),
+        withTitle('Coastal dunes', '/case-coastal'),
+        withTitle('Peatland rewetting', '/case-peatland'),
+        withTitle('River connectivity', '/case-rivers'),
+      ],
+      loading: false,
+      error: false,
+    });
+
+    renderView();
+
+    // Four cards per page: the last case study is on page 2.
+    expect(screen.queryByText('River connectivity')).not.toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Map pin: River connectivity' }),
+    );
+
+    expect(screen.getByText('River connectivity')).toBeInTheDocument();
+    expect(screen.getByRole('article')).toHaveAttribute(
+      'data-selected',
+      'true',
+    );
+    expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
   });
 
   test('sorts by newest using the effective date', () => {

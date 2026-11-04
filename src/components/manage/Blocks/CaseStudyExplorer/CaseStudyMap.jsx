@@ -234,8 +234,6 @@ function CaseStudyMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetRequest?.nonce]);
 
-  if (!features.length) return null;
-
   return (
     <div className="cse-map" id="cse-map-container" ref={containerRef}>
       <Map

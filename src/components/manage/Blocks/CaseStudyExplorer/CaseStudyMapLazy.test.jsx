@@ -36,10 +36,25 @@ describe('CaseStudyMapLazy', () => {
     jest.clearAllMocks();
   });
 
-  test('renders nothing without case studies', () => {
+  test('renders the map slot without case studies', () => {
+    const observers = installIntersectionObserver();
     const { container } = render(<CaseStudyMapLazy items={[]} />);
 
-    expect(container.firstChild).toBeNull();
+    expect(container.querySelector('.cse-map-slot')).toBeInTheDocument();
+    expect(observers[0].observe).toHaveBeenCalledWith(
+      container.querySelector('.cse-map-slot'),
+    );
+  });
+
+  test('mounts the map without case studies once it is near the viewport', () => {
+    const observers = installIntersectionObserver();
+    render(<CaseStudyMapLazy items={[]} />);
+
+    act(() => {
+      observers[0].callback([{ isIntersecting: true }]);
+    });
+
+    expect(screen.getByTestId('case-study-map')).toBeInTheDocument();
   });
 
   test('defers the map until it is near the viewport', () => {
