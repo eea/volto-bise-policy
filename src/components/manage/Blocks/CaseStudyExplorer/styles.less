@@ -37,12 +37,12 @@
   }
 
   a {
-    color: @cse-link;
+    // color: @cse-link;
     text-decoration: none;
 
     &:hover,
     &:focus {
-      color: @cse-blue;
+      // color: @cse-blue;
       text-decoration: underline;
     }
 
@@ -70,6 +70,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -502,6 +503,11 @@
   border: 1px solid @cse-border;
   scroll-margin-top: 24px;
 
+  .ol-control button {
+    background-color: @cse-green;
+    opacity: 0.7;
+  }
+
   /* `@eeacms/volto-openlayers-map` ships `.ol-map-wrapper` / `.ol-map` with a
      fixed 500px height (map.variables). Let the map fill the square slot
      instead — the ResizeObserver in CaseStudyMap calls map.updateSize() so
@@ -597,7 +603,7 @@
   border: 1px solid @cse-border;
   border-radius: 0;
   background: @cse-surface;
-  color: @cse-text;
+  color: @cse-green;
   gap: 8px;
 
   &.inactive {
@@ -729,7 +735,8 @@
 /* --------------------------------------------------------------- cards -- */
 
 .cse-card.selected {
-  .cse-card-chip {
+  .cse-card-chip,
+  .cse-card-chip-more-trigger {
     background: @cse-surface-tint-strong;
   }
 }
@@ -737,7 +744,7 @@
 .cse-card {
   position: relative;
   display: grid;
-  padding: 16px 16px;
+  padding: 14px 16px;
   // border-top: 1px solid @cse-border;
   border-bottom: 1px solid @cse-border;
   /* border: 1px solid #e6e7e8; */
@@ -879,6 +886,10 @@
   gap: 4px;
 }
 
+.cse-card-ecosystems-wrap {
+  position: relative;
+}
+
 .cse-card-ecosystems {
   display: flex;
   flex-wrap: wrap;
@@ -888,7 +899,19 @@
   list-style: none;
 }
 
-.cse-card-chip {
+/* Mirrors the real chip list so the two-row fit can be measured. */
+.cse-card-ecosystems-measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cse-card-chip,
+.cse-card-chip-more-trigger,
+.cse-card-chip-more-measure {
   display: inline-flex;
   align-items: center;
   padding: 4px 8px;
@@ -898,6 +921,54 @@
   font-size: 12px;
   font-weight: 500;
   line-height: 1.2;
+}
+
+/* The trigger keeps the chip look but lives inside a padding-free pill. */
+.cse-card-chip-more {
+  padding: 0;
+  background: none;
+}
+
+.cse-card-chip-more-trigger {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  gap: 4px;
+
+  &:hover {
+    background: @cse-surface-tint-strong;
+  }
+
+  &:focus-visible {
+    outline: 2px solid @cse-green;
+    outline-offset: 2px;
+  }
+}
+
+.cse-card-ecosystems-panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 260px;
+  max-height: 220px;
+  padding: 8px;
+  border: 1px solid @cse-border;
+  background: @cse-surface;
+  box-shadow:
+    0 2px 4px 0 rgba(34, 36, 38, 0.12),
+    0 2px 10px 0 rgba(34, 36, 38, 0.15);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  &:focus-visible {
+    outline: 2px solid @cse-green;
+    outline-offset: -2px;
+  }
+}
+
+.cse-card-ecosystems-panel-list {
+  gap: 6px;
 }
 
 /* Highlight badge ("Case study" style) — light foliage green. */
@@ -1035,6 +1106,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .cse-card-measures-panel,
   .cse-card-measures-chevron {
     transition: none;
@@ -1046,7 +1118,7 @@
   max-width: 100%;
   align-items: center;
   padding: 4px 0;
-  color: @cse-link;
+  color: #289588;
   font-size: 12px;
   gap: 3px;
 
@@ -1062,7 +1134,7 @@
   }
 
   &:hover {
-    color: @cse-blue;
+    color: @cse-green;
     text-decoration: underline;
   }
 }
@@ -1100,7 +1172,7 @@
   justify-content: center;
   /* Push the pagination to the bottom of the results pane when the cards do
      not fill the height the pane shares with the map. */
-  padding-top: 16px;
+  padding-top: 14px;
   margin-top: auto;
   gap: 4px;
 }

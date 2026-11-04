@@ -50,6 +50,64 @@ const renderCard = (props = {}) =>
     </IntlProvider>,
   );
 
+/**
+ * jsdom does not lay anything out: fake a 300px wide list where 90px chips
+ * wrap every three per row and the "+N" trigger is 40px wide, so the two-row
+ * fit has something real to measure.
+ */
+function mockChipLayout({
+  width = 300,
+  chipWidth = 90,
+  moreWidth = 40,
+  perRow = 3,
+  gap = 8,
+  rowHeight = 24,
+} = {}) {
+  const indexOf = (element) =>
+    Array.prototype.indexOf.call(element.parentNode.children, element);
+  const descriptors = {
+    clientWidth: { get: () => width },
+    offsetWidth: {
+      get() {
+        if (!this.classList?.contains('cse-card-chip')) return 0;
+        return this.textContent.startsWith('+') ? moreWidth : chipWidth;
+      },
+    },
+    offsetTop: {
+      get() {
+        return Math.floor(indexOf(this) / perRow) * rowHeight;
+      },
+    },
+    offsetLeft: {
+      get() {
+        return (indexOf(this) % perRow) * (chipWidth + gap);
+      },
+    },
+  };
+  const original = {};
+
+  Object.entries(descriptors).forEach(([property, descriptor]) => {
+    original[property] = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      property,
+    );
+    Object.defineProperty(HTMLElement.prototype, property, {
+      configurable: true,
+      ...descriptor,
+    });
+  });
+
+  return () => {
+    Object.entries(original).forEach(([property, descriptor]) => {
+      if (descriptor) {
+        Object.defineProperty(HTMLElement.prototype, property, descriptor);
+      } else {
+        delete HTMLElement.prototype[property];
+      }
+    });
+  };
+}
+
 describe('CaseStudyCard', () => {
   test('renders the title as a link to the case study, opening a new tab', () => {
     renderCard();
@@ -93,13 +151,82 @@ describe('CaseStudyCard', () => {
     expect(screen.getAllByText('3', { exact: true })).toHaveLength(1);
   });
 
-  test('truncates ecosystems and counts the hidden ones', () => {
+  test('shows every ecosystem when the card cannot be measured', () => {
     renderCard();
 
-    expect(screen.getByText('Inland wetlands')).toBeInTheDocument();
-    expect(screen.getByText('Forest and woodland')).toBeInTheDocument();
-    expect(screen.queryByText(/^Grassland/)).toBeNull();
-    expect(screen.getByText('+1')).toBeInTheDocument();
+    const list = document.querySelector(
+      '.cse-card-ecosystems:not(.cse-card-ecosystems-measure)',
+    );
+
+    item.properties.habitat_ecosystem_type.forEach((ecosystem) => {
+      expect(within(list).getByText(ecosystem)).toBeInTheDocument();
+    });
+    expect(within(list).queryByText(/^\+\d+$/)).toBeNull();
+  });
+
+  test('collapses the ecosystems that overflow two rows into a +N popup', () => {
+    const restore = mockChipLayout();
+    const ecosystems = [
+      'Coastal beaches, dunes and wetlands',
+      'Cropland',
+      'Forest and woodland',
+      'Grassland',
+      'Heathland and shrub',
+      'Inland wetlands',
+      'Rivers and lakes',
+      'Sparsely vegetated habitats',
+    ];
+
+    try {
+      render(
+        <IntlProvider locale="en">
+          <CaseStudyCard
+            item={{
+              ...item,
+              properties: {
+                ...item.properties,
+                habitat_ecosystem_type: ecosystems,
+              },
+            }}
+          />
+        </IntlProvider>,
+      );
+
+      const list = document.querySelector(
+        '.cse-card-ecosystems:not(.cse-card-ecosystems-measure)',
+      );
+      const visible = [...list.querySelectorAll('.cse-card-chip')].map(
+        (chip) => chip.textContent,
+      );
+
+      // Five chips plus the trigger still fit in two rows of three.
+      expect(visible.slice(0, 5)).toEqual(ecosystems.slice(0, 5));
+      expect(visible[5]).toMatch(/^\+3/);
+      expect(list.querySelectorAll('.cse-card-chip')).toHaveLength(6);
+
+      const trigger = screen.getByRole('button', { name: /^\+3/ });
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+      fireEvent.click(trigger);
+
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      const dialog = screen.getByRole('dialog', {
+        name: 'More habitat/ecosystem values',
+      });
+      // Only the hidden values: the visible chips already speak for themselves.
+      ecosystems.slice(0, 5).forEach((ecosystem) => {
+        expect(within(dialog).queryByText(ecosystem)).toBeNull();
+      });
+      ecosystems.slice(5).forEach((ecosystem) => {
+        expect(within(dialog).getByText(ecosystem)).toBeInTheDocument();
+      });
+      expect(dialog.querySelectorAll('.cse-card-chip')).toHaveLength(3);
+
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(screen.queryByRole('dialog')).toBeNull();
+    } finally {
+      restore();
+    }
   });
 
   test('collapses the related measures behind a bar owning the count', () => {

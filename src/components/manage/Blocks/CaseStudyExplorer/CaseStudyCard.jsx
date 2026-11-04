@@ -6,13 +6,20 @@ import Image from '@plone/volto/components/theme/Image/Image';
 import messages from './messages';
 import {
   asValues,
-  getArticleInfo,
+  // getArticleInfo,
   getFacetValues,
   valueLabel,
 } from './filters';
-import { getStatusColor } from './utils';
+import { getStatusColor, visibleChipCount } from './utils';
 
-const MAX_ECOSYSTEMS = 2;
+/** Rows of chips a card shows before collapsing the rest into "+N". */
+const ECOSYSTEM_ROWS = 2;
+const CHIP_GAP_FALLBACK = 8;
+
+// Measure before the browser paints where possible, without warning on the
+// server-rendered first pass.
+const useIsomorphicLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 
 const STATUS_LABELS = {
   planned: messages.statusPlanned,
@@ -38,26 +45,165 @@ function StatusBadge({ status }) {
   );
 }
 
+/**
+ * Ecosystem chips, wrapped over at most two rows. How many fit depends on the
+ * card width, so the full list is mirrored into a hidden, absolutely
+ * positioned list that is measured with real layout; the chips that overflow
+ * two rows collapse into a "+N" trigger that opens a popup listing exactly the
+ * hidden values.
+ *
+ * Without a layout engine (jsdom, SSR) nothing can be measured, so every chip
+ * is rendered and no trigger appears.
+ */
 function EcosystemChips({ ecosystems }) {
   const intl = useIntl();
-  const visible = ecosystems.slice(0, MAX_ECOSYSTEMS);
-  const hidden = ecosystems.length - visible.length;
+  const [visibleCount, setVisibleCount] = React.useState(ecosystems.length);
+  const [open, setOpen] = React.useState(false);
+  const measureRef = React.useRef(null);
+  const triggerRef = React.useRef(null);
+  const panelRef = React.useRef(null);
+  const panelId = React.useId();
+
+  const measure = React.useCallback(() => {
+    const list = measureRef.current;
+    if (!list) return;
+
+    const chips = Array.from(list.querySelectorAll('.cse-card-chip'));
+    const width = list.clientWidth;
+
+    // `visibility: hidden` boxes still measure, but jsdom reports 0 for all of
+    // them: keep every chip visible instead of guessing.
+    if (!width) {
+      setVisibleCount(ecosystems.length);
+      return;
+    }
+
+    const gap =
+      parseFloat(window.getComputedStyle(list).columnGap) || CHIP_GAP_FALLBACK;
+    const tops = chips.map((chip) => chip.offsetTop);
+    const rows = [...new Set(tops)].sort((a, b) => a - b);
+    const moreChip = list.querySelector('.cse-card-chip-more-measure');
+
+    setVisibleCount(
+      visibleChipCount(
+        chips.map((chip, index) => ({
+          row: rows.indexOf(tops[index]),
+          right: chip.offsetLeft + chip.offsetWidth,
+        })),
+        {
+          rows: ECOSYSTEM_ROWS,
+          gap,
+          moreWidth: moreChip?.offsetWidth || 0,
+          width,
+        },
+      ),
+    );
+  }, [ecosystems.length]);
+
+  useIsomorphicLayoutEffect(() => {
+    measure();
+
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(measure);
+    if (measureRef.current) observer.observe(measureRef.current);
+
+    return () => observer.disconnect();
+  }, [measure]);
+
+  React.useEffect(() => {
+    if (!open) return undefined;
+
+    const onDocumentClick = (event) => {
+      if (!panelRef.current?.parentElement?.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event) => {
+      if (event.key !== 'Escape') return;
+      setOpen(false);
+      triggerRef.current?.focus();
+    };
+
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onKeyDown);
+    panelRef.current?.focus();
+
+    return () => {
+      document.removeEventListener('click', onDocumentClick);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   if (!ecosystems.length) return null;
 
+  const shown = Math.min(visibleCount, ecosystems.length);
+  const hidden = ecosystems.length - shown;
+
   return (
-    <ul className="cse-card-ecosystems">
-      {visible.map((ecosystem) => (
-        <li className="cse-card-chip" key={ecosystem}>
-          {ecosystem}
-        </li>
-      ))}
-      {hidden > 0 ? (
-        <li className="cse-card-chip cse-card-chip-more">
-          {intl.formatMessage(messages.moreEcosystems, { count: hidden })}
-        </li>
+    <div className="cse-card-ecosystems-wrap">
+      <ul className="cse-card-ecosystems">
+        {ecosystems.slice(0, shown).map((ecosystem, index) => (
+          <li className="cse-card-chip" key={`${ecosystem}-${index}`}>
+            {ecosystem}
+          </li>
+        ))}
+        {hidden > 0 ? (
+          <li className="cse-card-chip cse-card-chip-more">
+            <button
+              type="button"
+              ref={triggerRef}
+              className="cse-card-chip-more-trigger"
+              aria-expanded={open}
+              aria-controls={panelId}
+              aria-haspopup="dialog"
+              onClick={() => setOpen((wasOpen) => !wasOpen)}
+            >
+              {intl.formatMessage(messages.moreEcosystems, { count: hidden })}
+              <span className="cse-visually-hidden">
+                {' '}
+                {intl.formatMessage(messages.hiddenEcosystems)}
+              </span>
+            </button>
+          </li>
+        ) : null}
+      </ul>
+
+      {hidden > 0 && open ? (
+        <div
+          ref={panelRef}
+          id={panelId}
+          className="cse-card-ecosystems-panel"
+          role="dialog"
+          aria-label={intl.formatMessage(messages.hiddenEcosystems)}
+          tabIndex={-1}
+        >
+          <ul className="cse-card-ecosystems cse-card-ecosystems-panel-list">
+            {ecosystems.slice(shown).map((ecosystem, index) => (
+              <li className="cse-card-chip" key={`${ecosystem}-${index}`}>
+                {ecosystem}
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
-    </ul>
+
+      <ul
+        ref={measureRef}
+        className="cse-card-ecosystems cse-card-ecosystems-measure"
+        aria-hidden="true"
+      >
+        {ecosystems.map((ecosystem, index) => (
+          <li className="cse-card-chip" key={`${ecosystem}-${index}`}>
+            {ecosystem}
+          </li>
+        ))}
+        <li className="cse-card-chip cse-card-chip-more-measure">
+          {intl.formatMessage(messages.moreEcosystems, {
+            count: ecosystems.length,
+          })}
+        </li>
+      </ul>
+    </div>
   );
 }
 

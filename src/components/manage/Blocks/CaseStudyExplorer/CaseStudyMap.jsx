@@ -189,7 +189,7 @@ function CaseStudyMap({
       const zoom = Math.round(map.getView().getZoom() * 10) / 10;
       const center = map.getView().getCenter();
       const atHome =
-        zoom === 4.3 &&
+        zoom === 4.5 &&
         JSON.stringify(center) ===
           JSON.stringify(
             olRef.current.proj.transform([8, 55], 'EPSG:4326', 'EPSG:3857'),
@@ -242,7 +242,7 @@ function CaseStudyMap({
         view={{
           center: ol.proj.fromLonLat([8, 55]),
           showFullExtent: true,
-          zoom: 4.3,
+          zoom: 4.5,
         }}
         pixelRatio={1}
       >

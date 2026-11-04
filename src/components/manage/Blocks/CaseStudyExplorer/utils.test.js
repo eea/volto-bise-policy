@@ -7,6 +7,7 @@ import {
   getFeatures,
   getStatusColor,
   scrollToElement,
+  visibleChipCount,
 } from './utils';
 
 describe('utils.js', () => {
@@ -76,5 +77,49 @@ describe('utils.js', () => {
 
   test('scrollToElement tolerates missing elements', () => {
     expect(() => scrollToElement('does-not-exist')).not.toThrow();
+  });
+
+  describe('visibleChipCount', () => {
+    const CHIP = 90;
+    const GAP = 8;
+    const WIDTH = 300;
+    // Three chips per row: x = 0, 98, 196 and the fourth wraps.
+    const layout = (rows) =>
+      rows.flatMap((aRow) =>
+        [0, 1, 2].map((column) => ({
+          row: aRow,
+          right: column * (CHIP + GAP) + CHIP,
+        })),
+      );
+    const options = { rows: 2, gap: GAP, moreWidth: 40, width: WIDTH };
+
+    test('returns 0 for an empty list', () => {
+      expect(visibleChipCount([], options)).toBe(0);
+    });
+
+    test('keeps every chip when they all fit in two rows', () => {
+      expect(visibleChipCount(layout([0, 1]), options)).toBe(6);
+      expect(visibleChipCount(layout([0]), options)).toBe(3);
+    });
+
+    test('drops a chip so the trigger fits on the second row', () => {
+      // 6 chips fill two rows, but the trigger no longer fits next to the 6th.
+      expect(visibleChipCount(layout([0, 1, 2]), options)).toBe(5);
+    });
+
+    test('keeps one chip rather than hiding everything behind a trigger', () => {
+      const chips = [
+        { row: 0, right: 300 },
+        { row: 1, right: 50 },
+      ];
+      expect(
+        visibleChipCount(chips, {
+          rows: 1,
+          gap: GAP,
+          moreWidth: 200,
+          width: 60,
+        }),
+      ).toBe(1);
+    });
   });
 });

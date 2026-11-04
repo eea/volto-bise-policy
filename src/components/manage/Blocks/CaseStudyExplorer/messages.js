@@ -92,6 +92,10 @@ export default defineMessages({
     id: '+{count}',
     defaultMessage: '+{count}',
   },
+  hiddenEcosystems: {
+    id: 'More habitat/ecosystem values',
+    defaultMessage: 'More habitat/ecosystem values',
+  },
   resetMap: { id: 'Reset map', defaultMessage: 'Reset map' },
   loadingCaseStudies: {
     id: 'Loading case studies…',
