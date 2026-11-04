@@ -26,7 +26,7 @@ const renderResults = (props = {}) =>
         items={items}
         sortBy="title"
         onSortChange={jest.fn()}
-        perPage={10}
+        perPage={8}
         onPerPageChange={jest.fn()}
         page={1}
         onPageChange={jest.fn()}
@@ -38,22 +38,22 @@ const renderResults = (props = {}) =>
 describe('CaseStudyResults', () => {
   test('reports the total result count, not the page size', () => {
     renderResults();
-    expect(screen.getByText('Showing 12 case studies')).toBeInTheDocument();
+    expect(screen.getByText('Found 12 case studies')).toBeInTheDocument();
   });
 
   test('uses the singular form for one result', () => {
     renderResults({ items: items.slice(0, 1) });
-    expect(screen.getByText('Showing 1 case study')).toBeInTheDocument();
+    expect(screen.getByText('Found 1 case study')).toBeInTheDocument();
   });
 
   test('renders only the current page of cards', () => {
     renderResults();
-    expect(screen.getAllByRole('article')).toHaveLength(10);
+    expect(screen.getAllByRole('article')).toHaveLength(8);
   });
 
   test('renders the second page', () => {
     renderResults({ page: 2 });
-    expect(screen.getAllByRole('article')).toHaveLength(2);
+    expect(screen.getAllByRole('article')).toHaveLength(4);
   });
 
   test('changes sort and page size', () => {
@@ -65,11 +65,11 @@ describe('CaseStudyResults', () => {
       target: { value: 'newest' },
     });
     fireEvent.change(screen.getByLabelText('per page'), {
-      target: { value: '24' },
+      target: { value: '16' },
     });
 
     expect(onSortChange).toHaveBeenCalledWith('newest');
-    expect(onPerPageChange).toHaveBeenCalledWith(24);
+    expect(onPerPageChange).toHaveBeenCalledWith(16);
   });
 
   test('shows an empty state with a reset action', () => {

@@ -107,18 +107,18 @@ describe('CaseStudyExplorerView', () => {
 
     expect(screen.getByText('Filter and explore')).toBeInTheDocument();
     expect(screen.getByTestId('case-study-map')).toBeInTheDocument();
-    expect(screen.getByText('Showing 2 case studies')).toBeInTheDocument();
+    expect(screen.getByText('Found 2 case studies')).toBeInTheDocument();
     expect(screen.getAllByRole('article')).toHaveLength(2);
   });
 
   test('applies a filter as soon as it is toggled', () => {
     renderView();
 
-    expect(screen.getByText('Showing 2 case studies')).toBeInTheDocument();
+    expect(screen.getByText('Found 2 case studies')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Ongoing/ }));
 
-    expect(screen.getByText('Showing 1 case study')).toBeInTheDocument();
+    expect(screen.getByText('Found 1 case study')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Ongoing/ })).toHaveAttribute(
       'aria-pressed',
       'true',
@@ -132,11 +132,11 @@ describe('CaseStudyExplorerView', () => {
     });
 
     fireEvent.change(search, { target: { value: 'restore rivers' } });
-    expect(screen.getByText('Showing 1 case study')).toBeInTheDocument();
+    expect(screen.getByText('Found 1 case study')).toBeInTheDocument();
     expect(screen.getByText('River connectivity')).toBeInTheDocument();
 
     fireEvent.change(search, { target: { value: 'nrpm_001' } });
-    expect(screen.getByText('Showing 1 case study')).toBeInTheDocument();
+    expect(screen.getByText('Found 1 case study')).toBeInTheDocument();
     expect(screen.getByText('Peatland rewetting')).toBeInTheDocument();
 
     fireEvent.change(search, { target: { value: 'nothing matches this' } });
@@ -149,11 +149,11 @@ describe('CaseStudyExplorerView', () => {
     renderView();
 
     fireEvent.click(screen.getByRole('button', { name: /Ongoing/ }));
-    expect(screen.getByText('Showing 1 case study')).toBeInTheDocument();
+    expect(screen.getByText('Found 1 case study')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Reset filters/ }));
 
-    expect(screen.getByText('Showing 2 case studies')).toBeInTheDocument();
+    expect(screen.getByText('Found 2 case studies')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Ongoing/ })).toHaveAttribute(
       'aria-pressed',
       'false',
@@ -232,6 +232,6 @@ describe('CaseStudyExplorerView', () => {
   test('narrows the results to the case studies of one measure', () => {
     renderView({ data: { filter_path: '/case-rivers' } });
 
-    expect(screen.getByText('Showing 1 case study')).toBeInTheDocument();
+    expect(screen.getByText('Found 1 case study')).toBeInTheDocument();
   });
 });

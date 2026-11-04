@@ -122,27 +122,32 @@ describe('CaseStudyCard', () => {
   });
 
   test('renders the image with an empty alt (the title carries the meaning)', () => {
-    renderCard();
-    expect(screen.getByRole('img', { hidden: true })).toHaveAttribute(
-      'alt',
-      '',
-    );
+    const { container } = renderCard();
+
+    const image = container.querySelector('.cse-card-media img');
+
+    expect(image).toHaveAttribute('src', item.properties.image);
+    expect(image).toHaveAttribute('alt', '');
+    // An empty alt makes the image decorative, so it is not exposed as an image
+    // in the accessibility tree: the title carries the meaning instead.
+    expect(screen.queryByRole('img')).toBeNull();
   });
 
-  test('renders the status as a dot plus a readable label', () => {
+  test('renders the status as a colored dot next to the title', () => {
     renderCard();
 
-    expect(screen.getByText('Ongoing')).toBeInTheDocument();
-    expect(document.querySelector('.cse-card-status-dot')).toHaveStyle({
-      backgroundColor: '#ff9933',
-    });
+    const dot = document.querySelector('.cse-card-status-dot');
+
+    expect(dot).toHaveStyle({ backgroundColor: '#ff9933' });
+    expect(dot.closest('.cse-card-title')).not.toBeNull();
   });
 
   test('does not render the measure count in the meta row', () => {
     renderCard();
 
-    expect(screen.getByText('Ongoing')).toBeInTheDocument();
-    expect(screen.getByText('Habitats Directive (HD)')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Show on map' }),
+    ).toBeInTheDocument();
     expect(
       within(document.querySelector('.cse-card-meta')).queryByText(
         /NRR measures?$/,
@@ -233,7 +238,7 @@ describe('CaseStudyCard', () => {
     renderCard();
 
     const toggle = screen.getByRole('button', {
-      name: /Related NRR measure(s)/,
+      name: /Related NRR measure\(s\)/,
     });
 
     expect(toggle).toHaveTextContent('Related NRR measure(s)');
@@ -245,7 +250,7 @@ describe('CaseStudyCard', () => {
     renderCard();
 
     const toggle = screen.getByRole('button', {
-      name: /Related NRR measure(s)/,
+      name: /Related NRR measure\(s\)/,
     });
     const panel = document.getElementById(toggle.getAttribute('aria-controls'));
 
@@ -257,7 +262,7 @@ describe('CaseStudyCard', () => {
     renderCard();
 
     const toggle = screen.getByRole('button', {
-      name: /Related NRR measure(s)/,
+      name: /Related NRR measure\(s\)/,
     });
 
     fireEvent.click(toggle);
@@ -279,7 +284,7 @@ describe('CaseStudyCard', () => {
     renderCard();
 
     const toggle = screen.getByRole('button', {
-      name: /Related NRR measure(s)/,
+      name: /Related NRR measure\(s\)/,
     });
 
     fireEvent.click(toggle);
@@ -354,7 +359,7 @@ describe('CaseStudyCard', () => {
     ).toBeNull();
     expect(
       within(screen.getByRole('article')).queryByRole('button', {
-        name: /Related NRR measure(s)/,
+        name: /Related NRR measure\(s\)/,
       }),
     ).toBeNull();
   });

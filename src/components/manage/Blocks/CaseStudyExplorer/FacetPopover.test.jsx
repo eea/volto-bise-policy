@@ -62,7 +62,7 @@ describe('FacetPopover', () => {
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByLabelText(/Option 0\b/)).toBeInTheDocument();
     expect(
-      screen.getByText('0', { selector: '.facet-option-count' }),
+      screen.getByText('(0)', { selector: '.facet-option-count' }),
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByLabelText(/Option 4\b/));
