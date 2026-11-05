@@ -7,7 +7,11 @@ import { useCases } from './hooks';
 jest.mock('superagent', () => ({ get: jest.fn() }));
 
 const mockFetch = ({ text, error } = {}) => {
-  const promise = error ? Promise.reject(error) : Promise.resolve({ text });
+  // Reject after the hook's effect has attached its catch handler; an already
+  // rejected promise can trigger Jest's unhandled-rejection handler first.
+  const promise = error
+    ? new Promise((resolve, reject) => setTimeout(() => reject(error), 0))
+    : Promise.resolve({ text });
   const request = {
     set: jest.fn(() => request),
     then: (onFulfilled, onRejected) => promise.then(onFulfilled, onRejected),

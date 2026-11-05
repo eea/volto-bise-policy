@@ -15,6 +15,15 @@ import { getStatusColor, visibleChipCount } from './utils';
 /** Rows of chips a card shows before collapsing the rest into "+N". */
 const ECOSYSTEM_ROWS = 2;
 const CHIP_GAP_FALLBACK = 8;
+let nextPanelId = 0;
+
+// Volto may run on React versions that do not yet provide useId. Keep IDs
+// stable for the lifetime of a component instance without relying on that API.
+function usePanelId() {
+  const id = React.useRef(null);
+  if (id.current === null) id.current = `cse-panel-${++nextPanelId}`;
+  return id.current;
+}
 
 // Measure before the browser paints where possible, without warning on the
 // server-rendered first pass.
@@ -62,7 +71,7 @@ function EcosystemChips({ ecosystems }) {
   const measureRef = React.useRef(null);
   const triggerRef = React.useRef(null);
   const panelRef = React.useRef(null);
-  const panelId = React.useId();
+  const panelId = usePanelId();
 
   const measure = React.useCallback(() => {
     const list = measureRef.current;
@@ -215,7 +224,7 @@ function EcosystemChips({ ecosystems }) {
  */
 function RelatedMeasures({ measures }) {
   const intl = useIntl();
-  const panelId = React.useId();
+  const panelId = usePanelId();
   const [open, setOpen] = React.useState(false);
 
   if (!measures.length) return null;
