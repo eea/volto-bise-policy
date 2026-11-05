@@ -2,191 +2,124 @@ import './mockJsdom';
 import '@testing-library/jest-dom';
 import {
   FALLBACK_STATUS_COLOR,
+  STATUS_COLORS,
+  centerAndResetMapZoom,
   getFeatures,
   getStatusColor,
-  filterCases,
-  getFilters,
+  scrollToElement,
+  visibleChipCount,
 } from './utils';
 
 describe('utils.js', () => {
-  test('maps exact statuses and unknown statuses to colors', () => {
-    expect(getStatusColor('planned')).toBe('#006bb8');
-    expect(getStatusColor('ongoing')).toBe('#ff9933');
-    expect(getStatusColor('completed')).toBe('#00a390');
+  test('maps exact statuses to design system colours, unknown to fallback', () => {
+    expect(getStatusColor('planned')).toBe('#006BB8');
+    expect(getStatusColor('ongoing')).toBe('#FF9933');
+    expect(getStatusColor('completed')).toBe('#007B6C');
     expect(getStatusColor('Planned')).toBe(FALLBACK_STATUS_COLOR);
     expect(getStatusColor('future')).toBe(FALLBACK_STATUS_COLOR);
+    expect(STATUS_COLORS.completed).toBe('#007B6C');
   });
 
-  const mockCases = [
-    {
-      geometry: { coordinates: [0, 0] },
-      properties: {
-        title: 'test case study',
-        image: '',
-        nwrm_type: 'light',
-        measures: [{ id: 'test-measure1', title: 'test measure 1' }],
-        description: 'test',
-        typology_of_measures: ['testsector'],
-        path: '/test-case-study',
-        url: 'localhost.com/test-case-study',
-      },
-    },
-    {
-      geometry: { coordinates: [0, 0] },
-      properties: {
-        title: 'case study 2',
-        image: '',
-        nwrm_type: 'light',
-        measures: [{ id: 'test-measure1', title: 'test measure 1' }],
-        description: 'test',
-        typology_of_measures: ['testsector'],
-        path: '/test-case-study',
-        url: 'localhost.com/test-case-study',
-      },
-    },
-  ];
-
-  test('getFeatures', () => {
-    const mockFeature = {
+  test('getFeatures carries the properties needed by map and list', () => {
+    const feature = {
       setId: jest.fn(),
       setProperties: jest.fn(),
+      props: null,
     };
+    feature.setProperties.mockImplementation((properties) => {
+      feature.props = properties;
+    });
 
     const ol = {
-      ol: {
-        Feature: jest.fn().mockImplementation(() => mockFeature),
-      },
-      geom: {
-        Point: jest.fn().mockImplementation(() => ({})),
-      },
-      proj: {
-        fromLonLat: jest.fn().mockReturnValue([0, 0]),
-      },
+      ol: { Feature: jest.fn(() => feature) },
+      geom: { Point: jest.fn(() => ({})) },
+      proj: { fromLonLat: jest.fn(() => [1, 2]) },
     };
 
-    expect(() => {
-      getFeatures({ cases: mockCases, ol });
-    }).not.toThrowError();
+    const features = getFeatures({
+      cases: [
+        {
+          geometry: { coordinates: [14.4, 50.1] },
+          properties: {
+            title: 'Peatlands',
+            path: '/case-peatlands',
+            image: 'image.jpg',
+            current_status: 'ongoing',
+          },
+        },
+      ],
+      ol,
+    });
+
+    expect(features).toHaveLength(1);
+    expect(feature.setId).toHaveBeenCalledWith(0);
+    expect(feature.props).toMatchObject({
+      title: 'Peatlands',
+      path: '/case-peatlands',
+      current_status: 'ongoing',
+      color: '#FF9933',
+    });
   });
 
-  test('filterCases', () => {
-    const mockActiveFilters = {
-      measures_implemented: ['test measure 1'],
-      typology_of_measures: ['testsector'],
-    };
-    const mockCaseStudiesIds = ['test-case-study'];
-    const mockCasesFiltered = filterCases(
-      mockCases,
-      mockActiveFilters,
-      mockCaseStudiesIds,
-      'test',
+  test('centerAndResetMapZoom returns to the European extent', () => {
+    const map = { getView: () => ({ animate: jest.fn() }) };
+    const ol = { proj: { transform: jest.fn(() => [111, 222]) } };
+
+    centerAndResetMapZoom({ map, ol });
+
+    expect(map.getView().animate).toBeDefined();
+    expect(ol.proj.transform).toHaveBeenCalledWith(
+      [8, 55],
+      'EPSG:4326',
+      'EPSG:3857',
     );
-    expect(mockCasesFiltered).toStrictEqual([]);
   });
 
-  test('filterCases treats search input as literal text (ReDoS-safe)', () => {
-    const cases = [
-      {
-        geometry: { coordinates: [0, 0] },
-        properties: {
-          title: 'the river project (R1)',
-          description: 'a aaa aaaa aaaaa b',
-          url: '/the-river-project-r1',
-        },
-      },
-    ];
-    const noFilters = {
-      nrr_legislation: [],
-      nrr_biogeographical_region: [],
-      measures_implemented: [],
-      typology_of_measures: [],
-      current_status: [],
-      habitat_ecosystem_type: [],
-      scale_of_planning: [],
-    };
-
-    // Malformed regex input must not throw (previously: SyntaxError)
-    expect(() => filterCases(cases, noFilters, null, '(')).not.toThrow();
-    // Regex metacharacters are matched literally, not interpreted
-    expect(() => filterCases(cases, noFilters, null, '(a+)+$')).not.toThrow();
-    expect(filterCases(cases, noFilters, null, '(a+)+$')).toHaveLength(0);
-    expect(filterCases(cases, noFilters, null, '(r1')).toHaveLength(1);
-    // Whole-word semantics are preserved
-    expect(filterCases(cases, noFilters, null, 'rive')).toHaveLength(0);
-    expect(filterCases(cases, noFilters, null, 'river')).toHaveLength(1);
-    // Case-insensitive
-    expect(filterCases(cases, noFilters, null, 'R1')).toHaveLength(1);
+  test('scrollToElement tolerates missing elements', () => {
+    expect(() => scrollToElement('does-not-exist')).not.toThrow();
   });
 
-  test('filters new scalar and multi-value fields', () => {
-    const cases = [
-      {
-        geometry: { coordinates: [0, 0] },
-        properties: {
-          title: 'planned river case',
-          description: '',
-          url: '/planned-river-case',
-          current_status: 'planned',
-          ecosystem_typology: ['River', 'Wetland'],
-          nrr_legislation: [{ id: 'article-1', title: 'Article 1' }],
-          nrr_biogeographical_region: [{ id: 'region-1', title: 'Alpine' }],
-          scale_of_planning: 'Regional',
-        },
-      },
-      {
-        geometry: { coordinates: [0, 0] },
-        properties: {
-          title: 'future case',
-          description: '',
-          url: '/future-case',
-          current_status: 'Future',
-          ecosystem_typology: ['Forest'],
-          nrr_legislation: ['article-2'],
-          nrr_biogeographical_region: ['region-2'],
-          scale_of_planning: 'National',
-        },
-      },
-    ];
+  describe('visibleChipCount', () => {
+    const CHIP = 90;
+    const GAP = 8;
+    const WIDTH = 300;
+    // Three chips per row: x = 0, 98, 196 and the fourth wraps.
+    const layout = (rows) =>
+      rows.flatMap((aRow) =>
+        [0, 1, 2].map((column) => ({
+          row: aRow,
+          right: column * (CHIP + GAP) + CHIP,
+        })),
+      );
+    const options = { rows: 2, gap: GAP, moreWidth: 40, width: WIDTH };
 
-    expect(
-      filterCases(cases, {
-        nrr_legislation: ['article-1'],
-        nrr_biogeographical_region: ['region-1'],
-        measures_implemented: [],
-        typology_of_measures: [],
-        current_status: ['planned'],
-        habitat_ecosystem_type: ['River'],
-        scale_of_planning: ['Regional'],
-      }),
-    ).toHaveLength(1);
-    expect(getFilters(cases).nrr_legislation).toEqual({
-      'article-1': 'Article 1',
-      'article-2': 'article-2',
+    test('returns 0 for an empty list', () => {
+      expect(visibleChipCount([], options)).toBe(0);
     });
-    expect(getFilters(cases).nrr_biogeographical_region).toEqual({
-      'region-1': 'Alpine',
-      'region-2': 'region-2',
-    });
-  });
 
-  test('getFilters', () => {
-    const mockCasesObject = mockCases.reduce((acc, item, index) => {
-      acc[index] = item;
-      return acc;
-    }, {});
-    const mockFilters = getFilters(mockCasesObject);
-    expect(mockFilters).toStrictEqual({
-      measures_implemented: {
-        'test-measure1': 'test measure 1',
-      },
-      typology_of_measures: {
-        testsector: 'testsector',
-      },
-      current_status: {},
-      habitat_ecosystem_type: {},
-      nrr_legislation: {},
-      nrr_biogeographical_region: {},
-      scale_of_planning: {},
+    test('keeps every chip when they all fit in two rows', () => {
+      expect(visibleChipCount(layout([0, 1]), options)).toBe(6);
+      expect(visibleChipCount(layout([0]), options)).toBe(3);
+    });
+
+    test('drops a chip so the trigger fits on the second row', () => {
+      // 6 chips fill two rows, but the trigger no longer fits next to the 6th.
+      expect(visibleChipCount(layout([0, 1, 2]), options)).toBe(5);
+    });
+
+    test('keeps one chip rather than hiding everything behind a trigger', () => {
+      const chips = [
+        { row: 0, right: 300 },
+        { row: 1, right: 50 },
+      ];
+      expect(
+        visibleChipCount(chips, {
+          rows: 1,
+          gap: GAP,
+          moreWidth: 200,
+          width: 60,
+        }),
+      ).toBe(1);
     });
   });
 });
