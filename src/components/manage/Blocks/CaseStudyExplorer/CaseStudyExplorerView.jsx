@@ -1,5 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { addAppURL } from '@plone/volto/helpers/Url/Url';
 
 import CaseStudyMap from './CaseStudyMapLazy';
 import CaseStudyResults from './CaseStudyResults';
@@ -36,8 +37,8 @@ const withoutSelection = (filters, facet, value) => {
 
 export default function CaseStudyExplorerView(props) {
   const intl = useIntl();
-  const cases_url = 'http://localhost:3000/@@case-studies-map.arcgis.json';
-  // const cases_url = addAppURL('/@@case-studies-map.arcgis.json');
+  // const cases_url = 'http://localhost:3000/@@case-studies-map.arcgis.json';
+  const cases_url = addAppURL('/@@case-studies-map.arcgis.json');
   const { cases, loading, error, reload } = useCases(cases_url);
 
   const { filter_path } = props.data || {};
